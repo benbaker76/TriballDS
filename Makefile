@@ -34,8 +34,8 @@ SOUNDBANK_NAME	:=	soundbank
 #---------------------------------------------------------------------------------
 # Header variables
 #---------------------------------------------------------------------------------
-NAME		:=	HeadRoll
-AUTHOR		:=	By Flash
+NAME		:=	Triball
+AUTHOR		:=	By HeadKaze & Flash
 VERSION		:=	www.retrobytesportal.co.uk
 NITRODIR	:=	-d efsroot
 LOGO		:=	
