@@ -246,33 +246,33 @@ void drawGLScene()
 	glColorTable(GL_RGB256, g_palAddress[1]);
 	
 	glPushMatrix();
-	glTranslatef(-1.0f, 1.0f, 0);
+	glTranslatef(-2.0f, 2.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(2.0f, 256);
+	drawQuad(4.0f, 256);
 	glPopMatrix(1);
 	
 	glBindTexture(TEXTURE_LEVEL01_2, g_textureIDS[TEXTURE_LEVEL01_2]);
 	
 	glPushMatrix();
-	glTranslatef(1.0f, 1.0f, 0);
+	glTranslatef(2.0f, 2.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(2.0f, 256);
+	drawQuad(4.0f, 256);
 	glPopMatrix(1);
 	
 	glBindTexture(TEXTURE_LEVEL01_3, g_textureIDS[TEXTURE_LEVEL01_3]);
 	
 	glPushMatrix();
-	glTranslatef(-1.0f, -1.0f, 0);
+	glTranslatef(-2.0f, -2.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(2.0f, 256);
+	drawQuad(4.0f, 256);
 	glPopMatrix(1);
 	
 	glBindTexture(TEXTURE_LEVEL01_4, g_textureIDS[TEXTURE_LEVEL01_4]);
 	
 	glPushMatrix();
-	glTranslatef(1.0f, -1.0f, 0);
+	glTranslatef(2.0f, -2.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(2.0f, 256);
+	drawQuad(4.0f, 256);
 	glPopMatrix(1);
 	
 	glEnd();
