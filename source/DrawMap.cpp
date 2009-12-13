@@ -26,3 +26,101 @@ void drawMap()
 //	g_levelX = XCoord;
 //	g_levelY = 320;
 }
+
+void drawQuad(float quadSize, int textureSize)
+{
+	GFX_TEX_COORD = (TEXTURE_PACK(0, inttot16(textureSize)));
+	glVertex3v16(floattov16(-(quadSize / 2)), floattov16(-(quadSize / 2)), 0 );
+
+	GFX_TEX_COORD = (TEXTURE_PACK(inttot16(textureSize), inttot16(textureSize)));
+	glVertex3v16(floattov16((quadSize / 2)), floattov16(-(quadSize / 2)), 0 );
+
+	GFX_TEX_COORD = (TEXTURE_PACK(inttot16(textureSize), 0));
+	glVertex3v16(floattov16((quadSize / 2)), floattov16((quadSize / 2)), 0 );
+
+	GFX_TEX_COORD = (TEXTURE_PACK(0, 0));
+	glVertex3v16(floattov16(-(quadSize / 2)), floattov16((quadSize / 2)), 0 );
+}
+
+void drawGLScene()
+{
+	//move it away from the camera
+	glTranslate3f32(0, 0, floattof32(-1));
+			
+	//glRotateZ(rotateZ);
+	
+	//glRotatef(xrot,1.0f,0.0f,0.0f);
+	//glRotatef(yrot,0.0f,1.0f,0.0f);
+	//glRotatef(zrot,0.0f,0.0f,1.0f);
+
+	glMaterialf(GL_AMBIENT, RGB15(31, 31, 31));
+	glMaterialf(GL_DIFFUSE, RGB15(31, 31, 31));
+	glMaterialf(GL_SPECULAR, BIT(15) | RGB15(31, 31, 31));
+	glMaterialf(GL_EMISSION, RGB15(31, 31, 31));
+	
+	// setup the lighting
+	//glLight(0, RGB15(31,31,31) , 0, floattov10(-.5), floattov10(-.85));
+
+	//ds uses a table for shinyness..this generates a half-ass one
+	glMaterialShinyness();
+
+	//not a real gl function and will likely change
+	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK);
+
+	glNormal(NORMAL_PACK(0, inttov10(-1), 0));
+	
+	glBegin(GL_QUAD);
+	
+	glBindTexture(TEXTURE_BALL01, g_textureIDS[TEXTURE_BALL01]);
+	glColorTable(GL_RGB256, g_palAddress[0]);
+	
+	for(int i=0; i<BALLCOUNT; i++)
+	{	
+		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
+		float rotation = g_spriteArray[i].Body->GetRotation();
+					
+		g_spriteArray[i].X = (position.x / SCALE);			
+		g_spriteArray[i].Y = 192 - BALLSIZE - ((float)position.y / SCALE);
+		
+		glPushMatrix();
+		glTranslatef(position.x * SCALE, position.y * SCALE, 0);
+		glRotatef(rotation * 90, 0.0f, 0.0f, 1.0f);
+		drawQuad(0.3f, 32);
+		glPopMatrix(1);	
+	}
+	
+	glBindTexture(TEXTURE_LEVEL01_1, g_textureIDS[TEXTURE_LEVEL01_1]);
+	glColorTable(GL_RGB256, g_palAddress[1]);
+	
+	glPushMatrix();
+	glTranslatef(-2.0f, 2.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256);
+	glPopMatrix(1);
+	
+	glBindTexture(TEXTURE_LEVEL01_2, g_textureIDS[TEXTURE_LEVEL01_2]);
+	
+	glPushMatrix();
+	glTranslatef(2.0f, 2.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256);
+	glPopMatrix(1);
+	
+	glBindTexture(TEXTURE_LEVEL01_3, g_textureIDS[TEXTURE_LEVEL01_3]);
+	
+	glPushMatrix();
+	glTranslatef(-2.0f, -2.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256);
+	glPopMatrix(1);
+	
+	glBindTexture(TEXTURE_LEVEL01_4, g_textureIDS[TEXTURE_LEVEL01_4]);
+	
+	glPushMatrix();
+	glTranslatef(2.0f, -2.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256);
+	glPopMatrix(1);
+	
+	glEnd();
+}

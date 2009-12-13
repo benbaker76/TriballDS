@@ -34,10 +34,13 @@ struct Sprite							// define the elements that construct our 'balls'
 #define LEVEL_WIDTH					512
 #define LEVEL_HEIGHT				512
 	
-	// Defines for the physic effects
-#define 	ACCEL				0.070F			// Horizontal acceleration on forced movement		( *1.5 when turning)
-#define 	FRICTION			0.025F			// Speed of slowdown when no force applied
-#define		MAXACCEL			3.5F			// Maximum horizontal speed
+	// Defines for the physics effects
+#define 	ACCEL				0.35F			// Horizontal acceleration on forced movement		( *1.5 when turning)
+#define		MAXACCEL			10.0F			// Maximum horizontal speed
+#define		TURNSPEED			2.5F			// multiple of ACCEL when turning (should only work when on platform)
+#define		FRICTION			0.2f
+
+// THESE ARE NOT USED CURRENTLY
 #define		BOUNCE_X_DEADEN		1.55F			// how much to deaden a horzontal bounce
 #define		JUMPSPEED			4.99F			// initial speed of a jump (negetive)				( > higher jump)
 #define		GRAVITY				0.18F			// force of gravity									(affects jump and bounce)
@@ -47,12 +50,13 @@ struct Sprite							// define the elements that construct our 'balls'
 #define		ROLLSPEEDLIMIT		1F				// speed at which a roll works of a platform
 #define		ROLLSPEED			0.15F			// amount ball speed is affected by a roll
 
+
 	// Defines for ball properties
 #define		BALLSCROLLX			72				// closeness to sides to enable scrolling
 #define		BALLSCROLLY			80				// closeness to top/bot to enable scrolling
 #define		BALLSIZE			24				// Size of balls
 #define		BALLOFFSET			4				// Ball offset of balls
-#define		BALLCOUNT			16				// Number of balls
+#define		BALLCOUNT			1				// Number of balls
 
 	// Defines for player (ball) status
 	
@@ -112,6 +116,10 @@ extern Sprite g_spriteArray[];
 extern float g_levelX;
 extern float g_levelY;
 
+// Box2d vars
+extern float timeStep;
+extern int iterations;
+
 extern bool g_jumpTrap;
 extern bool g_reJump;
 
@@ -131,3 +139,5 @@ extern b2PolyDef* g_plat;
 
 extern int g_textureIDS[];
 extern int g_palAddress[];
+
+extern float g_Zoom;

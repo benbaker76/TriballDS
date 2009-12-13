@@ -9,6 +9,115 @@
 #include "Detect.h"
 #include "Text.h"
 
+
+void movePlayer()
+{
+	scanKeys();						// Read button data
+	int held = keysHeld();			// Used to calculate if a button is down
+	
+	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
+	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+	
+	char buffer[20];
+	sprintf(buffer, "VEL %d   ",(int)vel.x);
+	DrawString(buffer, 0, 21, true);
+	
+//	g_spriteArray[0].Body->SetCenterPosition(b2Vec2(0,0));	// HOW DO I SET THE ROTATION SPEED MANUALLY??
+
+//	bool Platform = ?? // We will need a TRUE to tell us we are on a platform to improve to control.
+
+	if (held & KEY_LEFT)
+	{
+
+	
+		if (vel.x > 0)			// We are moving RIGHT, turn quicker
+		
+		{
+		vel.x -= ACCEL * TURNSPEED;
+		if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+	//	g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+		}
+		else					// We are already moving LEFT
+		{
+		vel.x -= ACCEL;
+		if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+	//	g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
+		}
+	}
+	else if (held & KEY_RIGHT)
+	{
+		if (vel.x < 0)			// We are moving LEFT, turn quicker
+		
+		{
+		vel.x += ACCEL * TURNSPEED;
+		if (vel.x > MAXACCEL) vel.x = MAXACCEL;
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+	//	g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+		}
+		else					// We are already moving RIGHT
+		{
+		vel.x += ACCEL;
+		if (vel.x > MAXACCEL) vel.x = MAXACCEL;
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+	//	g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
+		}
+
+	}
+	else	// we are not moving LEFT or RIGHT
+	{
+		if (vel.x > 0)
+			vel.x -= FRICTION;
+		else
+			vel.x += FRICTION;
+			
+	//	if ( (int)vel.x == 0) vel.x = 0;
+		if (vel.x > 0 && vel.x < FRICTION) vel.x = 0;
+		else if (vel.x < 0 && vel.x > -FRICTION) vel.x = 0;
+	
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+	};
+
+
+	// This is going to be tricky?
+
+
+	if (held & KEY_UP)
+	{
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, VELY));
+		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
+	}
+	else if (held & KEY_DOWN)
+	{
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, -VELY));
+		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, -IMPY), b2Vec2(0, 0));
+	}
+	
+	if ((held & KEY_L) && (g_Zoom > 0.1F))
+	{
+		g_Zoom -= 0.1f;
+
+	}
+	else if ((held & KEY_R) && (g_Zoom < 3.9F))
+	{
+		g_Zoom += 0.1f;
+
+	
+	}
+		
+	glLoadIdentity();
+	
+	float XCam = position.x / 10.0f;
+	float YCam = position.y / 10.0f;
+
+	gluLookAt(	XCam, YCam, g_Zoom,		//camera possition
+				XCam, YCam, 0.0,		//look at
+				0.0, 1.0, 0.0);		//up		
+		
+}
+
+
 void moveSprite(Sprite *pSprite)
 
 // add control head to this first, only if type == player.

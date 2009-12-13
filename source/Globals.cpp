@@ -21,6 +21,12 @@ bool g_reJump = 0;
 Sprite g_colSprite1;
 Sprite g_colSprite2;
 
+
+// box2d
+
+float timeStep;
+int iterations;
+
 b2AABB* g_worldAABB;
 b2World* g_world;
 b2Vec2* g_gravity;
@@ -33,3 +39,9 @@ b2PolyDef* g_plat;
 
 int g_textureIDS[TEXTURECOUNT];
 int g_palAddress[2];
+
+float g_Zoom;
+
+
+
+//

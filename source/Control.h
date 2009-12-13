@@ -1,3 +1,5 @@
+void movePlayer();
+
 void moveSprite(Sprite *pSprite);
 
 void updateSprite(Sprite* pSprite);

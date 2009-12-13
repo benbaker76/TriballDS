@@ -168,7 +168,7 @@ int bodyLeft(float Xcoord,float Ycoord, int Type)
 {
 	int x = 0;
 	int y = 0;
-	int ySettle = 0;
+//	int ySettle = 0;
 	
 	if (Type == BALLTYPE_EVILBALL)
 	{
