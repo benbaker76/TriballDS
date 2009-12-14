@@ -102,8 +102,6 @@ void movePlayer()
 	else if ((held & KEY_R) && (g_cameraPos.Z < 3.9F))
 	{
 		g_cameraPos.Z += 0.1f;
-
-	
 	}
 		
 	if(g_frameCount++ == 100)
@@ -117,20 +115,19 @@ void movePlayer()
 		g_cameraEnd.Y = position.y / 10.0f;
 	}
 	
-	float cameraDistX = abs((g_cameraEnd.X - g_cameraStart.X) * 30);
-	float cameraDistY = abs((g_cameraEnd.Y - g_cameraStart.Y) * 30);
-		
-	if(cameraDistX < 10 && cameraDistY < 10)
+	Vector2 cameraDist(abs((g_cameraEnd.X - g_cameraStart.X) * 30), abs((g_cameraEnd.Y - g_cameraStart.Y) * 30));
+
+	if(cameraDist.X < 10 && cameraDist.Y < 10)
 	{
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = 0.5F;
 	}
-	else if(cameraDistX < 20 && cameraDistY < 20)
+	else if(cameraDist.X < 20 && cameraDist.Y < 20)
 	{
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = 1.0F;
 	}
-	else if(cameraDistX > 20 && cameraDistY > 20)
+	else if(cameraDist.X > 20 && cameraDist.Y > 20)
 	{
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = 2.0F;
