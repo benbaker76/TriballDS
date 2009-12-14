@@ -26,12 +26,19 @@ void initLevel()
 	
 	// box2d update vars
 	timeStep = 1.0f / 60.0f;
-	iterations = 1;
+	iterations = 2;
 	
+	g_cameraPos.X = 0;
+	g_cameraPos.Y = 0;
 	g_cameraPos.Z = 1.0f;
-	g_cameraStart.Z = 1.0f;
-	g_cameraEnd.Z = 1.0f;
 	
+	g_cameraStart.X = 0;
+	g_cameraStart.Y = 0;
+	g_cameraStart.Z = 1.0f;
+
+	g_cameraEnd.X = 0;
+	g_cameraEnd.Y = 0;
+	g_cameraEnd.Z = 1.0f;
 	
 	// test defines for now!
 	

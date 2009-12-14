@@ -32,6 +32,24 @@ struct Rect
 	int Height;
 };
 
+struct RectF
+{
+	RectF() : X(0), Y(0), Width(0), Height(0) {}
+	RectF(float x, float y, float width, float height) : X(x), Y(y), Width(width), Height(height) {}
+	float X;
+	float Y;
+	float Width;
+	float Height;
+};
+
+struct PointF
+{
+	PointF() : X(0), Y(0) {}
+	PointF(float x, float y) : X(x), Y(y) {}
+	float X;
+	float Y;
+};
+
 struct Point
 {
 	Point() : X(0), Y(0) {}
@@ -64,6 +82,15 @@ struct Size
 	int Width;
 	int Height;
 };
+
+struct SizeF
+{
+	SizeF() : Width(0), Height(0) {}
+	SizeF(float width, float height) : Width(width), Height(height) {}
+	float Width;
+	float Height;
+};
+
 
 enum QuadFlags
 {
@@ -168,7 +195,7 @@ extern Vector3 g_cameraPos;
 extern Vector3 g_cameraStart;
 extern Vector3 g_cameraEnd;
 
-extern Vector2 g_texelSize;
+extern SizeF g_texelSize;
 
 extern int g_frameCount;
 

@@ -29,7 +29,7 @@ void drawMap()
 void drawQuad(float quadSize, int textureSize, int quadFlags)
 {
 	quadSize /= 2.0;
-	quadSize += g_texelSize.X;
+	quadSize += g_texelSize.Width;
 
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? inttot16(textureSize) : 0, quadFlags & QUADFLAGS_VFLIP ? 0 : inttot16(textureSize)));
 	glVertex3v16(floattov16(-quadSize), floattov16(-quadSize), 0 );
