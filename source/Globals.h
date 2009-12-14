@@ -116,6 +116,8 @@ enum QuadFlags
 #define		MAXACCEL			10.0F			// Maximum horizontal speed
 #define		TURNSPEED			2.5F			// multiple of ACCEL when turning (should only work when on platform)
 #define		FRICTION			0.2f
+#define 	ROTSPEED			0.2f			// Speed in which to increase rotation when moving on platform
+#define		ROTMAX				8.0f			// Maximum 'controlled' rotation speed
 
 // THESE ARE NOT USED CURRENTLY
 #define		BOUNCE_X_DEADEN		1.55F			// how much to deaden a horzontal bounce

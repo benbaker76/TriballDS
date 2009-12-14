@@ -130,10 +130,12 @@ for(int i=1; i<BALLCOUNT; i++)
 	
 	g_spriteArray[0].CircleDef->radius = 24 / 2 * SCALE; 
 	g_spriteArray[0].CircleDef->density = 1.0F; 
-	g_spriteArray[0].CircleDef->friction = 1.0F; 
-	g_spriteArray[0].CircleDef->restitution = 0.2F; 
+	g_spriteArray[0].CircleDef->friction = 10.0F; 
+	g_spriteArray[0].CircleDef->restitution = 0.0F; 
 
 	g_spriteArray[0].BodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
+	g_spriteArray[0].BodyDef->allowSleep = false;
+	g_spriteArray[0].BodyDef->preventRotation = false;
 	g_spriteArray[0].BodyDef->AddShape(g_spriteArray[0].CircleDef);
 	
 	g_spriteArray[0].Body = g_world->CreateBody(g_spriteArray[0].BodyDef);
