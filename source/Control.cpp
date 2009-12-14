@@ -117,8 +117,28 @@ void movePlayer()
 		g_cameraEnd.Y = position.y / 10.0f;
 	}
 	
+	float cameraDistX = abs((g_cameraEnd.X - g_cameraStart.X) * 30);
+	float cameraDistY = abs((g_cameraEnd.Y - g_cameraStart.Y) * 30);
+		
+	if(cameraDistX < 10 && cameraDistY < 10)
+	{
+		g_cameraStart.Z = g_cameraPos.Z;
+		g_cameraEnd.Z = 0.5F;
+	}
+	else if(cameraDistX < 20 && cameraDistY < 20)
+	{
+		g_cameraStart.Z = g_cameraPos.Z;
+		g_cameraEnd.Z = 1.0F;
+	}
+	else if(cameraDistX > 20 && cameraDistY > 20)
+	{
+		g_cameraStart.Z = g_cameraPos.Z;
+		g_cameraEnd.Z = 2.0F;
+	}
+	
 	g_cameraPos.X = Cubic.EaseOut(g_frameCount, g_cameraStart.X, g_cameraEnd.X - g_cameraStart.X, 100);
 	g_cameraPos.Y = Cubic.EaseOut(g_frameCount, g_cameraStart.Y, g_cameraEnd.Y - g_cameraStart.Y, 100);
+	g_cameraPos.Z = Cubic.EaseOut(g_frameCount, g_cameraStart.Z, g_cameraEnd.Z - g_cameraStart.Z, 100);
 
 	glLoadIdentity();
 

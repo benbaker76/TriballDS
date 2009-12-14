@@ -29,6 +29,8 @@ void initLevel()
 	iterations = 1;
 	
 	g_cameraPos.Z = 1.0f;
+	g_cameraStart.Z = 1.0f;
+	g_cameraEnd.Z = 1.0f;
 	
 	
 	// test defines for now!
