@@ -74,7 +74,7 @@ void drawGLScene()
 	glBegin(GL_QUAD);
 	
 	glBindTexture(TEXTURE_BALL01, g_textureIDS[TEXTURE_BALL01]);
-	glColorTable(GL_RGB256, g_palAddress[0]);
+	glColorTable(GL_RGB32_A3, g_palAddress[0]);
 	
 	for(int i=0; i<BALLCOUNT; i++)
 	{	
