@@ -8,7 +8,7 @@
 #include "Control.h"
 #include "Detect.h"
 #include "Text.h"
-
+#include "Easing.h"
 
 void movePlayer()
 {
@@ -94,25 +94,36 @@ void movePlayer()
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, -IMPY), b2Vec2(0, 0));
 	}
 	
-	if ((held & KEY_L) && (g_Zoom > 0.1F))
+	if ((held & KEY_L) && (g_cameraPos.Z > 0.1F))
 	{
-		g_Zoom -= 0.1f;
+		g_cameraPos.Z -= 0.1f;
 
 	}
-	else if ((held & KEY_R) && (g_Zoom < 3.9F))
+	else if ((held & KEY_R) && (g_cameraPos.Z < 3.9F))
 	{
-		g_Zoom += 0.1f;
+		g_cameraPos.Z += 0.1f;
 
 	
 	}
 		
-	glLoadIdentity();
+	if(g_frameCount++ == 100)
+	{
+		g_frameCount = 0;
+		
+		g_cameraStart.X = g_cameraPos.X;
+		g_cameraStart.Y = g_cameraPos.Y;
+		
+		g_cameraEnd.X = position.x / 10.0f;
+		g_cameraEnd.Y = position.y / 10.0f;
+	}
 	
-	float XCam = position.x / 10.0f;
-	float YCam = position.y / 10.0f;
+	g_cameraPos.X = Cubic.EaseOut(g_frameCount, g_cameraStart.X, g_cameraEnd.X - g_cameraStart.X, 100);
+	g_cameraPos.Y = Cubic.EaseOut(g_frameCount, g_cameraStart.Y, g_cameraEnd.Y - g_cameraStart.Y, 100);
 
-	gluLookAt(	XCam, YCam, g_Zoom,		//camera possition
-				XCam, YCam, 0.0,		//look at
+	glLoadIdentity();
+
+	gluLookAt(	g_cameraPos.X, g_cameraPos.Y, g_cameraPos.Z,		//camera possition
+				g_cameraPos.X, g_cameraPos.Y, 0.0,		//look at
 				0.0, 1.0, 0.0);		//up		
 		
 }
@@ -237,7 +248,7 @@ void updateSprite(Sprite* pSprite)
 {
 	float oldSpriteX = pSprite->X;
 	float oldSpriteY = pSprite->Y;
-	float oldLevelX = g_levelX;
+	float oldLevelX = g_scrollPos.X;
 	float oldXSpeed = pSprite->XSpeed;
 	
 	pSprite->X = pSprite->X + pSprite->XSpeed;
@@ -373,7 +384,7 @@ void updateSprite(Sprite* pSprite)
 			sprintf(buffer, "%d X LOF",XPos) ;
 			DrawString(buffer, 0, 6, false);
 		}	
-		else  //if (( ( (int)pSprite->Y + (int)g_levelY +24) & 7) < MAXYSPEED)										// we are on the floor
+		else  //if (( ( (int)pSprite->Y + (int)g_scrollPos.Y +24) & 7) < MAXYSPEED)										// we are on the floor
 		{
 	//		DrawString("      ", 20, 1, false);
 			// This will settle the ball to a platform, taking into count the Y level position if 
@@ -417,53 +428,53 @@ void updateSprite(Sprite* pSprite)
 	{
 		if (pSprite->X + BALLSIZE > SCREEN_WIDTH - BALLSCROLLX) 	// have we moved (right) into an area that means scroll
 		{
-			if (g_levelX < LEVEL_WIDTH - SCREEN_WIDTH)			// if the level X scroll is < the edge,
+			if (g_scrollPos.X < LEVEL_WIDTH - SCREEN_WIDTH)			// if the level X scroll is < the edge,
 			{
-			g_levelX = g_levelX + (pSprite->X - oldSpriteX);	// scroll level
+			g_scrollPos.X = g_scrollPos.X + (pSprite->X - oldSpriteX);	// scroll level
 			pSprite->X = oldSpriteX; //(SCREEN_WIDTH - BALLSCROLLX) - BALLSIZE;							// and keep player stationary
 			}
 			else												// if not,
 			{
-			g_levelX = LEVEL_WIDTH - SCREEN_WIDTH;				// let player move and keep scroll stationary
+			g_scrollPos.X = LEVEL_WIDTH - SCREEN_WIDTH;				// let player move and keep scroll stationary
 			}
 		}
 		else if (pSprite->X < BALLSCROLLX)							// have we moved (left) into an area that means scroll				
 		{
-			if (g_levelX > 0)									// are we able to scroll?
+			if (g_scrollPos.X > 0)									// are we able to scroll?
 			{			
-			g_levelX = g_levelX - (oldSpriteX - pSprite->X);	// if so, scroll map and
+			g_scrollPos.X = g_scrollPos.X - (oldSpriteX - pSprite->X);	// if so, scroll map and
 			pSprite->X = oldSpriteX;							// keep player stationary.
-			if (g_levelX < 0) g_levelX = 0;
+			if (g_scrollPos.X < 0) g_scrollPos.X = 0;
 			}
 			else												// otherwise,
 			{
-	//		g_levelX = 0;										// keep level stationary
+	//		g_scrollPos.X = 0;										// keep level stationary
 			if (pSprite->X < 0) pSprite->X = 0;					// and allow player to move if possible
 			}
 		}		
 		if (pSprite->Y + BALLSIZE > SCREEN_HEIGHT - BALLSCROLLY)	// these work the same for Y as they did for X
 		{
-			if (g_levelY < LEVEL_HEIGHT - SCREEN_HEIGHT)
+			if (g_scrollPos.Y < LEVEL_HEIGHT - SCREEN_HEIGHT)
 			{
-			g_levelY = g_levelY + (pSprite->Y - oldSpriteY);
+			g_scrollPos.Y = g_scrollPos.Y + (pSprite->Y - oldSpriteY);
 			pSprite->Y = (SCREEN_HEIGHT - BALLSCROLLY) - BALLSIZE;
 			}
 			else
 			{
-			g_levelY = LEVEL_HEIGHT - SCREEN_HEIGHT;
+			g_scrollPos.Y = LEVEL_HEIGHT - SCREEN_HEIGHT;
 			}
 		}
 		else if (pSprite->Y < BALLSCROLLY)
 		{
-			if (g_levelY > 0)
+			if (g_scrollPos.Y > 0)
 			{
-			g_levelY = g_levelY - (oldSpriteY - pSprite->Y);
+			g_scrollPos.Y = g_scrollPos.Y - (oldSpriteY - pSprite->Y);
 			pSprite->Y = BALLSCROLLY; //oldSpriteY;
-			if (g_levelY < 0) g_levelY = 0;	
+			if (g_scrollPos.Y < 0) g_scrollPos.Y = 0;	
 			}
 			else
 			{
-			g_levelY = 0;
+			g_scrollPos.Y = 0;
 			}
 		}		
 	
@@ -498,7 +509,7 @@ float rotateSprite(float originalX, float currentX, int type, float oldX)	// our
 	}
 	else if (type == BALLTYPE_PLAYER)
 	{
-		if (oldX == g_levelX)
+		if (oldX == g_scrollPos.X)
 		{
 			if (currentX < originalX)
 			{
@@ -512,13 +523,13 @@ float rotateSprite(float originalX, float currentX, int type, float oldX)	// our
 		}
 		else
 		{
-			if (g_levelX < oldX)
+			if (g_scrollPos.X < oldX)
 			{
-				return degreesToAngle((oldX - g_levelX) * 4);
+				return degreesToAngle((oldX - g_scrollPos.X) * 4);
 			}
-			else if (oldX < g_levelX)
+			else if (oldX < g_scrollPos.X)
 			{
-				return -degreesToAngle((g_levelX - oldX) * 4);
+				return -degreesToAngle((g_scrollPos.X - oldX) * 4);
 			}	
 			return 0;	
 		}
@@ -533,11 +544,11 @@ float rotateSprite(float originalX, float currentX, int type, float oldX)	// our
 //
 int scrollCheckX(int type)
 {
-	if (type == BALLTYPE_PLAYER) return g_levelX;
+	if (type == BALLTYPE_PLAYER) return g_scrollPos.X;
 	else return 0;
 }
 int scrollCheckY(int type)
 {
-	if (type == BALLTYPE_PLAYER) return g_levelY;
+	if (type == BALLTYPE_PLAYER) return g_scrollPos.Y;
 	else return 0;
 }

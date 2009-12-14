@@ -99,7 +99,7 @@ void initVideo3D()
 	glLoadIdentity();
 	gluPerspective(70, 256.0 / 192.0, 0.1, 40);
 	
-	gluLookAt(	0.0, 0.0, g_Zoom,		//camera possition
+	gluLookAt(	0.0, 0.0, 1.0,		//camera possition
 				0.0, 0.0, 0.0,		//look at
 				0.0, 1.0, 0.0);		//up
 }

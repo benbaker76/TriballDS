@@ -27,10 +27,10 @@ int feetCentre(float Xcoord,float Ycoord, int Type)
 	else if (Type == BALLTYPE_PLAYER)
 	{
 
-		x = (int)Xcoord + g_levelX + 8;
-		y = (int)Ycoord + g_levelY + 24;		
+		x = (int)Xcoord + g_scrollPos.X + 8;
+		y = (int)Ycoord + g_scrollPos.Y + 24;		
 
-		ySettle = (int(g_levelY + Ycoord) & 7);
+		ySettle = (int(g_scrollPos.Y + Ycoord) & 7);
 	}
 	int d3;
 	
@@ -68,10 +68,10 @@ int headCentre(float Xcoord,float Ycoord, int Type)
 	else if (Type == BALLTYPE_PLAYER)
 	{
 
-		x = (int)Xcoord + g_levelX + 8;
-		y = (int)Ycoord + (int)g_levelY;		
+		x = (int)Xcoord + g_scrollPos.X + 8;
+		y = (int)Ycoord + (int)g_scrollPos.Y;		
 
-		ySettle = int(g_levelY);
+		ySettle = int(g_scrollPos.Y);
 	}
 	int d3;
 	
@@ -108,8 +108,8 @@ int feetLeft(float Xcoord,float Ycoord, int Type)
 	else if (Type == BALLTYPE_PLAYER)
 	{
 
-		x = (int)(Xcoord + g_levelX);		
-		y = (int)Ycoord + g_levelY + 24;	
+		x = (int)(Xcoord + g_scrollPos.X);		
+		y = (int)Ycoord + g_scrollPos.Y + 24;	
 	}
 		
 		int d1 = collisionDecrypt( bLevelData[((y/8)*64) + (x / 8)] );
@@ -133,8 +133,8 @@ int feetRight(float Xcoord,float Ycoord, int Type)
 	else if (Type == BALLTYPE_PLAYER)
 	{
 
-		x = (int)Xcoord + g_levelX + 23;		
-		y = (int)Ycoord + g_levelY + 24;	
+		x = (int)Xcoord + g_scrollPos.X + 23;		
+		y = (int)Ycoord + g_scrollPos.Y + 24;	
 	}
 		
 		int d1 = collisionDecrypt( bLevelData[((y/8)*64) + (x / 8)] );
@@ -158,8 +158,8 @@ int bodyRight(float Xcoord,float Ycoord, int Type)
 	}
 	else if (Type == BALLTYPE_PLAYER)
 	{
-		x = (int)Xcoord + (int)g_levelX + 23;
-		y = (int)Ycoord + (int)g_levelY;
+		x = (int)Xcoord + (int)g_scrollPos.X + 23;
+		y = (int)Ycoord + (int)g_scrollPos.Y;
 	}
 	return collisionDecrypt( bLevelData[((y/8)*64) + (x/8)] );
 
@@ -177,8 +177,8 @@ int bodyLeft(float Xcoord,float Ycoord, int Type)
 	}
 	else if (Type == BALLTYPE_PLAYER)
 	{
-		x = (int)Xcoord + (int)g_levelX;
-		y = (int)Ycoord + (int)g_levelY;		
+		x = (int)Xcoord + (int)g_scrollPos.X;
+		y = (int)Ycoord + (int)g_scrollPos.Y;		
 	}
 
 	return collisionDecrypt( bLevelData[((y/8)*64) + (x/8)] );

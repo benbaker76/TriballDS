@@ -1,7 +1,7 @@
-#include <nds.h>
 #ifndef __GLOBALS_H__
 #define __GLOBALS_H__
 
+#include <nds.h>
 #include "Box2D.h"
 
 // Having this struct inside here means it won't make a copy each time you #include it
@@ -20,6 +20,49 @@ struct Sprite							// define the elements that construct our 'balls'
 	int Status;
 	int Type;
 	int Action;
+};
+
+struct Rect
+{
+	Rect() : X(0), Y(0), Width(0), Height(0) {}
+	Rect(int x, int y, int width, int height) : X(x), Y(y), Width(width), Height(height) {}
+	int X;
+	int Y;
+	int Width;
+	int Height;
+};
+
+struct Point
+{
+	Point() : X(0), Y(0) {}
+	Point(int x, int y) : X(x), Y(y) {}
+	int X;
+	int Y;
+};
+
+struct Vector2
+{
+	Vector2() : X(0), Y(0) {}
+	Vector2(int x, int y) : X(x), Y(y) {}
+	float X;
+	float Y;
+};
+
+struct Vector3
+{
+	Vector3() : X(0), Y(0), Z(0) {}
+	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+	float X;
+	float Y;
+	float Z;
+};
+
+struct Size
+{
+	Size() : Width(0), Height(0) {}
+	Size(int width, int height) : Width(width), Height(height) {}
+	int Width;
+	int Height;
 };
 
 #define BG0_MAP_BASE				31
@@ -113,8 +156,12 @@ struct Sprite							// define the elements that construct our 'balls'
 // This means that g_playerBall; is defined externally (in Globals.cpp)
 
 extern Sprite g_spriteArray[];
-extern float g_levelX;
-extern float g_levelY;
+extern Vector2 g_scrollPos;
+extern Vector3 g_cameraPos;
+extern Vector3 g_cameraStart;
+extern Vector3 g_cameraEnd;
+
+extern int g_frameCount;
 
 // Box2d vars
 extern float timeStep;
@@ -140,4 +187,3 @@ extern b2PolyDef* g_plat;
 extern int g_textureIDS[];
 extern int g_palAddress[];
 
-extern float g_Zoom;

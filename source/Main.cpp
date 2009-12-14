@@ -32,9 +32,9 @@ void debugText()
 	DrawString(buffer, 10, 21, true);
 	sprintf(buffer, "%d Y ",192 - (int)(position.y * 10));
 	DrawString(buffer, 16, 21, true);
-	sprintf(buffer, "%d X SCRL",(int) g_levelX);
+	sprintf(buffer, "%d X SCRL",(int) g_scrollPos.X);
 	DrawString(buffer, 0, 4, true);
-	sprintf(buffer, "%d Y SCRL",(int) g_levelY);
+	sprintf(buffer, "%d Y SCRL",(int) g_scrollPos.Y);
 	DrawString(buffer, 0, 5, true);	
 	sprintf(buffer, "%d Rot",(int)(rotationP *100));
 	DrawString(buffer, 16, 20, true);
@@ -44,8 +44,6 @@ int main(void)
 {
 	//consoleDebugInit(DebugDevice_NOCASH);
 	consoleDemoInit();
-	
-	g_Zoom = 1.0f;
 	
 	initBox2D();
 	initVideo3D();

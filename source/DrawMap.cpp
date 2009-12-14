@@ -19,9 +19,8 @@ void drawMap()
 // also, scrolling messes up the idea of multiple players on screen (or does it?)
 
 
-	REG_BG1HOFS_SUB = (int)g_levelX;
-	
-	REG_BG1VOFS_SUB = (int)g_levelY;
+	REG_BG1HOFS_SUB = (int)g_scrollPos.X;
+	REG_BG1VOFS_SUB = (int)g_scrollPos.Y;
 	
 //	g_levelX = XCoord;
 //	g_levelY = 320;

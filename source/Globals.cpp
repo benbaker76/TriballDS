@@ -8,8 +8,12 @@ Sprite g_spriteArray[BALLCOUNT];
 //
 // X,Y coord of game map
 //
-float g_levelX = 0;
-float g_levelY = 0;
+Vector2 g_scrollPos;
+Vector3 g_cameraPos;
+Vector3 g_cameraStart;
+Vector3 g_cameraEnd;
+
+int g_frameCount;
 
 //
 // jump mechanics

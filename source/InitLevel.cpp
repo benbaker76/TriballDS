@@ -21,14 +21,14 @@
 void initLevel()
 {
 	// position of scroll area
-	g_levelX = 0;
-	g_levelY = 0;
+	g_scrollPos.X = 0;
+	g_scrollPos.Y = 0;
 	
 	// box2d update vars
 	timeStep = 1.0f / 60.0f;
 	iterations = 1;
 	
-	g_Zoom = 1.0f;
+	g_cameraPos.Z = 1.0f;
 	
 	
 	// test defines for now!
