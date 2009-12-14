@@ -65,6 +65,13 @@ struct Size
 	int Height;
 };
 
+enum QuadFlags
+{
+	QUADFLAGS_NONE = BIT(0),
+	QUADFLAGS_HFLIP = BIT(1),
+	QUADFLAGS_VFLIP = BIT(2)
+};
+
 #define BG0_MAP_BASE				31
 #define BG0_MAP_BASE_SUB			31
 

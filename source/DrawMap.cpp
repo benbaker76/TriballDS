@@ -26,19 +26,19 @@ void drawMap()
 //	g_levelY = 320;
 }
 
-void drawQuad(float quadSize, int textureSize)
+void drawQuad(float quadSize, int textureSize, int quadFlags)
 {
-	GFX_TEX_COORD = (TEXTURE_PACK(0, inttot16(textureSize)));
+	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? inttot16(textureSize) : 0, quadFlags & QUADFLAGS_VFLIP ? 0 : inttot16(textureSize)));
 	glVertex3v16(floattov16(-(quadSize / 2)), floattov16(-(quadSize / 2)), 0 );
 
-	GFX_TEX_COORD = (TEXTURE_PACK(inttot16(textureSize), inttot16(textureSize)));
+	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? 0 : inttot16(textureSize), quadFlags & QUADFLAGS_VFLIP ? 0 : inttot16(textureSize)));
 	glVertex3v16(floattov16((quadSize / 2)), floattov16(-(quadSize / 2)), 0 );
 
-	GFX_TEX_COORD = (TEXTURE_PACK(inttot16(textureSize), 0));
+	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? 0 : inttot16(textureSize), quadFlags & QUADFLAGS_VFLIP ? inttot16(textureSize) : 0));
 	glVertex3v16(floattov16((quadSize / 2)), floattov16((quadSize / 2)), 0 );
 
-	GFX_TEX_COORD = (TEXTURE_PACK(0, 0));
-	glVertex3v16(floattov16(-(quadSize / 2)), floattov16((quadSize / 2)), 0 );
+	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? inttot16(textureSize) : 0, quadFlags & QUADFLAGS_VFLIP ? inttot16(textureSize) : 0));
+	glVertex3v16(floattov16(-(quadSize / 2)), floattov16((quadSize / 2)), 0);
 }
 
 void drawGLScene()
@@ -84,7 +84,7 @@ void drawGLScene()
 		glPushMatrix();
 		glTranslatef(position.x * SCALE, position.y * SCALE, 0);
 		glRotatef(rotation * 90, 0.0f, 0.0f, 1.0f);
-		drawQuad(0.3f, 32);
+		drawQuad(0.3f, 32, QUADFLAGS_NONE);
 		glPopMatrix(1);	
 	}
 	
@@ -92,33 +92,105 @@ void drawGLScene()
 	glColorTable(GL_RGB256, g_palAddress[1]);
 	
 	glPushMatrix();
+	glTranslatef(-6.0f, 6.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
+	glTranslatef(-6.0f, 2.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_HFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
+	glTranslatef(-2.0f, 6.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
 	glTranslatef(-2.0f, 2.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256);
+	drawQuad(4.0f, 256, QUADFLAGS_NONE);
 	glPopMatrix(1);
 	
 	glBindTexture(TEXTURE_LEVEL01_2, g_textureIDS[TEXTURE_LEVEL01_2]);
 	
 	glPushMatrix();
+	glTranslatef(6.0f, 6.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
+	glTranslatef(6.0f, 2.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_HFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
+	glTranslatef(2.0f, 6.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
 	glTranslatef(2.0f, 2.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256);
+	drawQuad(4.0f, 256, QUADFLAGS_NONE);
 	glPopMatrix(1);
 	
 	glBindTexture(TEXTURE_LEVEL01_3, g_textureIDS[TEXTURE_LEVEL01_3]);
 	
 	glPushMatrix();
+	glTranslatef(-6.0f, -6.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
+	glTranslatef(-6.0f, -2.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_HFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
+	glTranslatef(-2.0f, -6.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
 	glTranslatef(-2.0f, -2.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256);
+	drawQuad(4.0f, 256, QUADFLAGS_NONE);
 	glPopMatrix(1);
 	
 	glBindTexture(TEXTURE_LEVEL01_4, g_textureIDS[TEXTURE_LEVEL01_4]);
 	
 	glPushMatrix();
+	glTranslatef(6.0f, -6.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
+	glTranslatef(6.0f, -2.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_HFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
+	glTranslatef(2.0f, -6.0f, -1);
+	glRotatef(0, 0.0f, 0.0f, 0.0f);
+	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
+	glPopMatrix(1);
+	
+	glPushMatrix();
 	glTranslatef(2.0f, -2.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256);
+	drawQuad(4.0f, 256, QUADFLAGS_NONE);
 	glPopMatrix(1);
 	
 	glEnd();
