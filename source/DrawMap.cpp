@@ -28,17 +28,20 @@ void drawMap()
 
 void drawQuad(float quadSize, int textureSize, int quadFlags)
 {
+	quadSize /= 2.0;
+	quadSize += g_texelSize.X;
+
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? inttot16(textureSize) : 0, quadFlags & QUADFLAGS_VFLIP ? 0 : inttot16(textureSize)));
-	glVertex3v16(floattov16(-(quadSize / 2)), floattov16(-(quadSize / 2)), 0 );
+	glVertex3v16(floattov16(-quadSize), floattov16(-quadSize), 0 );
 
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? 0 : inttot16(textureSize), quadFlags & QUADFLAGS_VFLIP ? 0 : inttot16(textureSize)));
-	glVertex3v16(floattov16((quadSize / 2)), floattov16(-(quadSize / 2)), 0 );
+	glVertex3v16(floattov16(quadSize), floattov16(-quadSize), 0 );
 
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? 0 : inttot16(textureSize), quadFlags & QUADFLAGS_VFLIP ? inttot16(textureSize) : 0));
-	glVertex3v16(floattov16((quadSize / 2)), floattov16((quadSize / 2)), 0 );
+	glVertex3v16(floattov16(quadSize), floattov16(quadSize), 0 );
 
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? inttot16(textureSize) : 0, quadFlags & QUADFLAGS_VFLIP ? inttot16(textureSize) : 0));
-	glVertex3v16(floattov16(-(quadSize / 2)), floattov16((quadSize / 2)), 0);
+	glVertex3v16(floattov16(-quadSize), floattov16(quadSize), 0);
 }
 
 void drawGLScene()

@@ -13,6 +13,8 @@ Vector3 g_cameraPos;
 Vector3 g_cameraStart;
 Vector3 g_cameraEnd;
 
+Vector2 g_texelSize;
+
 int g_frameCount;
 
 //

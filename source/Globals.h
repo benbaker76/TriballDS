@@ -168,6 +168,8 @@ extern Vector3 g_cameraPos;
 extern Vector3 g_cameraStart;
 extern Vector3 g_cameraEnd;
 
+extern Vector2 g_texelSize;
+
 extern int g_frameCount;
 
 // Box2d vars

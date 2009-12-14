@@ -102,4 +102,7 @@ void initVideo3D()
 	gluLookAt(	0.0, 0.0, 1.0,		//camera possition
 				0.0, 0.0, 0.0,		//look at
 				0.0, 1.0, 0.0);		//up
+				
+	g_texelSize.X = 1.0 / 256.0;
+	g_texelSize.Y = 1.0 / 192.0;
 }
