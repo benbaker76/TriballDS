@@ -44,6 +44,22 @@ void drawQuad(float quadSize, int textureSize, int quadFlags)
 	glVertex3v16(floattov16(-quadSize), floattov16(quadSize), 0);
 }
 
+void drawB2Poly(Poly* poly)
+{
+	glBegin(GL_QUAD);
+	
+	glPushMatrix();
+	
+	for(int i=0; i<poly->PolyDef->vertexCount; i++)
+	{
+		glVertex3v16(floattov16((float)(poly->PolyDef->vertices[i].x * SCALE)), floattov16((float)(poly->PolyDef->vertices[i].y * SCALE)), -1);
+	}
+	
+	glPopMatrix(1);	
+	
+	glEnd();
+}
+
 void drawGLScene()
 {
 	//move it away from the camera
@@ -71,6 +87,12 @@ void drawGLScene()
 
 	glNormal(NORMAL_PACK(0, inttov10(-1), 0));
 	
+	
+	
+	drawB2Poly(g_platformArray[0]);
+	drawB2Poly(g_platformArray[1]);
+	
+	
 	glBegin(GL_QUAD);
 	
 	glBindTexture(TEXTURE_BALL01, g_textureIDS[TEXTURE_BALL01]);
@@ -86,7 +108,7 @@ void drawGLScene()
 		
 		glPushMatrix();
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + g_texelSize.Width);
-		glRotatef(rotation * 90, 0.0f, 0.0f, 1.0f);
+		glRotatef(rotation * 70, 0.0f, 0.0f, 1.0f);
 		drawQuad(0.4f, 32, QUADFLAGS_NONE);
 		glPopMatrix(1);	
 	}

@@ -22,6 +22,12 @@ struct Sprite							// define the elements that construct our 'balls'
 	int Action;
 };
 
+struct Poly
+{
+	b2PolyDef* PolyDef;
+	b2BodyDef* BodyDef;
+};
+
 struct Rect
 {
 	Rect() : X(0), Y(0), Width(0), Height(0) {}
@@ -113,15 +119,15 @@ enum QuadFlags
 	
 	// Defines for the physics effects
 #define 	ACCEL				0.35F			// Horizontal acceleration on forced movement		( *1.5 when turning)
-#define		MAXACCEL			16.0F			// Maximum horizontal speed
+#define		MAXACCEL			10.0F			// Maximum horizontal speed
 #define		TURNSPEED			2.5F			// multiple of ACCEL when turning (should only work when on platform)
-#define		FRICTION			0.1f
+#define		FRICTION			0.2f
 #define 	ROTSPEED			0.2f			// Speed in which to increase rotation when moving on platform
 #define		ROTMAX				8.0f			// Maximum 'controlled' rotation speed
 
 // THESE ARE NOT USED CURRENTLY
 #define		BOUNCE_X_DEADEN		1.55F			// how much to deaden a horzontal bounce
-#define		JUMPSPEED			24.0F			// initial speed of a jump (negetive)				( > higher jump)
+#define		JUMPSPEED			4.99F			// initial speed of a jump (negetive)				( > higher jump)
 #define		GRAVITY				0.18F			// force of gravity									(affects jump and bounce)
 #define		BOUNCEFACTOR		0				// used to reverse a vertical drop for a bounce		( < for more bounces)
 #define		BOUNCEFACTORAMOUNT	1.55F			// the amount of bounce to allow on a vertical drop	( > for smaller bounce)
@@ -135,7 +141,7 @@ enum QuadFlags
 #define		BALLSCROLLY			80				// closeness to top/bot to enable scrolling
 #define		BALLSIZE			24				// Size of balls
 #define		BALLOFFSET			4				// Ball offset of balls
-#define		BALLCOUNT			10				// Number of balls
+#define		BALLCOUNT			1				// Number of balls
 
 	// Defines for player (ball) status
 	
@@ -187,6 +193,8 @@ enum QuadFlags
 #define		TEXTURE_LEVEL01_3		6
 #define		TEXTURE_LEVEL01_4		7
 
+#define		PLATFORMCOUNT			32
+
 #endif
 
 // This means that g_playerBall; is defined externally (in Globals.cpp)
@@ -220,7 +228,7 @@ extern b2BoxDef* g_boxDef;
 extern b2BodyDef* g_bodyDef;
 extern b2Body* g_body;
 
-extern b2PolyDef* g_plat;
+extern Poly* g_platformArray[];
 
 extern int g_textureIDS[];
 extern int g_palAddress[];

@@ -95,38 +95,39 @@ void initLevel()
 	g_world->CreateBody(g_bodyDef);
 	
 	
-	g_plat = new b2PolyDef();	// left
-	g_plat->vertexCount = 7;
-	g_plat->vertices[0].Set(-14.0f, 2.0f);
-	g_plat->vertices[1].Set(-16.0f, 1.0f);
-	g_plat->vertices[2].Set(-16.0f, -1.0f);
-	g_plat->vertices[3].Set(-14.0f, -2.5f);
-	g_plat->vertices[4].Set( 4.1f, -2.5f);
-	g_plat->vertices[5].Set( 4.0f, 1.0f);
-	g_plat->vertices[6].Set( 3.0f, 2.2f);
+	g_platformArray[0]->PolyDef = new b2PolyDef();	// left
+	g_platformArray[0]->PolyDef->vertexCount = 7;
+	g_platformArray[0]->PolyDef->vertices[0].Set(-14.0f, 2.0f);
+	g_platformArray[0]->PolyDef->vertices[1].Set(-16.0f, 1.0f);
+	g_platformArray[0]->PolyDef->vertices[2].Set(-16.0f, -1.0f);
+	g_platformArray[0]->PolyDef->vertices[3].Set(-14.0f, -2.5f);
+	g_platformArray[0]->PolyDef->vertices[4].Set( 4.1f, -2.5f);
+	g_platformArray[0]->PolyDef->vertices[5].Set( 4.0f, 1.0f);
+	g_platformArray[0]->PolyDef->vertices[6].Set( 3.0f, 2.2f);
 
-	g_plat->density = 0.0f;
-	g_plat->friction = 1.0f;
-	g_bodyDef = new b2BodyDef();
-	g_bodyDef->position.Set(14.0f, -2.4f);
-	g_bodyDef->AddShape(g_plat);
-	g_world->CreateBody(g_bodyDef);
+	g_platformArray[0]->PolyDef->density = 0.0f;
+	g_platformArray[0]->PolyDef->friction = 1.0f;
+	g_platformArray[0]->BodyDef = new b2BodyDef();
+	g_platformArray[0]->BodyDef->position.Set(14.0f, -2.4f);
+	g_platformArray[0]->BodyDef->AddShape(g_platformArray[0]->PolyDef);
+	g_world->CreateBody(g_platformArray[0]->BodyDef);
+	
+	g_platformArray[1]->PolyDef = new b2PolyDef();	// pit base
+	g_platformArray[1]->PolyDef->vertexCount = 5;
+	g_platformArray[1]->PolyDef->vertices[0].Set( -10.0f, 0.0f);
+	g_platformArray[1]->PolyDef->vertices[1].Set( -10.0f, -4.5f);
+	g_platformArray[1]->PolyDef->vertices[2].Set( -8.0f, -5.8f);
+	g_platformArray[1]->PolyDef->vertices[3].Set( 4.0f, -5.7f);
+	g_platformArray[1]->PolyDef->vertices[4].Set( 4.0f, -3.0f);
+	g_platformArray[1]->PolyDef->vertices[5].Set( -8.0f, -3.0f); // WHY DOES THIS CRASH IT
+//	g_platformArray[1]->PolyDef->vertices[6].Set( 3.0f, 2.2f);
 
-	b2PolyDef* plat2 = new b2PolyDef(); // pit base
-	plat2->vertexCount = 5;
-	plat2->vertices[0].Set( -10.0f, 0.0f);
-	plat2->vertices[1].Set( -10.0f, -4.5f);
-	plat2->vertices[2].Set( -8.0f, -5.8f);
-	plat2->vertices[3].Set( 4.0f, -5.7f);
-	plat2->vertices[4].Set( 4.0f, -3.0f);
-	plat2->vertices[5].Set( -8.0f, -3.0f); // WHY DOES THIS CRASH IT	
-
-	plat2->density = 0.0f;
-	plat2->friction = 1.0f;
-	g_bodyDef = new b2BodyDef();
-	g_bodyDef->position.Set(24.0f, -4.4f);
-	g_bodyDef->AddShape(plat2);
-	g_world->CreateBody(g_bodyDef);	
+	g_platformArray[1]->PolyDef->density = 0.0f;
+	g_platformArray[1]->PolyDef->friction = 1.0f;
+	g_platformArray[1]->BodyDef = new b2BodyDef();
+	g_platformArray[1]->BodyDef->position.Set(24.0f, -4.4f);
+	g_platformArray[1]->BodyDef->AddShape(g_platformArray[1]->PolyDef);
+	g_world->CreateBody(g_platformArray[1]->BodyDef);	
 }
 
 // INIT PLAYER AND RANDOM BALLS (FOR NOW)
@@ -145,7 +146,7 @@ for(int i=1; i<BALLCOUNT; i++)
 		g_spriteArray[i].CircleDef->radius = 32 / 2 * SCALE; 
 		g_spriteArray[i].CircleDef->density = 1.0F; 
 		g_spriteArray[i].CircleDef->friction = 1.0F; 
-		g_spriteArray[i].CircleDef->restitution = 0.8F; 
+		g_spriteArray[i].CircleDef->restitution = 0.4F; 
 
 		g_spriteArray[i].BodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
 		g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].CircleDef);
@@ -162,7 +163,7 @@ for(int i=1; i<BALLCOUNT; i++)
 	g_spriteArray[0].CircleDef = new b2CircleDef();
 	g_spriteArray[0].BodyDef =  new b2BodyDef();
 	
-	g_spriteArray[0].CircleDef->radius = 32 / 2 * SCALE; 
+	g_spriteArray[0].CircleDef->radius = 24 / 2 * SCALE; 
 	g_spriteArray[0].CircleDef->density = 1.0F; 
 	g_spriteArray[0].CircleDef->friction = 1.0F; 
 	g_spriteArray[0].CircleDef->restitution = 0.0F; 
