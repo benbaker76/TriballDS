@@ -85,7 +85,7 @@ void drawGLScene()
 		g_spriteArray[i].Y = 192 - BALLSIZE - ((float)position.y / SCALE);
 		
 		glPushMatrix();
-		glTranslatef(position.x * SCALE, position.y * SCALE, 0);
+		glTranslatef(position.x * SCALE, position.y * SCALE, -0.99f);
 		glRotatef(rotation * 90, 0.0f, 0.0f, 1.0f);
 		drawQuad(0.3f, 32, QUADFLAGS_NONE);
 		glPopMatrix(1);	
