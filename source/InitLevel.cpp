@@ -192,7 +192,7 @@ void initBox2D()
 	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
 	
 	g_groundBoxDef = new b2BoxDef();
-	g_groundBoxDef->extents.Set(50.0f, 1.0f);
+	g_groundBoxDef->extents.Set(40.0f, 1.0f);
 	g_groundBoxDef->density = 0.0f;
 	g_groundBoxDef->friction = 1.0f;
 	g_groundBoxDef->restitution = 0.2F;	
