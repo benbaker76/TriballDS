@@ -19,11 +19,11 @@ void movePlayer()
 	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
 	float lVelocity = g_spriteArray[0].Body->GetAngularVelocity();
 	
-	char bulVelocityer[20];
-	sprintf(bulVelocityer, "L VEL %d  ",(int)vel.x);
-	DrawString(bulVelocityer, 0, 21, true);
-	sprintf(bulVelocityer, "A VEL %d  ",(int)lVelocity);
-	DrawString(bulVelocityer, 0, 20, true);	
+	char buffer[20];
+	sprintf(buffer, "L VEL %d  ",(int)vel.x);
+	DrawString(buffer, 0, 21, true);
+	sprintf(buffer, "A VEL %d  ",(int)lVelocity);
+	DrawString(buffer, 0, 20, true);	
 //	g_spriteArray[0].Body->SetCenterPosition(b2Vec2(0,0));	// HOW DO I SET THE ROTATION SPEED MANUALLY??
 
 //	bool Platform = ?? // We will need a TRUE to tell us we are on a platform to improve to control.
@@ -81,7 +81,7 @@ void movePlayer()
 			lVelocity += FRICTION / 2;
 		if (lVelocity > 0 && lVelocity <= FRICTION) lVelocity = 0;
 		else if (lVelocity < 0 && lVelocity >= -FRICTION) lVelocity = 0;
-	*/	
+*/		
 		if (vel.x > 0)
 			vel.x -= FRICTION;
 		else
@@ -117,7 +117,7 @@ void movePlayer()
 		g_cameraPos.Z += 0.1f;
 	}
 		
-	if(g_frameCount++ == 100)
+	if(g_frameCount++ == 10)
 	{
 		g_frameCount = 0;
 		
@@ -130,20 +130,25 @@ void movePlayer()
 	
 	Vector2 cameraDist(abs((g_cameraEnd.X - g_cameraStart.X) * 30), abs((g_cameraEnd.Y - g_cameraStart.Y) * 30));
 
+
+	sprintf(buffer, "Cam X %d  ",(int)cameraDist.X);
+	DrawString(buffer, 0, 10, true);
+
+
 	if(cameraDist.X < 10 && cameraDist.Y < 10)
+	{
+		g_cameraStart.Z = g_cameraPos.Z;
+		g_cameraEnd.Z = 0.1F;
+	}
+	else if(cameraDist.X < 15 && cameraDist.Y < 15)
 	{
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = 0.5F;
 	}
-	else if(cameraDist.X < 20 && cameraDist.Y < 20)
+	else if(cameraDist.X >= 15 && cameraDist.Y >= 15)
 	{
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = 1.0F;
-	}
-	else if(cameraDist.X > 20 && cameraDist.Y > 20)
-	{
-		g_cameraStart.Z = g_cameraPos.Z;
-		g_cameraEnd.Z = 2.0F;
 	}
 	
 	g_cameraPos.X = Cubic.EaseOut(g_frameCount, g_cameraStart.X, g_cameraEnd.X - g_cameraStart.X, 100);
