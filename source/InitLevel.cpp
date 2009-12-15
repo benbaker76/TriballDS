@@ -111,22 +111,21 @@ void initLevel()
 	g_bodyDef->position.Set(14.0f, -2.4f);
 	g_bodyDef->AddShape(g_plat);
 	g_world->CreateBody(g_bodyDef);
-	
-	g_plat = new b2PolyDef();	// pit base
-	g_plat->vertexCount = 5;
-	g_plat->vertices[0].Set( -10.0f, 0.0f);
-	g_plat->vertices[1].Set( -10.0f, -4.5f);
-	g_plat->vertices[2].Set( -8.0f, -5.8f);
-	g_plat->vertices[3].Set( 4.0f, -5.7f);
-	g_plat->vertices[4].Set( 4.0f, -3.0f);
-	g_plat->vertices[5].Set( -8.0f, -3.0f); // WHY DOES THIS CRASH IT
-//	g_plat->vertices[6].Set( 3.0f, 2.2f);
 
-	g_plat->density = 0.0f;
-	g_plat->friction = 1.0f;
+	b2PolyDef* plat2 = new b2PolyDef(); // pit base
+	plat2->vertexCount = 5;
+	plat2->vertices[0].Set( -10.0f, 0.0f);
+	plat2->vertices[1].Set( -10.0f, -4.5f);
+	plat2->vertices[2].Set( -8.0f, -5.8f);
+	plat2->vertices[3].Set( 4.0f, -5.7f);
+	plat2->vertices[4].Set( 4.0f, -3.0f);
+	plat2->vertices[5].Set( -8.0f, -3.0f); // WHY DOES THIS CRASH IT	
+
+	plat2->density = 0.0f;
+	plat2->friction = 1.0f;
 	g_bodyDef = new b2BodyDef();
 	g_bodyDef->position.Set(24.0f, -4.4f);
-	g_bodyDef->AddShape(g_plat);
+	g_bodyDef->AddShape(plat2);
 	g_world->CreateBody(g_bodyDef);	
 }
 
