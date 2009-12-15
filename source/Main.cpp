@@ -32,9 +32,9 @@ void debugText()
 	DrawString(buffer, 10, 21, true);
 	sprintf(buffer, "%d Y ",192 - (int)(position.y * 10));
 	DrawString(buffer, 16, 21, true);
-	sprintf(buffer, "%d X SCRL",(int) g_cameraPos.X * 10);
+	sprintf(buffer, "%d X SCRL",(int) (g_cameraPos.X * 100));
 	DrawString(buffer, 0, 4, true);
-	sprintf(buffer, "%d Y SCRL",(int) g_cameraPos.Y * 10);
+	sprintf(buffer, "%d Y SCRL",(int) (g_cameraPos.Y * 100));
 	DrawString(buffer, 0, 5, true);	
 	sprintf(buffer, "%d Rot",(int)(rotationP *100));
 	DrawString(buffer, 16, 20, true);

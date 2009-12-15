@@ -40,7 +40,7 @@ void initLevel()
 	g_cameraEnd.Y = 0;
 	g_cameraEnd.Z = 1.0f;
 	
-	// test defines for now!
+	// test defines for now! ( -40 to 40 for some reason??)
 	
 	g_plat = new b2PolyDef();	// HOW THE FUCK?
 	g_plat->vertexCount = 6;
@@ -51,7 +51,7 @@ void initLevel()
 	g_plat->vertices[4].Set(5.8f, -0.5f);
 	g_plat->vertices[5].Set(5.7f, 0.7f);
 	g_plat->density = 0.0f;
-	g_plat->friction = 2.0f;
+	g_plat->friction = 1.0f;
 	g_bodyDef = new b2BodyDef();
 	g_bodyDef->position.Set(9.5f, 3.4f);
 	g_bodyDef->AddShape(g_plat);
@@ -64,7 +64,7 @@ void initLevel()
 	g_plat->vertices[2].Set(6.0f, -1.0f);
 	g_plat->vertices[3].Set(6.0f, 1.5f);
 	g_plat->density = 0.0f;
-	g_plat->friction = 2.0f;
+	g_plat->friction = 1.0f;
 	g_bodyDef = new b2BodyDef();
 	g_bodyDef->position.Set(20.8f, 3.6f);
 	g_bodyDef->AddShape(g_plat);
@@ -74,7 +74,7 @@ void initLevel()
 	g_boxDef->extents.Set(4.7f, 1.0f);
 	g_boxDef->density = 0.0f;
 	g_boxDef->friction = 1.0f;
-	g_boxDef->restitution = 0.0F;
+	g_boxDef->restitution = 1.0F;
 	g_bodyDef = new b2BodyDef();
 	g_bodyDef->position.Set(17.5f, 0.6f);
 	g_bodyDef->AddShape(g_boxDef);
@@ -146,9 +146,10 @@ for(int i=1; i<BALLCOUNT; i++)
 void initBox2D()
 {
 	g_worldAABB = new b2AABB();
-	g_worldAABB->minVertex.Set(SCREEN_WIDTH * -SCALE, SCREEN_HEIGHT * -SCALE);
-	g_worldAABB->maxVertex.Set(SCREEN_WIDTH * SCALE, SCREEN_HEIGHT * SCALE);
-	
+//	g_worldAABB->minVertex.Set(SCREEN_WIDTH * -SCALE, SCREEN_HEIGHT * -SCALE);
+//	g_worldAABB->maxVertex.Set(SCREEN_WIDTH * SCALE, SCREEN_HEIGHT * SCALE);
+	g_worldAABB->minVertex.Set(-51.2, -40);
+	g_worldAABB->maxVertex.Set(40,40);	
 	g_gravity = new b2Vec2(0.0f, -15.0f);
 	
 	bool doSleep = true;
@@ -156,11 +157,11 @@ void initBox2D()
 	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
 	
 	g_groundBoxDef = new b2BoxDef();
-	g_groundBoxDef->extents.Set(50.0f, 10.0f);
+	g_groundBoxDef->extents.Set(50.0f, 1.0f);
 	g_groundBoxDef->density = 0.0f;
 
 	g_groundBodyDef = new b2BodyDef(); 
-	g_groundBodyDef->position.Set(0.0f, -20.0f);
+	g_groundBodyDef->position.Set(0.0f, -40.0f);
 	g_groundBodyDef->AddShape(g_groundBoxDef);
 
 	g_world->CreateBody(g_groundBodyDef);
