@@ -17,14 +17,13 @@ void movePlayer()
 	
 	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
 	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-	float lVelocity = g_spriteArray[0].Body->GetAngularVelocity();
+	float aVelocity = g_spriteArray[0].Body->GetAngularVelocity();
 	
 	char buffer[20];
 	sprintf(buffer, "L VEL %d  ",(int)vel.x);
 	DrawString(buffer, 0, 21, true);
-	sprintf(buffer, "A VEL %d  ",(int)lVelocity);
+	sprintf(buffer, "A VEL %d  ",(int)aVelocity);
 	DrawString(buffer, 0, 20, true);	
-//	g_spriteArray[0].Body->SetCenterPosition(b2Vec2(0,0));	// HOW DO I SET THE ROTATION SPEED MANUALLY??
 
 //	bool Platform = ?? // We will need a TRUE to tell us we are on a platform to improve to control.
 
@@ -39,7 +38,7 @@ void movePlayer()
 		if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
-		if (lVelocity < ROTMAX ) lVelocity += ROTSPEED;
+		if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
 		}
 		else					// We are already moving LEFT
 		{
@@ -48,9 +47,9 @@ void movePlayer()
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
 		}
-		if (lVelocity < ROTMAX ) lVelocity += ROTSPEED;
-	g_spriteArray[0].Body->SetAngularVelocity( lVelocity );
-	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+//		if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
+//	g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
+//	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 		
 		
 	}
@@ -62,8 +61,8 @@ void movePlayer()
 		vel.x += ACCEL * TURNSPEED;
 		if (vel.x > MAXACCEL) vel.x = MAXACCEL;
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX * TURNSPEED, 0), b2Vec2(0, 0));
-		if (lVelocity >  -ROTMAX ) lVelocity -= ROTSPEED;
+		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX * TURNSPEED, 0), b2Vec2(0, 0));
+		if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
 		}
 		else					// We are already moving RIGHT
 		{
@@ -72,18 +71,18 @@ void movePlayer()
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
 		}
-		if (lVelocity >  -ROTMAX ) lVelocity -= ROTSPEED;
-	g_spriteArray[0].Body->SetAngularVelocity( lVelocity );
-	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+//		if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
+//	g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
+//	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 	}
-	else	// we are not moving LEFT or RIGHT
-	{
-	/*	if (lVelocity > 0)
-			lVelocity -= FRICTION / 2;
+//	else	// we are not moving LEFT or RIGHT
+//	{
+	/*	if (aVelocity > 0)
+			aVelocity -= FRICTION / 2;
 		else
-			lVelocity += FRICTION / 2;
-		if (lVelocity > 0 && lVelocity <= FRICTION) lVelocity = 0;
-		else if (lVelocity < 0 && lVelocity >= -FRICTION) lVelocity = 0;
+			aVelocity += FRICTION / 2;
+		if (aVelocity > 0 && aVelocity <= FRICTION) aVelocity = 0;
+		else if (aVelocity < 0 && aVelocity >= -FRICTION) aVelocity = 0;
 		
 		if (vel.x > 0)
 			vel.x -= FRICTION;
@@ -92,7 +91,7 @@ void movePlayer()
 		if (vel.x > 0 && vel.x <= (FRICTION *1.5)) vel.x = 0;
 		else if (vel.x < 0 && vel.x >= -(FRICTION * 1.5)) vel.x = 0;
 */
-	};
+//	};
 
 
 	// This is going to be tricky?
@@ -108,16 +107,7 @@ void movePlayer()
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, -VELY));
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, -IMPY), b2Vec2(0, 0));
 	}
-	
-	if ((held & KEY_L) && (g_cameraPos.Z > 0.1F))
-	{
-		g_cameraPos.Z -= 0.1f;
 
-	}
-	else if ((held & KEY_R) && (g_cameraPos.Z < 3.9F))
-	{
-		g_cameraPos.Z += 0.1f;
-	}
 		
 	if(g_frameCount++ == 10)
 	{

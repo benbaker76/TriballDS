@@ -135,7 +135,7 @@ enum QuadFlags
 #define		BALLSCROLLY			80				// closeness to top/bot to enable scrolling
 #define		BALLSIZE			24				// Size of balls
 #define		BALLOFFSET			4				// Ball offset of balls
-#define		BALLCOUNT			4				// Number of balls
+#define		BALLCOUNT			1				// Number of balls
 
 	// Defines for player (ball) status
 	

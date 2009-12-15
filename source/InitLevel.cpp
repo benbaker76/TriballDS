@@ -145,8 +145,8 @@ for(int i=1; i<BALLCOUNT; i++)
 		
 		g_spriteArray[i].CircleDef->radius = 32 / 2 * SCALE; 
 		g_spriteArray[i].CircleDef->density = 1.0F; 
-		g_spriteArray[i].CircleDef->friction = 0.5F; 
-		g_spriteArray[i].CircleDef->restitution = 0.8F; 
+		g_spriteArray[i].CircleDef->friction = 1.0F; 
+		g_spriteArray[i].CircleDef->restitution = 0.4F; 
 
 		g_spriteArray[i].BodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
 		g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].CircleDef);
@@ -183,7 +183,7 @@ void initBox2D()
 	g_worldAABB = new b2AABB();
 //	g_worldAABB->minVertex.Set(SCREEN_WIDTH * -SCALE, SCREEN_HEIGHT * -SCALE);
 //	g_worldAABB->maxVertex.Set(SCREEN_WIDTH * SCALE, SCREEN_HEIGHT * SCALE);
-	g_worldAABB->minVertex.Set(-51.2, -40);
+	g_worldAABB->minVertex.Set(-40, -40);
 	g_worldAABB->maxVertex.Set(40,40);	
 	g_gravity = new b2Vec2(0.0f, -15.0f);
 	
@@ -194,6 +194,8 @@ void initBox2D()
 	g_groundBoxDef = new b2BoxDef();
 	g_groundBoxDef->extents.Set(50.0f, 1.0f);
 	g_groundBoxDef->density = 0.0f;
+	g_groundBoxDef->friction = 1.0f;
+	g_groundBoxDef->restitution = 0.2F;	
 
 	g_groundBodyDef = new b2BodyDef(); 
 	g_groundBodyDef->position.Set(0.0f, -40.0f);
