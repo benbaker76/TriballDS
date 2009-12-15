@@ -75,13 +75,13 @@ void movePlayer()
 	}
 	else	// we are not moving LEFT or RIGHT
 	{
-		if (lVelocity > 0)
+	/*	if (lVelocity > 0)
 			lVelocity -= FRICTION / 2;
 		else
 			lVelocity += FRICTION / 2;
 		if (lVelocity > 0 && lVelocity <= FRICTION) lVelocity = 0;
 		else if (lVelocity < 0 && lVelocity >= -FRICTION) lVelocity = 0;
-		
+	*/	
 		if (vel.x > 0)
 			vel.x -= FRICTION;
 		else

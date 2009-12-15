@@ -42,7 +42,7 @@ void initLevel()
 	
 	// test defines for now! ( -40 to 40 for some reason??)
 	
-	g_plat = new b2PolyDef();	// HOW THE FUCK?
+/*	g_plat = new b2PolyDef();	// HOW THE FUCK?
 	g_plat->vertexCount = 6;
 	g_plat->vertices[0].Set(0.0f, 0.4f);
 	g_plat->vertices[1].Set(-3.0f, 0.05f);
@@ -78,20 +78,55 @@ void initLevel()
 	g_bodyDef = new b2BodyDef();
 	g_bodyDef->position.Set(17.5f, 0.6f);
 	g_bodyDef->AddShape(g_boxDef);
-	g_world->CreateBody(g_bodyDef);
+	g_world->CreateBody(g_bodyDef); */
 	
 	g_boxDef = new b2BoxDef();
-	g_boxDef->extents.Set(1.0f, 20.0f);
+	g_boxDef->extents.Set(1.0f, 40.0f);
 	g_boxDef->density = 0.0f;
 	g_boxDef->friction = 1.0f;
-	g_boxDef->restitution = 0.0F;
+	g_boxDef->restitution = 0.8F;
 	g_bodyDef = new b2BodyDef();
-	g_bodyDef->position.Set(25.6f, 19.2f);
+	g_bodyDef->position.Set(-40.8f, 0.0f);
 	g_bodyDef->AddShape(g_boxDef);
 	g_world->CreateBody(g_bodyDef);	
 	g_bodyDef = new b2BodyDef();
-	g_bodyDef->position.Set(-2.0f, 19.2f);
+	g_bodyDef->position.Set(40.8f, 0.0f);
 	g_bodyDef->AddShape(g_boxDef);
+	g_world->CreateBody(g_bodyDef);
+	
+	
+	g_plat = new b2PolyDef();	// left
+	g_plat->vertexCount = 7;
+	g_plat->vertices[0].Set(-14.0f, 2.0f);
+	g_plat->vertices[1].Set(-16.0f, 1.0f);
+	g_plat->vertices[2].Set(-16.0f, -1.0f);
+	g_plat->vertices[3].Set(-14.0f, -2.5f);
+	g_plat->vertices[4].Set( 4.1f, -2.5f);
+	g_plat->vertices[5].Set( 4.0f, 1.0f);
+	g_plat->vertices[6].Set( 3.0f, 2.2f);
+
+	g_plat->density = 0.0f;
+	g_plat->friction = 1.0f;
+	g_bodyDef = new b2BodyDef();
+	g_bodyDef->position.Set(14.0f, -2.4f);
+	g_bodyDef->AddShape(g_plat);
+	g_world->CreateBody(g_bodyDef);
+	
+	g_plat = new b2PolyDef();	// pit base
+	g_plat->vertexCount = 5;
+	g_plat->vertices[0].Set( -10.0f, 0.0f);
+	g_plat->vertices[1].Set( -10.0f, -4.5f);
+	g_plat->vertices[2].Set( -8.0f, -5.8f);
+	g_plat->vertices[3].Set( 4.0f, -5.7f);
+	g_plat->vertices[4].Set( 4.0f, -3.0f);
+	g_plat->vertices[5].Set( -8.0f, -3.0f); // WHY DOES THIS CRASH IT
+//	g_plat->vertices[6].Set( 3.0f, 2.2f);
+
+	g_plat->density = 0.0f;
+	g_plat->friction = 1.0f;
+	g_bodyDef = new b2BodyDef();
+	g_bodyDef->position.Set(24.0f, -4.4f);
+	g_bodyDef->AddShape(g_plat);
 	g_world->CreateBody(g_bodyDef);	
 }
 
