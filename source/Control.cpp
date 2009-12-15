@@ -49,7 +49,8 @@ void movePlayer()
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
 		}
 		if (lVelocity < ROTMAX ) lVelocity += ROTSPEED;
-
+	g_spriteArray[0].Body->SetAngularVelocity( lVelocity );
+	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 		
 		
 	}
@@ -72,6 +73,8 @@ void movePlayer()
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
 		}
 		if (lVelocity >  -ROTMAX ) lVelocity -= ROTSPEED;
+	g_spriteArray[0].Body->SetAngularVelocity( lVelocity );
+	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 	}
 	else	// we are not moving LEFT or RIGHT
 	{
@@ -81,17 +84,16 @@ void movePlayer()
 			lVelocity += FRICTION / 2;
 		if (lVelocity > 0 && lVelocity <= FRICTION) lVelocity = 0;
 		else if (lVelocity < 0 && lVelocity >= -FRICTION) lVelocity = 0;
-*/		
+		
 		if (vel.x > 0)
 			vel.x -= FRICTION;
 		else
 			vel.x += FRICTION;
-		if (vel.x > 0 && vel.x < FRICTION) vel.x = 0;
-		else if (vel.x < 0 && vel.x > -FRICTION) vel.x = 0;
-
+		if (vel.x > 0 && vel.x <= (FRICTION *1.5)) vel.x = 0;
+		else if (vel.x < 0 && vel.x >= -(FRICTION * 1.5)) vel.x = 0;
+*/
 	};
-	g_spriteArray[0].Body->SetAngularVelocity( lVelocity );
-	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+
 
 	// This is going to be tricky?
 
@@ -154,7 +156,7 @@ void movePlayer()
 	float largest;
 	if (cameraDist.X >= cameraDist.Y) largest = cameraDist.X;
 	else largest = cameraDist.Y;
-	if (largest > 20) largest = 20;
+	if (largest > 10) largest = 10;
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = (largest / 10) + 0.1f;
 

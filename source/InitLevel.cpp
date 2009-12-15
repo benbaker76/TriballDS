@@ -136,7 +136,7 @@ void initPlayer()
 for(int i=1; i<BALLCOUNT; i++)
 	{
 		g_spriteArray[i].Action = ACTION_NONE;	
-		g_spriteArray[i].X = (rand() % 100) + 140; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
+		g_spriteArray[i].X = (rand() % 128); //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
 		g_spriteArray[i].Y =  192 - ((rand() % 100)); //(rand() % (LEVEL_HEIGHT-(BALLSIZE * 2))) + BALLSIZE;
 		g_spriteArray[i].Type = BALLTYPE_EVILBALL;
 		
@@ -165,7 +165,7 @@ for(int i=1; i<BALLCOUNT; i++)
 	
 	g_spriteArray[0].CircleDef->radius = 24 / 2 * SCALE; 
 	g_spriteArray[0].CircleDef->density = 1.0F; 
-	g_spriteArray[0].CircleDef->friction = 10.0F; 
+	g_spriteArray[0].CircleDef->friction = 1.0F; 
 	g_spriteArray[0].CircleDef->restitution = 0.0F; 
 
 	g_spriteArray[0].BodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
