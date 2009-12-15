@@ -146,7 +146,7 @@ for(int i=1; i<BALLCOUNT; i++)
 		g_spriteArray[i].CircleDef->radius = 32 / 2 * SCALE; 
 		g_spriteArray[i].CircleDef->density = 1.0F; 
 		g_spriteArray[i].CircleDef->friction = 1.0F; 
-		g_spriteArray[i].CircleDef->restitution = 0.4F; 
+		g_spriteArray[i].CircleDef->restitution = 0.8F; 
 
 		g_spriteArray[i].BodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
 		g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].CircleDef);
@@ -163,7 +163,7 @@ for(int i=1; i<BALLCOUNT; i++)
 	g_spriteArray[0].CircleDef = new b2CircleDef();
 	g_spriteArray[0].BodyDef =  new b2BodyDef();
 	
-	g_spriteArray[0].CircleDef->radius = 24 / 2 * SCALE; 
+	g_spriteArray[0].CircleDef->radius = 32 / 2 * SCALE; 
 	g_spriteArray[0].CircleDef->density = 1.0F; 
 	g_spriteArray[0].CircleDef->friction = 1.0F; 
 	g_spriteArray[0].CircleDef->restitution = 0.0F; 

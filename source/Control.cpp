@@ -83,14 +83,14 @@ void movePlayer()
 			aVelocity += FRICTION / 2;
 		if (aVelocity > 0 && aVelocity <= FRICTION) aVelocity = 0;
 		else if (aVelocity < 0 && aVelocity >= -FRICTION) aVelocity = 0;
-		
+*/		
 		if (vel.x > 0)
 			vel.x -= FRICTION;
 		else
 			vel.x += FRICTION;
-		if (vel.x > 0 && vel.x <= (FRICTION *1.5)) vel.x = 0;
-		else if (vel.x < 0 && vel.x >= -(FRICTION * 1.5)) vel.x = 0;
-*/
+		if (vel.x > 0 && vel.x <= (FRICTION)) vel.x = 0;
+		else if (vel.x < 0 && vel.x >= -(FRICTION)) vel.x = 0;
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 //	};
 
 
@@ -99,7 +99,7 @@ void movePlayer()
 
 	if (held & KEY_UP)
 	{
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, VELY));
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED));
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
 	}
 	else if (held & KEY_DOWN)
