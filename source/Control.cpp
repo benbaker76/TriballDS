@@ -135,7 +135,7 @@ void movePlayer()
 	DrawString(buffer, 0, 10, true);
 
 
-	if(cameraDist.X < 10 && cameraDist.Y < 10)
+/*	if(cameraDist.X < 10 && cameraDist.Y < 10)
 	{
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = 0.1F;
@@ -150,10 +150,17 @@ void movePlayer()
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = 1.0F;
 	}
-	
+*/	
+	float largest;
+	if (cameraDist.X >= cameraDist.Y) largest = cameraDist.X;
+	else largest = cameraDist.Y;
+	if (largest > 20) largest = 20;
+		g_cameraStart.Z = g_cameraPos.Z;
+		g_cameraEnd.Z = (largest / 10) + 0.1f;
+
 	g_cameraPos.X = Cubic.EaseOut(g_frameCount, g_cameraStart.X, g_cameraEnd.X - g_cameraStart.X, 100);
 	g_cameraPos.Y = Cubic.EaseOut(g_frameCount, g_cameraStart.Y, g_cameraEnd.Y - g_cameraStart.Y, 100);
-	g_cameraPos.Z = Cubic.EaseOut(g_frameCount, g_cameraStart.Z, g_cameraEnd.Z - g_cameraStart.Z, 100);
+	g_cameraPos.Z = Cubic.EaseOut(1, g_cameraStart.Z, g_cameraEnd.Z - g_cameraStart.Z, 100);
 
 	glLoadIdentity();
 
