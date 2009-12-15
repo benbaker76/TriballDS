@@ -37,7 +37,7 @@ void movePlayer()
 		vel.x -= ACCEL * TURNSPEED;
 		if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
 		if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
 		}
 		else					// We are already moving LEFT
@@ -45,7 +45,7 @@ void movePlayer()
 		vel.x -= ACCEL;
 		if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
 		}
 //		if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
 //	g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
@@ -61,7 +61,7 @@ void movePlayer()
 		vel.x += ACCEL * TURNSPEED;
 		if (vel.x > MAXACCEL) vel.x = MAXACCEL;
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX * TURNSPEED, 0), b2Vec2(0, 0));
+		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX * TURNSPEED, 0), b2Vec2(0, 0));
 		if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
 		}
 		else					// We are already moving RIGHT
@@ -69,14 +69,14 @@ void movePlayer()
 		vel.x += ACCEL;
 		if (vel.x > MAXACCEL) vel.x = MAXACCEL;
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
+		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
 		}
 //		if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
 //	g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
 //	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 	}
-//	else	// we are not moving LEFT or RIGHT
-//	{
+	else	// we are not moving LEFT or RIGHT
+	{
 	/*	if (aVelocity > 0)
 			aVelocity -= FRICTION / 2;
 		else
@@ -91,7 +91,7 @@ void movePlayer()
 		if (vel.x > 0 && vel.x <= (FRICTION)) vel.x = 0;
 		else if (vel.x < 0 && vel.x >= -(FRICTION)) vel.x = 0;
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-//	};
+	};
 
 
 	// This is going to be tricky?
