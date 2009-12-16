@@ -36,21 +36,21 @@ void updatePlayerContacts()
 		{
 			b2Body* body1 = contact->GetShape1()->GetBody();
 			b2Body* body2 = contact->GetShape2()->GetBody();
-			b2Body* bodyContact = NULL;
+			b2Body* bodyPlatform = NULL;
 			
 			// Which body is the player?
 			if(g_spriteArray[0].Body == body1)
-				bodyContact = body2;
+				bodyPlatform = body2;
 			else
-				bodyContact = body1;
+				bodyPlatform = body1;
 			
 			// Which platform did it collide with?
 			for(int i=0; i<PLATFORMCOUNT; i++)
 			{
-				if(g_platformArray[i]->Body == bodyContact)
+				if(g_platformArray[i]->Body == bodyPlatform)
 				{
 					static char buf[256];
-					sprintf(buf, "Player Collided With Platform %d\n", i);
+					sprintf(buf, "Player Collided With Platform %d", i);
 					fprintf(stderr, buf);
 				}
 			}
