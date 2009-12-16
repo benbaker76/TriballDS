@@ -90,6 +90,62 @@ void initLevel()
 	g_platformArray[1]->BodyDef->position.Set(24.0f, -4.4f);
 	g_platformArray[1]->BodyDef->AddShape(g_platformArray[1]->PolyDef);
 	g_world->CreateBody(g_platformArray[1]->BodyDef);	
+	
+	g_platformArray[2]->PolyDef = new b2PolyDef();	// little plat
+	g_platformArray[2]->PolyDef->vertexCount = 8;
+	g_platformArray[2]->PolyDef->vertices[0].Set( -8.0f, 0.0f);
+	g_platformArray[2]->PolyDef->vertices[1].Set( -12.0f, -1.0f);
+	g_platformArray[2]->PolyDef->vertices[2].Set( -12.0f, -3.0f);
+	g_platformArray[2]->PolyDef->vertices[3].Set( -8.0f, -5.0f);	
+	g_platformArray[2]->PolyDef->vertices[4].Set( -3.0f, -5.0f);	
+	g_platformArray[2]->PolyDef->vertices[5].Set( 1.0f, -3.0f);
+	g_platformArray[2]->PolyDef->vertices[6].Set( 1.0f, -1.0f);	
+	g_platformArray[2]->PolyDef->vertices[7].Set( -3.0f, 0.0f);
+
+	g_platformArray[2]->PolyDef->density = 0.0f;
+	g_platformArray[2]->PolyDef->friction = 1.0f;
+	g_platformArray[2]->BodyDef = new b2BodyDef();
+	g_platformArray[2]->BodyDef->position.Set(19.0f, -19.0f);
+	g_platformArray[2]->BodyDef->AddShape(g_platformArray[2]->PolyDef);
+	g_world->CreateBody(g_platformArray[2]->BodyDef);	
+
+	g_platformArray[3]->PolyDef = new b2PolyDef();	// bongo base
+	g_platformArray[3]->PolyDef->vertexCount = 4;
+	g_platformArray[3]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
+	g_platformArray[3]->PolyDef->vertices[1].Set( 5.0f, -5.0f);
+	g_platformArray[3]->PolyDef->vertices[2].Set( 10.0f,-3.0f);
+	g_platformArray[3]->PolyDef->vertices[3].Set( 6.0f, 4.0f);	
+	g_platformArray[3]->PolyDef->density = 0.0f;
+	g_platformArray[3]->PolyDef->friction = 1.0f;
+	g_platformArray[3]->BodyDef = new b2BodyDef();
+	g_platformArray[3]->BodyDef->position.Set(30.0f, 8.0f);
+	g_platformArray[3]->BodyDef->AddShape(g_platformArray[3]->PolyDef);
+	g_world->CreateBody(g_platformArray[3]->BodyDef);		
+	g_platformArray[4]->PolyDef = new b2PolyDef();	// bongo top
+	g_platformArray[4]->PolyDef->vertexCount = 3;
+	g_platformArray[4]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
+	g_platformArray[4]->PolyDef->vertices[1].Set( 5.0f, 4.0f);
+	g_platformArray[4]->PolyDef->vertices[2].Set( 2.5f, 4.0f);
+	g_platformArray[4]->PolyDef->restitution = 2.8F;
+	g_platformArray[4]->PolyDef->density = 0.0f;
+	g_platformArray[4]->PolyDef->friction = 1.0f;
+	g_platformArray[4]->BodyDef = new b2BodyDef();
+	g_platformArray[4]->BodyDef->position.Set(30.0f, 8.0f);
+	g_platformArray[4]->BodyDef->AddShape(g_platformArray[4]->PolyDef);
+	g_world->CreateBody(g_platformArray[4]->BodyDef);		
+
+	g_platformArray[5]->PolyDef = new b2PolyDef();	// bongo base
+	g_platformArray[5]->PolyDef->vertexCount = 4;
+	g_platformArray[5]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
+	g_platformArray[5]->PolyDef->vertices[1].Set( 0.0f, -12.0f);
+	g_platformArray[5]->PolyDef->vertices[2].Set( 13.0f,-12.0f);
+	g_platformArray[5]->PolyDef->vertices[3].Set( 13.0f, 0.0f);	
+	g_platformArray[5]->PolyDef->density = 0.0f;
+	g_platformArray[5]->PolyDef->friction = 1.0f;
+	g_platformArray[5]->BodyDef = new b2BodyDef();
+	g_platformArray[5]->BodyDef->position.Set(27.0f, 2.0f);
+	g_platformArray[5]->BodyDef->AddShape(g_platformArray[5]->PolyDef);
+	g_world->CreateBody(g_platformArray[5]->BodyDef);	
 }
 
 // INIT PLAYER AND RANDOM BALLS (FOR NOW)
@@ -157,7 +213,7 @@ void initBox2D()
 	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
 	
 	g_groundBoxDef = new b2BoxDef();
-	g_groundBoxDef->extents.Set(40.0f, 1.0f);
+	g_groundBoxDef->extents.Set(40.0f, 0.5f);
 	g_groundBoxDef->density = 0.0f;
 	g_groundBoxDef->friction = 1.0f;
 	g_groundBoxDef->restitution = 0.2F;	
@@ -167,5 +223,11 @@ void initBox2D()
 	g_groundBodyDef->AddShape(g_groundBoxDef);
 
 	g_world->CreateBody(g_groundBodyDef);
+	
+	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
+	g_groundBodyDef = new b2BodyDef(); 
+	g_groundBodyDef->position.Set(0.0f, 40.0f);
+	g_groundBodyDef->AddShape(g_groundBoxDef);
 
+	g_world->CreateBody(g_groundBodyDef);
 }
