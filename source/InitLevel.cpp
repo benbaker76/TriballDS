@@ -224,7 +224,12 @@ void initBox2D()
 
 	g_world->CreateBody(g_groundBodyDef);
 	
-	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
+	g_groundBoxDef = new b2BoxDef();
+	g_groundBoxDef->extents.Set(40.0f, 0.5f);
+	g_groundBoxDef->density = 0.0f;
+	g_groundBoxDef->friction = 1.0f;
+	g_groundBoxDef->restitution = 0.2F;		
+	
 	g_groundBodyDef = new b2BodyDef(); 
 	g_groundBodyDef->position.Set(0.0f, 40.0f);
 	g_groundBodyDef->AddShape(g_groundBoxDef);
