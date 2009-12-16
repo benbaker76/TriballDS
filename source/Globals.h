@@ -118,7 +118,7 @@ enum QuadFlags
 #define LEVEL_HEIGHT				512
 	
 	// Defines for the physics effects
-#define 	ACCEL				0.35F			// Horizontal acceleration on forced movement		( *1.5 when turning)
+#define 	ACCEL				0.55F			// Horizontal acceleration on forced movement		( *1.5 when turning)
 #define		MAXACCEL			16.0F			// Maximum horizontal speed
 #define		TURNSPEED			2.5F			// multiple of ACCEL when turning (should only work when on platform)
 #define		FRICTION			0.2f
