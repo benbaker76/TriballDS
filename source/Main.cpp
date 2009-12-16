@@ -42,8 +42,8 @@ void debugText()
 
 int main(void)
 {
-	//consoleDebugInit(DebugDevice_NOCASH);
-	consoleDemoInit();
+	consoleDebugInit(DebugDevice_NOCASH);
+	//consoleDemoInit();
 	
 	initBox2D();
 	initVideo3D();
@@ -64,6 +64,9 @@ int main(void)
 		debugText();
 		
 		movePlayer();
+		
+		//updateWorldContacts();
+		updatePlayerContacts();
 	
 		g_world->Step(timeStep, iterations);
 		

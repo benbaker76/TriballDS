@@ -26,6 +26,7 @@ struct Poly
 {
 	b2PolyDef* PolyDef;
 	b2BodyDef* BodyDef;
+	b2Body* Body;
 };
 
 struct Rect
@@ -193,7 +194,7 @@ enum QuadFlags
 #define		TEXTURE_LEVEL01_3		6
 #define		TEXTURE_LEVEL01_4		7
 
-#define		PLATFORMCOUNT			32
+#define		PLATFORMCOUNT			6
 
 #endif
 

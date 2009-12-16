@@ -10,6 +10,54 @@
 #include "Text.h"
 #include "Easing.h"
 
+void updateWorldContacts()
+{
+	for (b2Contact* contact = g_world->GetContactList(); contact; contact = contact->GetNext())
+	{
+		if (contact->GetManifoldCount() > 0)
+		{
+			// These two bodies have collided
+			
+			b2Body* body1 = contact->GetShape1()->GetBody();
+			b2Body* body2 = contact->GetShape2()->GetBody();
+			
+			fprintf(stderr, "World Collision!");
+		}
+	}
+}
+
+void updatePlayerContacts()
+{
+	for (b2ContactNode* contactNode = g_spriteArray[0].Body->GetContactList(); contactNode; contactNode = contactNode->next)
+	{
+		b2Contact* contact = contactNode->contact;
+		
+		if (contact->GetManifoldCount() > 0)
+		{
+			b2Body* body1 = contact->GetShape1()->GetBody();
+			b2Body* body2 = contact->GetShape2()->GetBody();
+			b2Body* bodyContact = NULL;
+			
+			// Which body is the player?
+			if(g_spriteArray[0].Body == body1)
+				bodyContact = body2;
+			else
+				bodyContact = body1;
+			
+			// Which platform did it collide with?
+			for(int i=0; i<PLATFORMCOUNT; i++)
+			{
+				if(g_platformArray[i]->Body == bodyContact)
+				{
+					static char buf[256];
+					sprintf(buf, "Player Collided With Platform %d\n", i);
+					fprintf(stderr, buf);
+				}
+			}
+		}
+	}
+}
+
 void movePlayer()
 {
 	scanKeys();						// Read button data

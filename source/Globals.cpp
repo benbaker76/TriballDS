@@ -41,6 +41,7 @@ b2BodyDef* g_groundBodyDef;
 b2BoxDef* g_boxDef;
 b2BodyDef* g_bodyDef;
 b2Body* g_body;
+
 Poly* g_platformArray[PLATFORMCOUNT];
 
 int g_textureIDS[TEXTURECOUNT];
