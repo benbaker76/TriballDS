@@ -87,7 +87,7 @@ void drawGLScene()
 
 	glNormal(NORMAL_PACK(0, inttov10(-1), 0));
 	
-	
+	// only displays one poly, and this is different to the one being detected?
 	
 	drawB2Poly(g_platformArray[0]);
 	drawB2Poly(g_platformArray[1]);

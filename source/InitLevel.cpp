@@ -118,7 +118,7 @@ void initLevel()
 	g_platformArray[1]->PolyDef->vertices[1].Set( -10.0f, -4.5f);
 	g_platformArray[1]->PolyDef->vertices[2].Set( -8.0f, -5.8f);
 	g_platformArray[1]->PolyDef->vertices[3].Set( 4.0f, -5.7f);
-	g_platformArray[1]->PolyDef->vertices[4].Set( 4.0f, -3.0f);
+	g_platformArray[1]->PolyDef->vertices[4].Set( 4.0f, -4.0f);
 	g_platformArray[1]->PolyDef->vertices[5].Set( -8.0f, -3.0f); // WHY DOES THIS CRASH IT
 //	g_platformArray[1]->PolyDef->vertices[6].Set( 3.0f, 2.2f);
 

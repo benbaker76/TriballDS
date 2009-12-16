@@ -34,23 +34,21 @@ void movePlayer()
 		if (vel.x > 0)			// We are moving RIGHT, turn quicker
 		
 		{
-		vel.x -= ACCEL * TURNSPEED;
-		if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
-		if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
+			vel.x -= ACCEL * TURNSPEED;
+			if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
+			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+			if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
 		}
 		else					// We are already moving LEFT
 		{
-		vel.x -= ACCEL;
-		if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+			vel.x -= ACCEL;
+			if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
+			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
 		}
-//		if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
-//	g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
-//	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-		
+		if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
+		g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
 		
 	}
 	else if (held & KEY_RIGHT)
@@ -58,22 +56,21 @@ void movePlayer()
 		if (vel.x < 0)			// We are moving LEFT, turn quicker
 		
 		{
-		vel.x += ACCEL * TURNSPEED;
-		if (vel.x > MAXACCEL) vel.x = MAXACCEL;
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX * TURNSPEED, 0), b2Vec2(0, 0));
-		if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
+			vel.x += ACCEL * TURNSPEED;
+			if (vel.x > MAXACCEL) vel.x = MAXACCEL;
+			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX * TURNSPEED, 0), b2Vec2(0, 0));
+			if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
 		}
 		else					// We are already moving RIGHT
 		{
-		vel.x += ACCEL;
-		if (vel.x > MAXACCEL) vel.x = MAXACCEL;
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
+			vel.x += ACCEL;
+			if (vel.x > MAXACCEL) vel.x = MAXACCEL;
+			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
 		}
-//		if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
-//	g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
-//	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
+		g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
 	}
 	else	// we are not moving LEFT or RIGHT
 	{
@@ -84,6 +81,12 @@ void movePlayer()
 		if (aVelocity > 0 && aVelocity <= FRICTION) aVelocity = 0;
 		else if (aVelocity < 0 && aVelocity >= -FRICTION) aVelocity = 0;
 */		
+
+		// The problem with doing this is we now will not roll down an incline
+		// How the hell to we work round that?
+
+
+		// Settle the linear velocity so that we can stop rolling
 		if (vel.x > 0)
 			vel.x -= FRICTION;
 		else
@@ -271,318 +274,4 @@ void moveSprite(Sprite *pSprite)
 		}
 		break;
 	}
-}
-
-
-//----------------------------------------------------------------------------------
-// updateHead the Ball
-// Here we update the ball based on YSpeed and XSpeed
-
-void updateSprite(Sprite* pSprite)
-{
-	float oldSpriteX = pSprite->X;
-	float oldSpriteY = pSprite->Y;
-	float oldLevelX = g_scrollPos.X;
-	float oldXSpeed = pSprite->XSpeed;
-	
-	pSprite->X = pSprite->X + pSprite->XSpeed;
-	float spritePreBounce = pSprite->X;
-	
-	// Do l/r detection
-	// Right
-	if (pSprite->X > oldSpriteX)	// we are moving RIGHT
-	{
-	
-		if ((bodyRight(pSprite->X, pSprite->Y, pSprite->Type) == SOLID) || (bodyRight(pSprite->X, pSprite->Y + 8, pSprite->Type) == SOLID) || (bodyRight(pSprite->X, pSprite->Y + 16, pSprite->Type) == SOLID))
-		{
-			pSprite->X = oldSpriteX;
-		//	int XSettle = ((int)(pSprite->X) + (int)scrollCheckX(pSprite->Type));
-		//	pSprite->X = ((XSettle >> 3) << 3) - ((int)scrollCheckX(pSprite->Type));
-
-		//	pSprite->X = oldSpriteX;
-			pSprite->XSpeed = -abs(pSprite->XSpeed / BOUNCE_X_DEADEN);
-		
-		};
-	
-	}
-	else if (pSprite->X < oldSpriteX)	// we are moving LEFT
-	{
-		
-		if ((bodyLeft(pSprite->X, pSprite->Y, pSprite->Type) == SOLID) || (bodyLeft(pSprite->X, pSprite->Y + 8, pSprite->Type) == SOLID) || (bodyLeft(pSprite->X, pSprite->Y + 16, pSprite->Type) == SOLID))
-		{
-			pSprite->X = oldSpriteX;
-			pSprite->XSpeed = abs(pSprite->XSpeed / BOUNCE_X_DEADEN);
-		
-		};
-	
-	};
-
-
-/* Meeded perhaps for areas without side walls (if we use them)
-	if (pSprite->X + scrollCheckX(pSprite->Type) > LEVEL_WIDTH-BALLSIZE)
-	{
-		pSprite->X = oldSpriteX;
-		pSprite->XSpeed = -abs(pSprite->XSpeed / BOUNCE_X_DEADEN);
-	}
-	else if (pSprite->X + scrollCheckX(pSprite->Type) < 0)
-	{
-		pSprite->XSpeed = abs(pSprite->XSpeed / BOUNCE_X_DEADEN);
-	}
-*/
-// ok, now account for the jump, this needs to check Status and see if we are jumping (or bouncing)
-// but... It only really needs to work with upward movement!
-	
-	if ((pSprite->Status == BALLSTATUS_JUMPING) && (pSprite->YSpeed <= 0))
-	{
-		// jumping up!
-		pSprite->Y += pSprite->YSpeed;	// y speed will be negative
-		
-		pSprite->YSpeed += GRAVITY;	// check if Y speed is now possitive
-		
-		if ( pSprite->YSpeed >= 0)
-		{	// Y speed is +
-			pSprite->Status = BALLSTATUS_FALLING;
-		}
-		else
-		{	// Y speed is -
-			pSprite->Status = BALLSTATUS_JUMPING;
-		}
-			// Check above our head
-		if (headCentre(pSprite->X, pSprite->Y, pSprite->Type) == SOLID)
-		{
-			// We need to fall now
-			pSprite->YSpeed = 0;
-			pSprite->Status = BALLSTATUS_FALLING;
-			pSprite->Y = oldSpriteY;
-		}
-	};
-// ok, now we need to check if there is ground below the ball
-// use 'feetCentre' to check the centre of a ball, the value is returned!
-	
-	if (pSprite->Status != BALLSTATUS_JUMPING)	// we already know that we are not jumping!
-	{
-		if ((feetCentre(pSprite->X, pSprite->Y, pSprite->Type) == BLANK) &&  ((feetRight(pSprite->X, pSprite->Y, pSprite->Type) == BLANK) || (feetRight(pSprite->X, pSprite->Y, pSprite->Type) > PLATFORM))  &&  ((feetLeft(pSprite->X, pSprite->Y, pSprite->Type) == BLANK) || (feetLeft(pSprite->X, pSprite->Y, pSprite->Type) > PLATFORM)))			// not on the floor
-		{	// We are falling (ie. not on the floor)
-		
-			if (pSprite->YSpeed < MAXYSPEED) pSprite->YSpeed += GRAVITY;
-			{
-			pSprite->Y += pSprite->YSpeed;
-			pSprite->Status = BALLSTATUS_FALLING;
-			}
-			if (feetCentre(pSprite->X, pSprite->Y, pSprite->Type) > BLANK && feetCentre(pSprite->X, pSprite->Y, pSprite->Type) <= PLATFORM)
-			{	// We have hit the floor and need to stop bouncing.
-				
-				DrawString("GROUND", 20, 1, false);
-			
-				pSprite->YSpeed = 0;
-				pSprite->Status = BALLSTATUS_NORMAL;
-			}				
-		}
-		else if ( ((feetRight(pSprite->X, pSprite->Y, pSprite->Type) > BLANK) && (feetRight(pSprite->X, pSprite->Y, pSprite->Type) <= PLATFORM)) && (feetCentre(pSprite->X, pSprite->Y, pSprite->Type) == BLANK))
-		{	// This checks if we are part on a platforms edge with the RIGHT of the ball, and Ypos to match
-
-			DrawString("RIGHT ", 22, 1, false);
-		
-			int XPos = ((((int)pSprite->X -1) + scrollCheckX(pSprite->Type) )) & 7;
-	
-			int ySettle = int((pSprite->Y) + (int)scrollCheckY(pSprite->Type));
-			pSprite->Y = ((ySettle >> 3) << 3) - ((int)scrollCheckY(pSprite->Type));
-			
-			pSprite->Y += (7-XPos);
-
-			pSprite->XSpeed -= (GRAVITY / 3 + ( (pSprite->YSpeed) / 8));
-			pSprite->YSpeed = 0;
-			pSprite->Status = BALLSTATUS_NORMAL;			
-			
-			char buffer[20];	
-			sprintf(buffer, "%d X SOF",XPos) ;
-			DrawString(buffer, 0, 5, false);				
-		}
-		else if ( ((feetLeft(pSprite->X, pSprite->Y, pSprite->Type) > BLANK) && (feetLeft(pSprite->X, pSprite->Y, pSprite->Type) <= PLATFORM)) && (feetCentre(pSprite->X, pSprite->Y, pSprite->Type) == BLANK))
-		{	// This checks if we are part on a platforms edge with the LEFT of the ball, and Ypos to match
-
-			DrawString("LEFT  ", 22, 1, false);
-			
-			int XPos = ((((int)pSprite->X) + scrollCheckX(pSprite->Type) )) & 7;
-			
-			int ySettle = int((pSprite->Y) + (int)scrollCheckY(pSprite->Type));
-			pSprite->Y = ((ySettle >> 3) << 3) - ((int)scrollCheckY(pSprite->Type));
-			
-			pSprite->Y += XPos;
-			
-			pSprite->XSpeed += (GRAVITY / 3 + ( (pSprite->YSpeed) / 8));
-			pSprite->YSpeed = 0;
-			pSprite->Status = BALLSTATUS_NORMAL;			
-			
-			char buffer[20];	
-			sprintf(buffer, "%d X LOF",XPos) ;
-			DrawString(buffer, 0, 6, false);
-		}	
-		else  //if (( ( (int)pSprite->Y + (int)g_scrollPos.Y +24) & 7) < MAXYSPEED)										// we are on the floor
-		{
-	//		DrawString("      ", 20, 1, false);
-			// This will settle the ball to a platform, taking into count the Y level position if 
-			// the ball is the player.
-
-			int ySettle = (int)((pSprite->Y) + scrollCheckY(pSprite->Type));
-			pSprite->Y = ((ySettle >> 3) << 3) - ((int)scrollCheckY(pSprite->Type));
-			pSprite->Status = BALLSTATUS_NORMAL;
-			
-			//
-			// Now we need to check our speed and if we are going right and bottom of right check = SOLID and top 2
-			// !=Solid, a little bounce?
-			
-			if ((spritePreBounce > pSprite->X)) // && (oldXSpeed > 1.25))	// we are moving RIGHT
-			{
-				if ((bodyRight(spritePreBounce, pSprite->Y, pSprite->Type) != SOLID) && (bodyRight(spritePreBounce, pSprite->Y + 8, pSprite->Type) != SOLID) && (bodyRight(spritePreBounce, pSprite->Y + 16, pSprite->Type) == SOLID))
-				{
-					pSprite->XSpeed = oldXSpeed;
-					pSprite->Y -= 0.55;
-				//	pSprite->Status = BALLSTATUS_JUMPING;
-				//	pSprite->YSpeed = - 2;
-				}
-			}
-			else if ((spritePreBounce < pSprite->X)) // && (oldXSpeed < - 1.25))	// we are moving LEFT
-			{
-				if ((bodyLeft(spritePreBounce, pSprite->Y, pSprite->Type) != SOLID) && (bodyLeft(spritePreBounce, pSprite->Y + 8, pSprite->Type) != SOLID) && (bodyLeft(spritePreBounce, pSprite->Y + 16, pSprite->Type) == SOLID))
-				{
-					pSprite->XSpeed = oldXSpeed;
-					pSprite->Y -= 0.55;
-				//	pSprite->Status = BALLSTATUS_JUMPING;
-				//	pSprite->YSpeed = - 2;
-				}
-			}
-			
-		}
-	};
-	//
-	// ok, we need to scroll the screen if this is a player ball! (ulp)
-	//
-/*	if (pSprite->Type == BALLTYPE_PLAYER)
-	{
-		if (pSprite->X + BALLSIZE > SCREEN_WIDTH - BALLSCROLLX) 	// have we moved (right) into an area that means scroll
-		{
-			if (g_scrollPos.X < LEVEL_WIDTH - SCREEN_WIDTH)			// if the level X scroll is < the edge,
-			{
-			g_scrollPos.X = g_scrollPos.X + (pSprite->X - oldSpriteX);	// scroll level
-			pSprite->X = oldSpriteX; //(SCREEN_WIDTH - BALLSCROLLX) - BALLSIZE;							// and keep player stationary
-			}
-			else												// if not,
-			{
-			g_scrollPos.X = LEVEL_WIDTH - SCREEN_WIDTH;				// let player move and keep scroll stationary
-			}
-		}
-		else if (pSprite->X < BALLSCROLLX)							// have we moved (left) into an area that means scroll				
-		{
-			if (g_scrollPos.X > 0)									// are we able to scroll?
-			{			
-			g_scrollPos.X = g_scrollPos.X - (oldSpriteX - pSprite->X);	// if so, scroll map and
-			pSprite->X = oldSpriteX;							// keep player stationary.
-			if (g_scrollPos.X < 0) g_scrollPos.X = 0;
-			}
-			else												// otherwise,
-			{
-	//		g_scrollPos.X = 0;										// keep level stationary
-			if (pSprite->X < 0) pSprite->X = 0;					// and allow player to move if possible
-			}
-		}		
-		if (pSprite->Y + BALLSIZE > SCREEN_HEIGHT - BALLSCROLLY)	// these work the same for Y as they did for X
-		{
-			if (g_scrollPos.Y < LEVEL_HEIGHT - SCREEN_HEIGHT)
-			{
-			g_scrollPos.Y = g_scrollPos.Y + (pSprite->Y - oldSpriteY);
-			pSprite->Y = (SCREEN_HEIGHT - BALLSCROLLY) - BALLSIZE;
-			}
-			else
-			{
-			g_scrollPos.Y = LEVEL_HEIGHT - SCREEN_HEIGHT;
-			}
-		}
-		else if (pSprite->Y < BALLSCROLLY)
-		{
-			if (g_scrollPos.Y > 0)
-			{
-			g_scrollPos.Y = g_scrollPos.Y - (oldSpriteY - pSprite->Y);
-			pSprite->Y = BALLSCROLLY; //oldSpriteY;
-			if (g_scrollPos.Y < 0) g_scrollPos.Y = 0;	
-			}
-			else
-			{
-			g_scrollPos.Y = 0;
-			}
-		}		
-	
-	}
-*/	
-	// Now we need to rotate the head, based on our movement!
-	// using rotateHead to pass, initialX, and currentX to return the angle!
-	// wow!! It worked!
-	
-	// call rotateSprite to rotate the ball based on area moved horizontally
-	
-	pSprite->Angle += rotateSprite(oldSpriteX, pSprite->X, pSprite->Type, oldLevelX);
-	
-};
-
-//
-// Calculate rotation based on horizontal movement
-//
-float rotateSprite(float originalX, float currentX, int type, float oldX)	// our rotation function
-{
-	if (type == BALLTYPE_EVILBALL)
-	{
-		if (currentX < originalX)
-		{
-			return degreesToAngle((originalX - currentX) * 4);
-		}
-		else if (originalX < currentX)
-		{
-			return -degreesToAngle((currentX - originalX) * 4);
-		}	
-		return 0;
-	}
-	else if (type == BALLTYPE_PLAYER)
-	{
-		if (oldX == g_scrollPos.X)
-		{
-			if (currentX < originalX)
-			{
-				return degreesToAngle((originalX - currentX) * 4);
-			}
-			else if (originalX < currentX)
-			{
-				return -degreesToAngle((currentX - originalX) * 4);
-			}	
-			return 0;	
-		}
-		else
-		{
-			if (g_scrollPos.X < oldX)
-			{
-				return degreesToAngle((oldX - g_scrollPos.X) * 4);
-			}
-			else if (oldX < g_scrollPos.X)
-			{
-				return -degreesToAngle((g_scrollPos.X - oldX) * 4);
-			}	
-			return 0;	
-		}
-	}
-	return 0;
-}
-
-
-
-//
-//	Return the value of the scroll possition if this is a playerball
-//
-int scrollCheckX(int type)
-{
-	if (type == BALLTYPE_PLAYER) return g_scrollPos.X;
-	else return 0;
-}
-int scrollCheckY(int type)
-{
-	if (type == BALLTYPE_PLAYER) return g_scrollPos.Y;
-	else return 0;
 }
