@@ -87,7 +87,6 @@ void drawGLScene()
 
 	glNormal(NORMAL_PACK(0, inttov10(-1), 0));
 	
-	// only displays one poly, and this is different to the one being detected?
 	
 	drawB2Poly(g_platformArray[0]);
 	drawB2Poly(g_platformArray[1]);
@@ -108,7 +107,7 @@ void drawGLScene()
 		
 		glPushMatrix();
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + g_texelSize.Width);
-		glRotatef(rotation * 70, 0.0f, 0.0f, 1.0f);
+		glRotatef(rotation * (180 / 3.14159), 0.0f, 0.0f, 1.0f);
 		drawQuad(0.4f, 32, QUADFLAGS_NONE);
 		glPopMatrix(1);	
 	}
