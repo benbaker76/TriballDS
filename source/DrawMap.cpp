@@ -89,7 +89,7 @@ void drawGLScene()
 	
 	
 //	drawB2Poly(g_platformArray[0]);
-	drawB2Poly(g_platformArray[4]);
+//	drawB2Poly(g_platformArray[4]);
 	
 	
 	glBegin(GL_QUAD);

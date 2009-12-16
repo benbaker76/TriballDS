@@ -134,7 +134,7 @@ void initLevel()
 	g_platformArray[4]->BodyDef->AddShape(g_platformArray[4]->PolyDef);
 	g_world->CreateBody(g_platformArray[4]->BodyDef);		
 
-	g_platformArray[5]->PolyDef = new b2PolyDef();	// bongo base
+	g_platformArray[5]->PolyDef = new b2PolyDef();	// plat under bongo
 	g_platformArray[5]->PolyDef->vertexCount = 4;
 	g_platformArray[5]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
 	g_platformArray[5]->PolyDef->vertices[1].Set( 0.0f, -12.0f);
