@@ -12,6 +12,8 @@
 
 void updateWorldContacts()
 {
+	DrawString("               ", 0, 8, true);
+
 	for (b2Contact* contact = g_world->GetContactList(); contact; contact = contact->GetNext())
 	{
 		if (contact->GetManifoldCount() > 0)
@@ -22,12 +24,16 @@ void updateWorldContacts()
 			b2Body* body2 = contact->GetShape2()->GetBody();
 			
 			fprintf(stderr, "World Collision!");
+			DrawString("World Collision", 0, 8, true);
 		}
 	}
 }
 
 void updatePlayerContacts()
 {
+
+	DrawString("                                ", 0, 7, true);
+
 	for (b2ContactNode* contactNode = g_spriteArray[0].Body->GetContactList(); contactNode; contactNode = contactNode->next)
 	{
 		b2Contact* contact = contactNode->contact;
@@ -50,8 +56,10 @@ void updatePlayerContacts()
 				if(g_platformArray[i]->Body == bodyPlatform)
 				{
 					static char buf[256];
-					sprintf(buf, "Player Collided With Platform %d", i);
+					sprintf(buf, "Player Collided With Platform %d   ", i);
+					DrawString(buf, 0, 7, true);
 					fprintf(stderr, buf);
+
 				}
 			}
 		}
