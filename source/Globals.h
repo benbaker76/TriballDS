@@ -128,7 +128,7 @@ enum QuadFlags
 #define		FRICTION			0.2f
 #define 	ROTSPEED			0.2f			// Speed in which to increase rotation when moving on platform
 #define		ROTMAX				8.0f			// Maximum 'controlled' rotation speed
-#define		JUMPSPEED			20.0F			// initial speed of a jump
+#define		JUMPSPEED			40.0F			// initial speed of a jump
 
 // THESE ARE NOT USED CURRENTLY
 #define		BOUNCE_X_DEADEN		1.55F			// how much to deaden a horzontal bounce

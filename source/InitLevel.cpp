@@ -214,7 +214,7 @@ void initBox2D()
 //	g_worldAABB->maxVertex.Set(SCREEN_WIDTH * SCALE, SCREEN_HEIGHT * SCALE);
 	g_worldAABB->minVertex.Set(-40, -40);
 	g_worldAABB->maxVertex.Set(40,40);	
-	g_gravity = new b2Vec2(0.0f, -15.0f);
+	g_gravity = new b2Vec2(0.0f, -55.0f);
 	
 	bool doSleep = true;
 	

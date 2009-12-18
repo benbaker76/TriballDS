@@ -206,7 +206,7 @@ void movePlayer()
 	if ((held & KEY_A || held & KEY_B) && (g_spriteArray[0].OnGround))
 	{
 		g_spriteArray[0].Status = BALLSTATUS_JUMPING;
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED));
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
 	//	g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
 	}
 	
@@ -221,7 +221,15 @@ void movePlayer()
 	//	vel.y -= 0.1f;
 	//	if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
 //		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-		g_spriteArray[0].Body->ApplyForce(b2Vec2(0, -5.0f), b2Vec2(0.0f, 0.0f));
+//		g_spriteArray[0].Body->ApplyForce(b2Vec2(0, -5.0f), b2Vec2(0.0f, 0.0f));
+//		if (vel.x > 0)
+//			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+//		else
+//			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
+			vel.x = vel.x / 1.02f ;
+			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+
+
 	}
 	
 }
