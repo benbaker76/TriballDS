@@ -214,27 +214,33 @@ void updateCamera()
 		largest = cameraDist.Y;
 	
 	if (largest > 10)
-	{
 		largest = 10;
 	
-		g_cameraStart.Z = g_cameraPos.Z;
-		g_cameraEnd.Z = (largest / 10) + 0.1f;
-	}
-		
-	if(g_cameraEnd.X * g_cameraEnd.Z > 1)
-		g_cameraEnd.X = 1;
-	if(g_cameraEnd.X * g_cameraEnd.Z < -1)
-		g_cameraEnd.X = -1;
-	if(g_cameraEnd.Y * g_cameraEnd.Z > 1.8F)
-		g_cameraEnd.Y = 1.8F;
-	if(g_cameraEnd.Y * g_cameraEnd.Z < -1.8F)
-		g_cameraEnd.Y = -1.8F;
+	g_cameraStart.Z = g_cameraPos.Z;
+	g_cameraEnd.Z = (largest / 10) + 0.1f;
 
 	g_cameraPos.X = Cubic.EaseOut(g_frameCount, g_cameraStart.X, g_cameraEnd.X - g_cameraStart.X, 100);
 	g_cameraPos.Y = Cubic.EaseOut(g_frameCount, g_cameraStart.Y, g_cameraEnd.Y - g_cameraStart.Y, 100);
 	g_cameraPos.Z = Cubic.EaseOut(1, g_cameraStart.Z, g_cameraEnd.Z - g_cameraStart.Z, 100);
 	
-	sprintf(buffer, "CamPos X:%02.2f  CamPos Y:%02.2f  CamPos Z:%02.2f", (float)g_cameraPos.X, (float)g_cameraPos.Y, (float)g_cameraPos.Z);
+	if(g_cameraPos.X > 1)
+	{
+		g_cameraPos.X = 1;
+	}
+	if(g_cameraPos.X < -1)
+	{
+		g_cameraPos.X = -1;
+	}
+	if(g_cameraPos.Y > 1.8F)
+	{
+		g_cameraPos.Y = 1.8F;
+	}
+	if(g_cameraPos.Y < -1.8F)
+	{
+		g_cameraPos.Y = -1.8F;
+	}
+	
+	sprintf(buffer, "CamPos X:%02.2f Y:%02.2f Z:%02.2f", (float)g_cameraPos.X, (float)g_cameraPos.Y, (float)g_cameraPos.Z);
 	DrawString(buffer, 0, 12, true);
 
 	glLoadIdentity();
