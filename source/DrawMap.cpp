@@ -115,7 +115,7 @@ void drawGLScene()
 	glBindTexture(TEXTURE_LEVEL01_1, g_textureIDS[TEXTURE_LEVEL01_1]);
 	glColorTable(GL_RGB256, g_palAddress[1]);
 	
-	glPushMatrix();
+	/* glPushMatrix();
 	glTranslatef(-6.0f, 6.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
 	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
@@ -131,7 +131,7 @@ void drawGLScene()
 	glTranslatef(-2.0f, 6.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
 	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
-	glPopMatrix(1);
+	glPopMatrix(1); */
 	
 	glPushMatrix();
 	glTranslatef(-2.0f, 2.0f, -1);
@@ -141,7 +141,7 @@ void drawGLScene()
 	
 	glBindTexture(TEXTURE_LEVEL01_2, g_textureIDS[TEXTURE_LEVEL01_2]);
 	
-	glPushMatrix();
+	/* glPushMatrix();
 	glTranslatef(6.0f, 6.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
 	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
@@ -157,7 +157,7 @@ void drawGLScene()
 	glTranslatef(2.0f, 6.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
 	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
-	glPopMatrix(1);
+	glPopMatrix(1); */
 	
 	glPushMatrix();
 	glTranslatef(2.0f, 2.0f, -1);
@@ -167,7 +167,7 @@ void drawGLScene()
 	
 	glBindTexture(TEXTURE_LEVEL01_3, g_textureIDS[TEXTURE_LEVEL01_3]);
 	
-	glPushMatrix();
+	/* glPushMatrix();
 	glTranslatef(-6.0f, -6.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
 	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
@@ -183,7 +183,7 @@ void drawGLScene()
 	glTranslatef(-2.0f, -6.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
 	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
-	glPopMatrix(1);
+	glPopMatrix(1); */
 	
 	glPushMatrix();
 	glTranslatef(-2.0f, -2.0f, -1);
@@ -193,7 +193,7 @@ void drawGLScene()
 	
 	glBindTexture(TEXTURE_LEVEL01_4, g_textureIDS[TEXTURE_LEVEL01_4]);
 	
-	glPushMatrix();
+	/* glPushMatrix();
 	glTranslatef(6.0f, -6.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
 	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
@@ -209,7 +209,7 @@ void drawGLScene()
 	glTranslatef(2.0f, -6.0f, -1);
 	glRotatef(0, 0.0f, 0.0f, 0.0f);
 	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
-	glPopMatrix(1);
+	glPopMatrix(1); */
 	
 	glPushMatrix();
 	glTranslatef(2.0f, -2.0f, -1);
