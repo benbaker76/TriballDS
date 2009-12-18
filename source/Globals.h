@@ -107,6 +107,8 @@ enum QuadFlags
 	QUADFLAGS_VFLIP = BIT(2)
 };
 
+#define PI 3.1415926536
+
 #define BG0_MAP_BASE				31
 #define BG0_MAP_BASE_SUB			31
 
