@@ -42,19 +42,21 @@ void initLevel()
 	
 	// test defines for now! ( -40 to 40 for some reason??)
 	
-	g_boxDef = new b2BoxDef();
-	g_boxDef->extents.Set(1.0f, 40.0f);
-	g_boxDef->density = 0.0f;
-	g_boxDef->friction = 1.0f;
-	g_boxDef->restitution = 0.8F;
-	g_bodyDef = new b2BodyDef();
-	g_bodyDef->position.Set(-40.8f, 0.0f);
-	g_bodyDef->AddShape(g_boxDef);
-	g_world->CreateBody(g_bodyDef);	
-	g_bodyDef = new b2BodyDef();
-	g_bodyDef->position.Set(40.8f, 0.0f);
-	g_bodyDef->AddShape(g_boxDef);
-	g_world->CreateBody(g_bodyDef);
+	b2BoxDef* wallBoxDef = new b2BoxDef();
+	wallBoxDef->extents.Set(1.0f, 40.0f);
+	wallBoxDef->density = 0.0f;
+	wallBoxDef->friction = 1.0f;
+	wallBoxDef->restitution = 0.8F;
+	
+	b2BodyDef* wallBodyDef = new b2BodyDef();
+	wallBodyDef->position.Set(-40.8f, 0.0f);
+	wallBodyDef->AddShape(wallBoxDef);
+	g_world->CreateBody(wallBodyDef);	
+	
+	wallBodyDef = new b2BodyDef();
+	wallBodyDef->position.Set(40.8f, 0.0f);
+	wallBodyDef->AddShape(wallBoxDef);
+	g_world->CreateBody(wallBodyDef);
 	
 	g_platformArray[0] = new Poly();
 	g_platformArray[0]->PolyDef = new b2PolyDef();	// left
@@ -228,17 +230,17 @@ void initBox2D()
 	g_groundBodyDef->position.Set(0.0f, -40.0f);
 	g_groundBodyDef->AddShape(g_groundBoxDef);
 
-	g_world->CreateBody(g_groundBodyDef);
+	g_groundBody = g_world->CreateBody(g_groundBodyDef);
 	
-	g_groundBoxDef = new b2BoxDef();
-	g_groundBoxDef->extents.Set(40.0f, 0.5f);
-	g_groundBoxDef->density = 0.0f;
-	g_groundBoxDef->friction = 1.0f;
-	g_groundBoxDef->restitution = 0.2F;		
+	b2BoxDef* ceilBoxDef = new b2BoxDef();
+	ceilBoxDef->extents.Set(40.0f, 0.5f);
+	ceilBoxDef->density = 0.0f;
+	ceilBoxDef->friction = 1.0f;
+	ceilBoxDef->restitution = 0.2F;		
 	
-	g_groundBodyDef = new b2BodyDef(); 
-	g_groundBodyDef->position.Set(0.0f, 40.0f);
-	g_groundBodyDef->AddShape(g_groundBoxDef);
+	b2BodyDef* ceilBodyDef = new b2BodyDef(); 
+	ceilBodyDef->position.Set(0.0f, 40.0f);
+	ceilBodyDef->AddShape(ceilBoxDef);
 
-	g_world->CreateBody(g_groundBodyDef);
+	g_world->CreateBody(ceilBodyDef);
 }

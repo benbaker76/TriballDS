@@ -43,29 +43,42 @@ void updatePlayerContacts()
 		{
 			b2Body* body1 = contact->GetShape1()->GetBody();
 			b2Body* body2 = contact->GetShape2()->GetBody();
-			b2Body* bodyPlatform = NULL;
+			b2Body* body = NULL;
 			
 			// Which body is the player?
 			if(g_spriteArray[0].Body == body1)
-				bodyPlatform = body2;
+				body = body2;
 			else
-				bodyPlatform = body1;
+				body = body1;
 			
-			// Which platform did it collide with?
-			for(int i=0; i<PLATFORMCOUNT; i++)
+			if(g_groundBody == body) // Collide with ground?
 			{
-				if(g_platformArray[i]->Body == bodyPlatform)
+				DrawString("Player Collided With Ground", 0, 7, true);
+				
+				b2Manifold* manifold = contact->GetManifolds();
+				b2ContactPoint* cp = manifold->points;
+				b2Vec2 position1 = cp->position;
+				b2Vec2 position2 = g_spriteArray[0].Body->GetOriginPosition();
+				
+				g_spriteArray[0].OnGround = (position1.y < position2.y);
+			}
+			else // Which platform did it collide with?
+			{
+				for(int i=0; i<PLATFORMCOUNT; i++)
 				{
-					static char buf[256];
-					sprintf(buf, "Player Collided With Platform %d   ", i);
-					DrawString(buf, 0, 7, true);
-					
-					b2Manifold* manifold = contact->GetManifolds();
-					b2ContactPoint* cp = manifold->points;
-					b2Vec2 position1 = cp->position;
-					b2Vec2 position2 = g_spriteArray[0].Body->GetOriginPosition();
-					
-					g_spriteArray[0].OnGround = (position1.y < position2.y);
+					if(g_platformArray[i]->Body == body)
+					{
+						static char buf[256];
+						sprintf(buf, "Player Collided With Platform %d   ", i);
+						DrawString(buf, 0, 7, true);
+						
+						b2Manifold* manifold = contact->GetManifolds();
+						b2ContactPoint* cp = manifold->points;
+						b2Vec2 position1 = cp->position;
+						b2Vec2 position2 = g_spriteArray[0].Body->GetOriginPosition();
+						
+						g_spriteArray[0].OnGround = (position1.y < position2.y);
+					}
 				}
 			}
 		}
@@ -240,7 +253,7 @@ void updateCamera()
 		g_cameraPos.Y = -1.8F;
 	}
 	
-	sprintf(buffer, "CamPos X:%02.2f Y:%02.2f Z:%02.2f", (float)g_cameraPos.X, (float)g_cameraPos.Y, (float)g_cameraPos.Z);
+	sprintf(buffer, "CamPos X:%02.02f Y:%02.02f Z:%02.02f", (float)g_cameraPos.X, (float)g_cameraPos.Y, (float)g_cameraPos.Z);
 	DrawString(buffer, 0, 12, true);
 
 	glLoadIdentity();

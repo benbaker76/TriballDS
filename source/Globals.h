@@ -224,11 +224,10 @@ extern Sprite g_colSprite2;
 extern b2AABB* g_worldAABB;
 extern b2World* g_world;
 extern b2Vec2* g_gravity;
+
 extern b2BoxDef* g_groundBoxDef;
 extern b2BodyDef* g_groundBodyDef;
-extern b2BoxDef* g_boxDef;
-extern b2BodyDef* g_bodyDef;
-extern b2Body* g_body;
+extern b2Body* g_groundBody;
 
 extern Poly* g_platformArray[];
 
