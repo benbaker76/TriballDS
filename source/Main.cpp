@@ -64,6 +64,7 @@ int main(void)
 		debugText();
 		
 		movePlayer();
+		updateCamera();
 		
 		//updateWorldContacts();
 		updatePlayerContacts();

@@ -181,9 +181,15 @@ void movePlayer()
 	{
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, -VELY));
 		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, -IMPY), b2Vec2(0, 0));
-	}
+	}	
+}
 
-		
+void updateCamera()
+{
+	char buffer[20];
+	
+	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+	
 	if(g_frameCount++ == 10)
 	{
 		g_frameCount = 0;
@@ -197,44 +203,45 @@ void movePlayer()
 	
 	Vector2 cameraDist(abs((g_cameraEnd.X - g_cameraStart.X) * 30), abs((g_cameraEnd.Y - g_cameraStart.Y) * 30));
 
-
 	sprintf(buffer, "Cam X %d  ",(int)cameraDist.X);
 	DrawString(buffer, 0, 10, true);
 
-
-/*	if(cameraDist.X < 10 && cameraDist.Y < 10)
-	{
-		g_cameraStart.Z = g_cameraPos.Z;
-		g_cameraEnd.Z = 0.1F;
-	}
-	else if(cameraDist.X < 15 && cameraDist.Y < 15)
-	{
-		g_cameraStart.Z = g_cameraPos.Z;
-		g_cameraEnd.Z = 0.5F;
-	}
-	else if(cameraDist.X >= 15 && cameraDist.Y >= 15)
-	{
-		g_cameraStart.Z = g_cameraPos.Z;
-		g_cameraEnd.Z = 1.0F;
-	}
-*/	
 	float largest;
-	if (cameraDist.X >= cameraDist.Y) largest = cameraDist.X;
-	else largest = cameraDist.Y;
-	if (largest > 10) largest = 10;
+	
+	if (cameraDist.X >= cameraDist.Y)
+		largest = cameraDist.X;
+	else
+		largest = cameraDist.Y;
+	
+	if (largest > 10)
+	{
+		largest = 10;
+	
 		g_cameraStart.Z = g_cameraPos.Z;
 		g_cameraEnd.Z = (largest / 10) + 0.1f;
+	}
+		
+	if(g_cameraEnd.X * g_cameraEnd.Z > 1)
+		g_cameraEnd.X = 1;
+	if(g_cameraEnd.X * g_cameraEnd.Z < -1)
+		g_cameraEnd.X = -1;
+	if(g_cameraEnd.Y * g_cameraEnd.Z > 1.8F)
+		g_cameraEnd.Y = 1.8F;
+	if(g_cameraEnd.Y * g_cameraEnd.Z < -1.8F)
+		g_cameraEnd.Y = -1.8F;
 
 	g_cameraPos.X = Cubic.EaseOut(g_frameCount, g_cameraStart.X, g_cameraEnd.X - g_cameraStart.X, 100);
 	g_cameraPos.Y = Cubic.EaseOut(g_frameCount, g_cameraStart.Y, g_cameraEnd.Y - g_cameraStart.Y, 100);
 	g_cameraPos.Z = Cubic.EaseOut(1, g_cameraStart.Z, g_cameraEnd.Z - g_cameraStart.Z, 100);
+	
+	sprintf(buffer, "CamPos X:%02.2f  CamPos Y:%02.2f  CamPos Z:%02.2f", (float)g_cameraPos.X, (float)g_cameraPos.Y, (float)g_cameraPos.Z);
+	DrawString(buffer, 0, 12, true);
 
 	glLoadIdentity();
 
 	gluLookAt(	g_cameraPos.X, g_cameraPos.Y, g_cameraPos.Z,		//camera possition
 				g_cameraPos.X, g_cameraPos.Y, 0.0,		//look at
-				0.0, 1.0, 0.0);		//up		
-		
+				0.0, 1.0, 0.0);		//up
 }
 
 
