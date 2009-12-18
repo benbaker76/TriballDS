@@ -20,6 +20,7 @@ struct Sprite							// define the elements that construct our 'balls'
 	int Status;
 	int Type;
 	int Action;
+	bool OnGround;
 };
 
 struct Poly

@@ -20,18 +20,19 @@ void updateWorldContacts()
 		{
 			// These two bodies have collided
 			
-			b2Body* body1 = contact->GetShape1()->GetBody();
-			b2Body* body2 = contact->GetShape2()->GetBody();
+			//b2Body* body1 = contact->GetShape1()->GetBody();
+			//b2Body* body2 = contact->GetShape2()->GetBody();
 			
-			fprintf(stderr, "World Collision!");
-			DrawString("World Collision", 0, 8, true);
+			//fprintf(stderr, "World Collision!");
+			//DrawString("World Collision", 0, 8, true);
 		}
 	}
 }
 
 void updatePlayerContacts()
 {
-
+	g_spriteArray[0].OnGround = false;
+	
 	DrawString("                                ", 0, 7, true);
 
 	for (b2ContactNode* contactNode = g_spriteArray[0].Body->GetContactList(); contactNode; contactNode = contactNode->next)
@@ -58,12 +59,22 @@ void updatePlayerContacts()
 					static char buf[256];
 					sprintf(buf, "Player Collided With Platform %d   ", i);
 					DrawString(buf, 0, 7, true);
-					fprintf(stderr, buf);
-
+					
+					b2Manifold* manifold = contact->GetManifolds();
+					b2ContactPoint* cp = manifold->points;
+					b2Vec2 position1 = cp->position;
+					b2Vec2 position2 = g_spriteArray[0].Body->GetOriginPosition();
+					
+					g_spriteArray[0].OnGround = (position1.y < position2.y);
 				}
 			}
 		}
 	}
+	
+	if(g_spriteArray[0].OnGround)
+		DrawString("Player     On Ground", 0, 8, true);
+	else
+		DrawString("Player Not On Ground", 0, 8, true);
 }
 
 void movePlayer()
@@ -160,8 +171,11 @@ void movePlayer()
 
 	if (held & KEY_UP)
 	{
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED));
-		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
+		if(g_spriteArray[0].OnGround)
+		{
+			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED));
+			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
+		}
 	}
 	else if (held & KEY_DOWN)
 	{
