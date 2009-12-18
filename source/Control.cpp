@@ -203,19 +203,26 @@ void movePlayer()
 	// This is going to be tricky?
 
 
-	if (held & KEY_A || held & KEY_B)
+	if ((held & KEY_A || held & KEY_B) && (g_spriteArray[0].OnGround))
 	{
-		if(g_spriteArray[0].OnGround)
-		{
-			g_spriteArray[0].Status = BALLSTATUS_JUMPING;
-			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED));
-			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
-		}
+		g_spriteArray[0].Status = BALLSTATUS_JUMPING;
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED));
+	//	g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
 	}
 	
-	
+	// if we have landed, reset ball status!
 	if(g_spriteArray[0].OnGround == TRUE && g_spriteArray[0].Status == BALLSTATUS_JUMPING && vel.y < 0)
-		g_spriteArray[0].Status = BALLSTATUS_NORMAL ;
+	{
+		g_spriteArray[0].Status = BALLSTATUS_NORMAL;
+	}
+	// we are currently jumping
+	else if (g_spriteArray[0].Status == BALLSTATUS_JUMPING)
+	{
+	//	vel.y -= 0.1f;
+	//	if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
+//		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		g_spriteArray[0].Body->ApplyForce(b2Vec2(0, -5.0f), b2Vec2(0.0f, 0.0f));
+	}
 	
 }
 
