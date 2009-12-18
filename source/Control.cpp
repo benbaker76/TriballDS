@@ -110,48 +110,69 @@ void movePlayer()
 
 	if (held & KEY_LEFT)
 	{
-
-	
-		if (vel.x > 0)			// We are moving RIGHT, turn quicker
-		
+		if (g_spriteArray[0].Status != BALLSTATUS_JUMPING )
 		{
-			vel.x -= ACCEL * TURNSPEED;
-			if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
-			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-	//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+			if (vel.x > 0)			// We are moving RIGHT, turn quicker
+		
+			{
+				vel.x -= ACCEL * TURNSPEED;
+				if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
+				g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+				if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
+			}
+			else					// We are already moving LEFT
+			{
+				vel.x -= ACCEL;
+				if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
+				g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+			}
 			if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
+			g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
 		}
-		else					// We are already moving LEFT
-		{
-			vel.x -= ACCEL;
+		else
+		{	
+			vel.x -= ACCEL /2 ;
 			if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
 			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-	//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
+			if (aVelocity < ROTMAX ) aVelocity += ROTSPEED * 2;
+			g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
+
 		}
-		if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
-		g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
-		
 	}
 	else if (held & KEY_RIGHT)
 	{
-		if (vel.x < 0)			// We are moving LEFT, turn quicker
+		if (g_spriteArray[0].Status != BALLSTATUS_JUMPING )
+		{
+
+			if (vel.x < 0)			// We are moving LEFT, turn quicker
 		
-		{
-			vel.x += ACCEL * TURNSPEED;
-			if (vel.x > MAXACCEL) vel.x = MAXACCEL;
-			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-	//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX * TURNSPEED, 0), b2Vec2(0, 0));
+			{
+				vel.x += ACCEL * TURNSPEED;
+				if (vel.x > MAXACCEL) vel.x = MAXACCEL;
+				g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX * TURNSPEED, 0), b2Vec2(0, 0));
+				if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
+			}
+			else					// We are already moving RIGHT
+			{
+				vel.x += ACCEL;
+				if (vel.x > MAXACCEL) vel.x = MAXACCEL;
+				g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
+			}
 			if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
+			g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
 		}
-		else					// We are already moving RIGHT
+		else
 		{
-			vel.x += ACCEL;
+			vel.x += ACCEL / 2;
 			if (vel.x > MAXACCEL) vel.x = MAXACCEL;
-			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-	//		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
+			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));	
+			if (aVelocity > -ROTMAX ) aVelocity -= ROTSPEED * 2;
+			g_spriteArray[0].Body->SetAngularVelocity( aVelocity );		
 		}
-		if (aVelocity >  -ROTMAX ) aVelocity -= ROTSPEED;
-		g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
 	}
 	else	// we are not moving LEFT or RIGHT
 	{
@@ -182,19 +203,20 @@ void movePlayer()
 	// This is going to be tricky?
 
 
-	if (held & KEY_UP)
+	if (held & KEY_A || held & KEY_B)
 	{
 		if(g_spriteArray[0].OnGround)
 		{
+			g_spriteArray[0].Status = BALLSTATUS_JUMPING;
 			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED));
 			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
 		}
 	}
-	else if (held & KEY_DOWN)
-	{
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, -VELY));
-		g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, -IMPY), b2Vec2(0, 0));
-	}	
+	
+	
+	if(g_spriteArray[0].OnGround == TRUE && g_spriteArray[0].Status == BALLSTATUS_JUMPING && vel.y < 0)
+		g_spriteArray[0].Status = BALLSTATUS_NORMAL ;
+	
 }
 
 void updateCamera()

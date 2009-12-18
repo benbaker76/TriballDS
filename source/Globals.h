@@ -113,7 +113,7 @@ enum QuadFlags
 #define BG0_MAP_BASE_SUB			31
 
 #define BG0_TILE_BASE				0
-#define BG0_TILE_BASE_SUB			0
+#define BG0_TILE_BASE_SUB			1
 
 #define SCREEN_WIDTH				256
 #define SCREEN_HEIGHT				192
