@@ -46,14 +46,24 @@ void drawQuad(float quadSize, int textureSize, int quadFlags)
 
 void drawB2Poly(Poly* poly)
 {
-	glBegin(GL_QUAD);
+	glBegin(GL_TRIANGLE_STRIP);
 	
 	glPushMatrix();
 	
+	// The Box2d poly's are drawn from origin so lets translate it to draw in position
+	glTranslatef(poly->BodyDef->position.x * SCALE, poly->BodyDef->position.y * SCALE, -1 + g_texelSize.Width);
+	
 	for(int i=0; i<poly->PolyDef->vertexCount; i++)
 	{
-		glVertex3v16(floattov16((float)(poly->PolyDef->vertices[i].x * SCALE)), floattov16((float)(poly->PolyDef->vertices[i].y * SCALE)), -1);
+		glVertex3v16(floattov16((float)(poly->PolyDef->vertices[i].x * SCALE)), floattov16((float)(poly->PolyDef->vertices[i].y * SCALE)), 0);
+		
+		// Every 3rd verticie we need to draw back 3 to complete a triangle
+		if(i % 2 == 0)
+			glVertex3v16(floattov16((float)(poly->PolyDef->vertices[i-2].x * SCALE)), floattov16((float)(poly->PolyDef->vertices[i-2].y * SCALE)), 0);
 	}
+	
+	// complete last triangle
+	glVertex3v16(floattov16((float)(poly->PolyDef->vertices[0].x * SCALE)), floattov16((float)(poly->PolyDef->vertices[0].y * SCALE)), 0);
 	
 	glPopMatrix(1);	
 	
@@ -87,10 +97,8 @@ void drawGLScene()
 
 	glNormal(NORMAL_PACK(0, inttov10(-1), 0));
 	
-	
-//	drawB2Poly(g_platformArray[0]);
-//	drawB2Poly(g_platformArray[4]);
-	
+	for(int i=0; i<PLATFORMCOUNT; i++)
+		drawB2Poly(g_platformArray[i]);
 	
 	glBegin(GL_QUAD);
 	
