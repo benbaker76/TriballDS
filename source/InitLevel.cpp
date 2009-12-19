@@ -189,7 +189,7 @@ for(int i=1; i<BALLCOUNT; i++)
 	g_spriteArray[0].CircleDef = new b2CircleDef();
 	g_spriteArray[0].BodyDef =  new b2BodyDef();
 	
-	g_spriteArray[0].CircleDef->radius = 24 / 2 * SCALE; 
+	g_spriteArray[0].CircleDef->radius = 32 / 2 * SCALE; 
 	g_spriteArray[0].CircleDef->density = 1.0F; 
 	g_spriteArray[0].CircleDef->friction = 1.0F; 
 	g_spriteArray[0].CircleDef->restitution = 0.0F; 
