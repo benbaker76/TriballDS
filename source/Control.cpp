@@ -35,7 +35,7 @@ void updatePlayerContacts()
 	
 	DrawString("                                ", 0, 7, true);
 
-	for (b2ContactNode* contactNode = g_spriteArray[0].Body->GetContactList(); contactNode; contactNode = contactNode->next)
+	for (b2ContactNode* contactNode = g_spriteArray[0].ColBody->GetContactList(); contactNode; contactNode = contactNode->next)
 	{
 		b2Contact* contact = contactNode->contact;
 		
@@ -46,7 +46,7 @@ void updatePlayerContacts()
 			b2Body* body = NULL;
 			
 			// Which body is the player?
-			if(g_spriteArray[0].Body == body1)
+			if(g_spriteArray[0].ColBody == body1)
 				body = body2;
 			else
 				body = body1;
@@ -58,7 +58,7 @@ void updatePlayerContacts()
 				b2Manifold* manifold = contact->GetManifolds();
 				b2ContactPoint* cp = manifold->points;
 				b2Vec2 position1 = cp->position;
-				b2Vec2 position2 = g_spriteArray[0].Body->GetOriginPosition();
+				b2Vec2 position2 = g_spriteArray[0].ColBody->GetOriginPosition();
 				
 				g_spriteArray[0].OnGround = (position1.y < position2.y);
 			}
@@ -75,7 +75,7 @@ void updatePlayerContacts()
 						b2Manifold* manifold = contact->GetManifolds();
 						b2ContactPoint* cp = manifold->points;
 						b2Vec2 position1 = cp->position;
-						b2Vec2 position2 = g_spriteArray[0].Body->GetOriginPosition();
+						b2Vec2 position2 = g_spriteArray[0].ColBody->GetOriginPosition();
 						
 						g_spriteArray[0].OnGround = (position1.y < position2.y);
 					}
@@ -211,7 +211,7 @@ void movePlayer()
 	}
 	
 	// if we have landed, reset ball status!
-	if(g_spriteArray[0].OnGround == TRUE && g_spriteArray[0].Status == BALLSTATUS_JUMPING && vel.y < 0)
+	/* if(g_spriteArray[0].OnGround == TRUE && g_spriteArray[0].Status == BALLSTATUS_JUMPING && vel.y < 0)
 	{
 		g_spriteArray[0].Status = BALLSTATUS_NORMAL;
 	}
@@ -230,8 +230,10 @@ void movePlayer()
 			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 
 
-	}
+	} */
 	
+	// Update collision circle
+	g_spriteArray[0].ColBody->SetCenterPosition(g_spriteArray[0].Body->GetCenterPosition(), g_spriteArray[0].Body->GetRotation());
 }
 
 void updateCamera()
@@ -301,7 +303,7 @@ void updateCamera()
 }
 
 
-void moveSprite(Sprite *pSprite)
+void moveCircle(Circle *pCircle)
 
 // add control head to this first, only if type == player.
 // if type == normal (enemy) then check and set random movement
@@ -311,7 +313,7 @@ void moveSprite(Sprite *pSprite)
 
 
 {
-	if (pSprite->Type == BALLTYPE_PLAYER)								// = Player control
+	if (pCircle->Type == BALLTYPE_PLAYER)								// = Player control
 	{
 		scanKeys();						// Read button data
 		int held = keysHeld();			// Used to calculate if a button is down
@@ -320,15 +322,15 @@ void moveSprite(Sprite *pSprite)
 		
 		if (held & KEY_L || held & KEY_LEFT)
 		{
-			pSprite->Action = ACTION_MOVELEFT;
+			pCircle->Action = ACTION_MOVELEFT;
 		}
 		else if (held & KEY_R || held & KEY_RIGHT)
 		{
-			pSprite->Action = ACTION_MOVERIGHT;
+			pCircle->Action = ACTION_MOVERIGHT;
 		}
 		else
 		{
-		pSprite->Action = ACTION_SLOW;
+		pCircle->Action = ACTION_SLOW;
 		};
 		
 		// check for jump.								(USE A)
@@ -339,14 +341,14 @@ void moveSprite(Sprite *pSprite)
 		{
 			if (g_jumpTrap == FALSE || g_reJump == TRUE)
 			{	// time to jump
-				if ((pSprite->Status != BALLSTATUS_JUMPING) && (pSprite->Status != BALLSTATUS_FALLING))
+				if ((pCircle->Status != BALLSTATUS_JUMPING) && (pCircle->Status != BALLSTATUS_FALLING))
 				{
-					pSprite->Status = BALLSTATUS_JUMPING;
-					pSprite->YSpeed = -JUMPSPEED;
+					pCircle->Status = BALLSTATUS_JUMPING;
+					pCircle->YSpeed = -JUMPSPEED;
 					g_reJump = FALSE;
 					g_jumpTrap = TRUE;
 				}
-				else if (pSprite->YSpeed > 0) //if (g_jumpTrap == FALSE)
+				else if (pCircle->YSpeed > 0) //if (g_jumpTrap == FALSE)
 		//	}
 		//	else if (g_jumpTrap == FALSE && g_reJump == FALSE)
 		//	{
@@ -358,53 +360,53 @@ void moveSprite(Sprite *pSprite)
 			g_jumpTrap = FALSE;
 		}
 	}
-	else if (pSprite->Type == BALLTYPE_EVILBALL)							// = Random control
+	else if (pCircle->Type == BALLTYPE_EVILBALL)							// = Random control
 	{
 		if(rand() % 32 == 0) // Only move enemy occasionally
 		{
 			// rand() % 5 returns a random value from 0 to 4
-			pSprite->Action = rand() % 5;
-			if ((pSprite->Action == ACTION_JUMP) && (pSprite->Status != BALLSTATUS_JUMPING && pSprite->Status != BALLSTATUS_FALLING))
+			pCircle->Action = rand() % 5;
+			if ((pCircle->Action == ACTION_JUMP) && (pCircle->Status != BALLSTATUS_JUMPING && pCircle->Status != BALLSTATUS_FALLING))
 			{
-				pSprite->Status = BALLSTATUS_JUMPING;
-				pSprite->YSpeed = -JUMPSPEED;		
+				pCircle->Status = BALLSTATUS_JUMPING;
+				pCircle->YSpeed = -JUMPSPEED;		
 			}
 		}
 	}
 	
 	// Act on the 'action' of the ball
 	
-	switch(pSprite->Action)
+	switch(pCircle->Action)
 	{
 	case ACTION_MOVELEFT:													// LEFT
-		if ((pSprite->Status == BALLSTATUS_NORMAL) && (pSprite->XSpeed > 0))		// if we are on the ground,
-			pSprite->XSpeed = pSprite->XSpeed - (ACCEL * 4);						// then allow a quicker turn
+		if ((pCircle->Status == BALLSTATUS_NORMAL) && (pCircle->XSpeed > 0))		// if we are on the ground,
+			pCircle->XSpeed = pCircle->XSpeed - (ACCEL * 4);						// then allow a quicker turn
 		else
-			pSprite->XSpeed = pSprite->XSpeed - (ACCEL * 1.5);						// else, normal turn
-		if (pSprite->XSpeed < -MAXACCEL) pSprite->XSpeed = -MAXACCEL;				// stop the speed from going past maximum
+			pCircle->XSpeed = pCircle->XSpeed - (ACCEL * 1.5);						// else, normal turn
+		if (pCircle->XSpeed < -MAXACCEL) pCircle->XSpeed = -MAXACCEL;				// stop the speed from going past maximum
 		break;
 	case ACTION_MOVERIGHT:													// RIGHT
-		if ((pSprite->Status == BALLSTATUS_NORMAL) && (pSprite->XSpeed < 0))		// if we are on the ground,
-			pSprite->XSpeed = pSprite->XSpeed + (ACCEL * 4);						// then allow a quicker turn
+		if ((pCircle->Status == BALLSTATUS_NORMAL) && (pCircle->XSpeed < 0))		// if we are on the ground,
+			pCircle->XSpeed = pCircle->XSpeed + (ACCEL * 4);						// then allow a quicker turn
 		else
-			pSprite->XSpeed = pSprite->XSpeed + (ACCEL * 1.5);								// else, normal turn
-		if (pSprite->XSpeed > MAXACCEL) pSprite->XSpeed = MAXACCEL;				// stop the speed from going past maximum
+			pCircle->XSpeed = pCircle->XSpeed + (ACCEL * 1.5);								// else, normal turn
+		if (pCircle->XSpeed > MAXACCEL) pCircle->XSpeed = MAXACCEL;				// stop the speed from going past maximum
 		break;
 	case ACTION_SLOW:														// SLOW DOWN
-		if (pSprite->XSpeed < 0)													// if speed if negative	
+		if (pCircle->XSpeed < 0)													// if speed if negative	
 		{
-			pSprite->XSpeed = pSprite->XSpeed + FRICTION;							// add friction to the movement
-			if (pSprite->XSpeed > 0)												// if speed becomes a positive
+			pCircle->XSpeed = pCircle->XSpeed + FRICTION;							// add friction to the movement
+			if (pCircle->XSpeed > 0)												// if speed becomes a positive
 			{
-				pSprite->XSpeed = 0;												// time to stop
+				pCircle->XSpeed = 0;												// time to stop
 			}
 		}
-		else if (pSprite->XSpeed > 0)												// if speed is positive
+		else if (pCircle->XSpeed > 0)												// if speed is positive
 		{
-			pSprite->XSpeed = pSprite->XSpeed - FRICTION;							// do the reverse af above!
-			if (pSprite->XSpeed < 0)
+			pCircle->XSpeed = pCircle->XSpeed - FRICTION;							// do the reverse af above!
+			if (pCircle->XSpeed < 0)
 			{
-				pSprite->XSpeed = 0;
+				pCircle->XSpeed = 0;
 			}
 		}
 		break;

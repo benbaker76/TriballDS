@@ -109,16 +109,13 @@ void drawGLScene()
 	{	
 		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
 		float rotation = g_spriteArray[i].Body->GetRotation();
-					
-		g_spriteArray[i].X = (position.x / SCALE);			
-		g_spriteArray[i].Y = 192 - BALLSIZE - ((float)position.y / SCALE);
 		
 		glPushMatrix();
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + g_texelSize.Width);
 		//glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
 		glRotatef(degreesToAngle(rotation), 0.0f, 0.0f, 1.0f);
 		drawQuad(0.4f, 32, QUADFLAGS_NONE);
-		glPopMatrix(1);	
+		glPopMatrix(1);
 	}
 	
 	glBindTexture(TEXTURE_LEVEL01_1, g_textureIDS[TEXTURE_LEVEL01_1]);

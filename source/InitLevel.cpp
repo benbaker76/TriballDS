@@ -203,7 +203,25 @@ for(int i=1; i<BALLCOUNT; i++)
 	g_spriteArray[0].BodyDef->AddShape(g_spriteArray[0].CircleDef);
 	
 	g_spriteArray[0].Body = g_world->CreateBody(g_spriteArray[0].BodyDef);
+	
+	// INIT PLAYER COLLISION
+	g_spriteArray[0].ColCircleDef = new b2CircleDef();
+	g_spriteArray[0].ColBodyDef =  new b2BodyDef();
+	
+	g_spriteArray[0].ColCircleDef->radius = 34 / 2 * SCALE; 
+	g_spriteArray[0].ColCircleDef->density = 1.0F; 
+	g_spriteArray[0].ColCircleDef->friction = 1.0F; 
+	g_spriteArray[0].ColCircleDef->restitution = 0.0F;
 
+	g_spriteArray[0].ColBodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
+	g_spriteArray[0].ColBodyDef->allowSleep = false;
+	g_spriteArray[0].ColBodyDef->preventRotation = false;
+	g_spriteArray[0].ColBodyDef->angularDamping = 0.04f;
+	g_spriteArray[0].ColBodyDef->linearDamping = 0.00f;
+
+	g_spriteArray[0].ColBodyDef->AddShape(g_spriteArray[0].ColCircleDef);
+	
+	g_spriteArray[0].ColBody = g_world->CreateBody(g_spriteArray[0].ColBodyDef);
 }
 
 //	INIT BOX2D ENGINE FOR LEVEL

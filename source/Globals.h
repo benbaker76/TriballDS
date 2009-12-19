@@ -6,11 +6,15 @@
 
 // Having this struct inside here means it won't make a copy each time you #include it
 
-struct Sprite							// define the elements that construct our 'balls'
+struct Circle						// define the elements that construct our 'balls'
 {
 	b2CircleDef* CircleDef;
 	b2BodyDef* BodyDef;
 	b2Body* Body;
+	
+	b2CircleDef* ColCircleDef;
+	b2BodyDef* ColBodyDef;
+	b2Body* ColBody;
 	
 	float X;
 	float Y;
@@ -203,7 +207,7 @@ enum QuadFlags
 
 // This means that g_playerBall; is defined externally (in Globals.cpp)
 
-extern Sprite g_spriteArray[];
+extern Circle g_spriteArray[];
 extern Vector2 g_scrollPos;
 extern Vector3 g_cameraPos;
 extern Vector3 g_cameraStart;
@@ -219,9 +223,6 @@ extern int iterations;
 
 extern bool g_jumpTrap;
 extern bool g_reJump;
-
-extern Sprite g_colSprite1;
-extern Sprite g_colSprite2;
 
 extern b2AABB* g_worldAABB;
 extern b2World* g_world;
