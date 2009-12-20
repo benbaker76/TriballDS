@@ -33,12 +33,17 @@ void debugText()
 	DrawString(buffer, 10, 21, true);
 	sprintf(buffer, "%d Y ",192 - (int)(position.y * 10));
 	DrawString(buffer, 16, 21, true);
-	sprintf(buffer, "%d X SCRL",(int) (g_cameraPos.X * 100));
-	DrawString(buffer, 0, 4, true);
-	sprintf(buffer, "%d Y SCRL",(int) (g_cameraPos.Y * 100));
-	DrawString(buffer, 0, 5, true);	
 	sprintf(buffer, "%d Rot",(int)(rotationP *100));
 	DrawString(buffer, 16, 20, true);
+	
+	
+	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
+	float aVelocity = g_spriteArray[0].Body->GetAngularVelocity();
+	
+	sprintf(buffer, "L VEL %d / V VEL %d    ",(int)(vel.x * 10), (int)(vel.y * 10));
+	DrawString(buffer, 0, 19, true);
+	sprintf(buffer, "A VEL %d  ",(int)aVelocity);
+	DrawString(buffer, 0, 20, true);	
 }
 
 int main(void)

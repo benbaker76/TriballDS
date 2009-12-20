@@ -80,8 +80,8 @@ void drawGLScene()
 
 	glNormal(NORMAL_PACK(0, inttov10(-1), 0));
 	
-	for(int i=0; i<PLATFORMCOUNT; i++)
-		drawB2Poly(g_platformArray[i]);
+//	for(int i=0; i<PLATFORMCOUNT; i++)
+//		drawB2Poly(g_platformArray[i]);
 	
 	glBegin(GL_QUAD);
 	

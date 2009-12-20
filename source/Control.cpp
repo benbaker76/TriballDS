@@ -20,12 +20,6 @@ void movePlayer()
 	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
 	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
 	float aVelocity = g_spriteArray[0].Body->GetAngularVelocity();
-	
-	char buffer[20];
-	sprintf(buffer, "L VEL %d / V VEL %d    ",(int)(vel.x * 10), (int)(vel.y * 10));
-	DrawString(buffer, 0, 19, true);
-	sprintf(buffer, "A VEL %d  ",(int)aVelocity);
-	DrawString(buffer, 0, 20, true);	
 
 	if (held & KEY_LEFT)
 	{
