@@ -58,9 +58,9 @@ int main(void)
 	initLevel();
 	initPlayer();
 
-	DrawString("HEADRUSH, whatever next?", 0, 0, true);
-	DrawString("WELL!! It fucking moves LOL", 0, 23, true);
-	DrawString("ALPHA 0.00000005 and a boogie", 0, 2, true);
+	DrawString("Triball, whatever next?", 0, 0, true);
+	DrawString("So, Control, hmm...", 0, 4, true);
+	DrawString("ALPHA 0.00000006 and an onion", 0, 2, true);
 	
 	// --------------------------
 	
