@@ -1,0 +1,2 @@
+void updateWorldContacts();
+void updatePlayerContacts();

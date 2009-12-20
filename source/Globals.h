@@ -126,13 +126,14 @@ enum QuadFlags
 #define LEVEL_HEIGHT				512
 	
 	// Defines for the physics effects
-#define 	ACCEL				0.75F			// Horizontal acceleration on forced movement		( *1.5 when turning)
+#define 	ACCEL				0.95F			// Horizontal acceleration on forced movement		( *1.5 when turning)
 #define		MAXACCEL			24.0F			// Maximum horizontal speed
-#define		TURNSPEED			2.5F			// multiple of ACCEL when turning (should only work when on platform)
+#define		TURNSPEED			3.0F			// multiple of ACCEL when turning (should only work when on platform)
 #define		FRICTION			0.2f
 #define 	ROTSPEED			0.2f			// Speed in which to increase rotation when moving on platform
-#define		ROTMAX				8.0f			// Maximum 'controlled' rotation speed
-#define		JUMPSPEED			40.0F			// initial speed of a jump
+#define		ROTMAX				10.0f			// Maximum 'controlled' rotation speed
+#define		JUMPSPEED			45.0F			// initial speed of a jump
+#define		AIRSPIN				3.0f			// multiplyer to add spin to a jumping ball
 
 // THESE ARE NOT USED CURRENTLY
 #define		BOUNCE_X_DEADEN		1.55F			// how much to deaden a horzontal bounce

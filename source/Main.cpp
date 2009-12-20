@@ -22,6 +22,7 @@
 #include "DrawMap.h"
 #include "InitLevel.h"
 #include "InitVideo.h"
+#include "Detect.h"
 
 void debugText()
 {

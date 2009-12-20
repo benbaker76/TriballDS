@@ -8,87 +8,9 @@
 #include "Control.h"
 #include "Detect.h"
 #include "Text.h"
-#include "Easing.h"
 
-void updateWorldContacts()
-{
-	DrawString("               ", 0, 8, true);
 
-	for (b2Contact* contact = g_world->GetContactList(); contact; contact = contact->GetNext())
-	{
-		if (contact->GetManifoldCount() > 0)
-		{
-			// These two bodies have collided
-			
-			//b2Body* body1 = contact->GetShape1()->GetBody();
-			//b2Body* body2 = contact->GetShape2()->GetBody();
-			
-			//fprintf(stderr, "World Collision!");
-			//DrawString("World Collision", 0, 8, true);
-		}
-	}
-}
 
-void updatePlayerContacts()
-{
-	g_spriteArray[0].OnGround = false;
-	
-	DrawString("                                ", 0, 7, true);
-
-	for (b2ContactNode* contactNode = g_spriteArray[0].ColBody->GetContactList(); contactNode; contactNode = contactNode->next)
-	{
-		b2Contact* contact = contactNode->contact;
-		
-		if (contact->GetManifoldCount() > 0)
-		{
-			b2Body* body1 = contact->GetShape1()->GetBody();
-			b2Body* body2 = contact->GetShape2()->GetBody();
-			b2Body* body = NULL;
-			
-			// Which body is the player?
-			if(g_spriteArray[0].ColBody == body1)
-				body = body2;
-			else
-				body = body1;
-			
-			if(g_groundBody == body) // Collide with ground?
-			{
-				DrawString("Player Collided With Ground", 0, 7, true);
-				
-				b2Manifold* manifold = contact->GetManifolds();
-				b2ContactPoint* cp = manifold->points;
-				b2Vec2 position1 = cp->position;
-				b2Vec2 position2 = g_spriteArray[0].ColBody->GetOriginPosition();
-				
-				g_spriteArray[0].OnGround = (position1.y < position2.y);
-			}
-			else // Which platform did it collide with?
-			{
-				for(int i=0; i<PLATFORMCOUNT; i++)
-				{
-					if(g_platformArray[i]->Body == body)
-					{
-						static char buf[256];
-						sprintf(buf, "Player Collided With Platform %d   ", i);
-						DrawString(buf, 0, 7, true);
-						
-						b2Manifold* manifold = contact->GetManifolds();
-						b2ContactPoint* cp = manifold->points;
-						b2Vec2 position1 = cp->position;
-						b2Vec2 position2 = g_spriteArray[0].ColBody->GetOriginPosition();
-						
-						g_spriteArray[0].OnGround = (position1.y < position2.y);
-					}
-				}
-			}
-		}
-	}
-	
-	if(g_spriteArray[0].OnGround)
-		DrawString("Player     On Ground", 0, 8, true);
-	else
-		DrawString("Player Not On Ground", 0, 8, true);
-}
 
 void movePlayer()
 {
@@ -98,15 +20,12 @@ void movePlayer()
 	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
 	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
 	float aVelocity = g_spriteArray[0].Body->GetAngularVelocity();
-//	int contact = getBodyAtPoint(position.x, position.y+ 1.8f, true);//Under
 	
 	char buffer[20];
-	sprintf(buffer, "L VEL %d  ",(int)vel.x);
-	DrawString(buffer, 0, 21, true);
+	sprintf(buffer, "L VEL %d / V VEL %d    ",(int)(vel.x * 10), (int)(vel.y * 10));
+	DrawString(buffer, 0, 19, true);
 	sprintf(buffer, "A VEL %d  ",(int)aVelocity);
 	DrawString(buffer, 0, 20, true);	
-
-//	bool Platform = ?? // We will need a TRUE to tell us we are on a platform to improve to control.
 
 	if (held & KEY_LEFT)
 	{
@@ -131,12 +50,12 @@ void movePlayer()
 			if (aVelocity < ROTMAX ) aVelocity += ROTSPEED;
 			g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
 		}
-		else
+		else	// we are jumping and trying to move left
 		{	
 			vel.x -= ACCEL /2 ;
 			if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
 			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-			if (aVelocity < ROTMAX ) aVelocity += ROTSPEED * 2;
+			if (aVelocity < ROTMAX ) aVelocity += ROTSPEED * AIRSPIN;
 			g_spriteArray[0].Body->SetAngularVelocity( aVelocity );
 
 		}
@@ -170,138 +89,43 @@ void movePlayer()
 			vel.x += ACCEL / 2;
 			if (vel.x > MAXACCEL) vel.x = MAXACCEL;
 			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));	
-			if (aVelocity > -ROTMAX ) aVelocity -= ROTSPEED * 2;
+			if (aVelocity > -ROTMAX ) aVelocity -= ROTSPEED * AIRSPIN;
 			g_spriteArray[0].Body->SetAngularVelocity( aVelocity );		
 		}
 	}
 	else	// we are not moving LEFT or RIGHT
 	{
-	/*	if (aVelocity > 0)
-			aVelocity -= FRICTION / 2;
-		else
-			aVelocity += FRICTION / 2;
-		if (aVelocity > 0 && aVelocity <= FRICTION) aVelocity = 0;
-		else if (aVelocity < 0 && aVelocity >= -FRICTION) aVelocity = 0;
-*/		
-
-		// The problem with doing this is we now will not roll down an incline
-		// How the hell to we work round that?
-
-/*
-		// Settle the linear velocity so that we can stop rolling
-		if (vel.x > 0)
-			vel.x -= FRICTION;
-		else
-			vel.x += FRICTION;
-		if (vel.x > 0 && vel.x <= (FRICTION)) vel.x = 0;
-		else if (vel.x < 0 && vel.x >= -(FRICTION)) vel.x = 0;
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-*/
-	};
-
-
-	// This is going to be tricky?
-
-
-	if ((held & KEY_A || held & KEY_B) && (g_spriteArray[0].OnGround))
-	{
-		g_spriteArray[0].Status = BALLSTATUS_JUMPING;
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
-	//	g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
+		// may need a control in here to stop that cocking left drift?
 	}
-	
+	if (vel.x >= -1.1f && vel.x < 0.75f)			// ******* REMOVE THIS WHEN LEFT DRIFT IS FIXED
+	{
+	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(0.025f, vel.y));
+	}
+	// This is going to be tricky?
 	// if we have landed, reset ball status!
-	/* if(g_spriteArray[0].OnGround == TRUE && g_spriteArray[0].Status == BALLSTATUS_JUMPING && vel.y < 0)
+	if(g_spriteArray[0].OnGround && g_spriteArray[0].Status == BALLSTATUS_JUMPING && vel.y >= -1.00f)
 	{
 		g_spriteArray[0].Status = BALLSTATUS_NORMAL;
 	}
+
+	if ((held & KEY_A || held & KEY_B) && (g_spriteArray[0].Status != BALLSTATUS_JUMPING))
+	{
+		g_spriteArray[0].Status = BALLSTATUS_JUMPING;
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
+		
+	//	g_spriteArray[0].Body->ApplyImpulse(b2Vec2(0, IMPY), b2Vec2(0, 0));
+	}
+
 	// we are currently jumping
 	else if (g_spriteArray[0].Status == BALLSTATUS_JUMPING)
 	{
-	//	vel.y -= 0.1f;
-	//	if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
-//		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-//		g_spriteArray[0].Body->ApplyForce(b2Vec2(0, -5.0f), b2Vec2(0.0f, 0.0f));
-//		if (vel.x > 0)
-//			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(-IMPX, 0), b2Vec2(0, 0));
-//		else
-//			g_spriteArray[0].Body->ApplyImpulse(b2Vec2(IMPX, 0), b2Vec2(0, 0));
-			vel.x = vel.x / 1.02f ;
-			g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-
-
-	} */
+		vel.x = vel.x / 1.02f ;				// we need to shorten our linear velocity horizontally to make it more parabolic
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+	} 
 	
 	// Update collision circle
 	g_spriteArray[0].ColBody->SetCenterPosition(g_spriteArray[0].Body->GetCenterPosition(), g_spriteArray[0].Body->GetRotation());
 }
-
-void updateCamera()
-{
-	char buffer[20];
-	
-	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-	
-	if(g_frameCount++ == 10)
-	{
-		g_frameCount = 0;
-		
-		g_cameraStart.X = g_cameraPos.X;
-		g_cameraStart.Y = g_cameraPos.Y;
-		
-		g_cameraEnd.X = position.x / 10.0f;
-		g_cameraEnd.Y = position.y / 10.0f;
-	}
-	
-	Vector2 cameraDist(abs((g_cameraEnd.X - g_cameraStart.X) * 30), abs((g_cameraEnd.Y - g_cameraStart.Y) * 30));
-
-	sprintf(buffer, "Cam X %d  ",(int)cameraDist.X);
-	DrawString(buffer, 0, 10, true);
-
-	float largest;
-	
-	if (cameraDist.X >= cameraDist.Y)
-		largest = cameraDist.X;
-	else
-		largest = cameraDist.Y;
-	
-	if (largest > 10)
-		largest = 10;
-	
-	g_cameraStart.Z = g_cameraPos.Z;
-	g_cameraEnd.Z = (largest / 10) + 0.1f;
-
-	g_cameraPos.X = Cubic.EaseOut(g_frameCount, g_cameraStart.X, g_cameraEnd.X - g_cameraStart.X, 100);
-	g_cameraPos.Y = Cubic.EaseOut(g_frameCount, g_cameraStart.Y, g_cameraEnd.Y - g_cameraStart.Y, 100);
-	g_cameraPos.Z = Cubic.EaseOut(1, g_cameraStart.Z, g_cameraEnd.Z - g_cameraStart.Z, 100);
-	
-	if(g_cameraPos.X > 1)
-	{
-		g_cameraPos.X = 1;
-	}
-	if(g_cameraPos.X < -1)
-	{
-		g_cameraPos.X = -1;
-	}
-	if(g_cameraPos.Y > 1.8F)
-	{
-		g_cameraPos.Y = 1.8F;
-	}
-	if(g_cameraPos.Y < -1.8F)
-	{
-		g_cameraPos.Y = -1.8F;
-	}
-	
-	sprintf(buffer, "CamPos X:%02.02f Y:%02.02f Z:%02.02f", (float)g_cameraPos.X, (float)g_cameraPos.Y, (float)g_cameraPos.Z);
-	DrawString(buffer, 0, 12, true);
-
-	glLoadIdentity();
-
-	gluLookAt(	g_cameraPos.X, g_cameraPos.Y, g_cameraPos.Z,		//camera possition
-				g_cameraPos.X, g_cameraPos.Y, 0.0,		//look at
-				0.0, 1.0, 0.0);		//up
-}
-
 
 void moveCircle(Circle *pCircle)
 

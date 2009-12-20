@@ -6,25 +6,8 @@
 
 #include "DrawMap.h"
 #include "Globals.h"
-
-
-void drawMap()
-{
-
-// the idea of this piece of code 'will' be that you pass the X,Y coord of player (0-511) and the scroll possition will be updated to match
-// and also the enemies and other sprites will be affected also. This will have to eventually return 2 offsets (0-256) for the scroll (though
-// they could be read from the H/VOFS, so that perhaps we can use our own sprite draw code to only show onscreen sprites? Hmmm
-// Yep - this is a tricky bit for me
-
-// also, scrolling messes up the idea of multiple players on screen (or does it?)
-
-
-	REG_BG1HOFS_SUB = (int)g_scrollPos.X;
-	REG_BG1VOFS_SUB = (int)g_scrollPos.Y;
-	
-//	g_levelX = XCoord;
-//	g_levelY = 320;
-}
+#include "Text.h"
+#include "Easing.h"
 
 void drawQuad(float quadSize, int textureSize, int quadFlags)
 {
@@ -224,4 +207,70 @@ void drawGLScene()
 	glPopMatrix(1);
 	
 	glEnd();
+}
+
+void updateCamera()
+{
+	char buffer[20];
+	
+	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+	
+	if(g_frameCount++ == 10)
+	{
+		g_frameCount = 0;
+		
+		g_cameraStart.X = g_cameraPos.X;
+		g_cameraStart.Y = g_cameraPos.Y;
+		
+		g_cameraEnd.X = position.x / 10.0f;
+		g_cameraEnd.Y = position.y / 10.0f;
+	}
+	
+	Vector2 cameraDist(abs((g_cameraEnd.X - g_cameraStart.X) * 30), abs((g_cameraEnd.Y - g_cameraStart.Y) * 30));
+
+	sprintf(buffer, "Cam X %d  ",(int)cameraDist.X);
+	DrawString(buffer, 0, 10, true);
+
+	float largest;
+	
+	if (cameraDist.X >= cameraDist.Y)
+		largest = cameraDist.X;
+	else
+		largest = cameraDist.Y;
+	
+	if (largest > 10)
+		largest = 10;
+	
+	g_cameraStart.Z = g_cameraPos.Z;
+	g_cameraEnd.Z = (largest / 10) + 0.1f;
+
+	g_cameraPos.X = Cubic.EaseOut(g_frameCount, g_cameraStart.X, g_cameraEnd.X - g_cameraStart.X, 100);
+	g_cameraPos.Y = Cubic.EaseOut(g_frameCount, g_cameraStart.Y, g_cameraEnd.Y - g_cameraStart.Y, 100);
+	g_cameraPos.Z = Cubic.EaseOut(1, g_cameraStart.Z, g_cameraEnd.Z - g_cameraStart.Z, 100);
+	
+	if(g_cameraPos.X > 1)
+	{
+		g_cameraPos.X = 1;
+	}
+	if(g_cameraPos.X < -1)
+	{
+		g_cameraPos.X = -1;
+	}
+	if(g_cameraPos.Y > 1.8F)
+	{
+		g_cameraPos.Y = 1.8F;
+	}
+	if(g_cameraPos.Y < -1.8F)
+	{
+		g_cameraPos.Y = -1.8F;
+	}
+	
+	sprintf(buffer, "CamPos X:%02.02f Y:%02.02f Z:%02.02f", (float)g_cameraPos.X, (float)g_cameraPos.Y, (float)g_cameraPos.Z);
+	DrawString(buffer, 0, 12, true);
+
+	glLoadIdentity();
+
+	gluLookAt(	g_cameraPos.X, g_cameraPos.Y, g_cameraPos.Z,		//camera possition
+				g_cameraPos.X, g_cameraPos.Y, 0.0,		//look at
+				0.0, 1.0, 0.0);		//up
 }

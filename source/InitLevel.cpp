@@ -245,7 +245,7 @@ void initBox2D()
 	g_groundBoxDef->restitution = 0.2F;	
 
 	g_groundBodyDef = new b2BodyDef(); 
-	g_groundBodyDef->position.Set(0.0f, -40.0f);
+	g_groundBodyDef->position.Set(0.0f, -38.0f);
 	g_groundBodyDef->AddShape(g_groundBoxDef);
 
 	g_groundBody = g_world->CreateBody(g_groundBodyDef);
