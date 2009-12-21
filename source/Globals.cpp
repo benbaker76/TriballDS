@@ -49,7 +49,6 @@ float g_Zoom;
 
 int g_levelNum;
 
-int g_levelTextureID[LEVELTEXTURECOUNT];
 const u8* g_levelTexture;
 const u16* g_levelPalette;
 Size g_levelSize;

@@ -214,7 +214,7 @@ enum QuadFlags
 #define		IMPX				0.01F
 #define		IMPY				0.01F
 
-#define		LEVELTEXTURECOUNT		(32 + 1)
+#define		LEVELTEXTURECOUNT		32
 #define		TEXTURECOUNT			(LEVELTEXTURECOUNT + 4)
 
 #define		TEXTURE_BALL01			(LEVELTEXTURECOUNT + 0)

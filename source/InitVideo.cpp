@@ -69,7 +69,7 @@ void loadTextures()
 			
 			if(IntersectRectF(&viewRect, &quadRect))
 			{
-				reloadTexture(textureSlot + 1, textureId);
+				reloadTexture(textureSlot, textureId);
 				
 				if(textureSlot < LEVELTEXTURECOUNT - 1)
 					textureSlot++;
@@ -181,7 +181,7 @@ void loadLevel()
 			int textureId = x + y * g_levelGridSize.Width;
 			
 			if(textureId < LEVELTEXTURECOUNT)
-				loadTexture(textureId + 1, textureId);
+				loadTexture(textureId, textureId);
 		}
 	}
 	
