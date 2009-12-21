@@ -121,11 +121,11 @@ void drawGLScene()
 	{	
 	
 		if (i==0)
-		glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
+			glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
 		else if (i==1)
-		glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
+			glBindTexture(0, NULL); // g_textureIDS[TEXTURE_BOX01]
 		else
-		glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
+			glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
 	
 		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
 		float rotation = g_spriteArray[i].Body->GetRotation();
