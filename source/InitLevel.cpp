@@ -246,22 +246,21 @@ for(int i=2; i<BALLCOUNT; i++)
 		// me playing with a box
 
 		g_spriteArray[1].Action = ACTION_NONE;	
-		g_spriteArray[1].X = 60; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
-		g_spriteArray[1].Y = 30; //(rand() % (LEVEL_HEIGHT-(BALLSIZE * 2))) + BALLSIZE;
+		g_spriteArray[1].X = 65; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
+		g_spriteArray[1].Y = 25; //(rand() % (LEVEL_HEIGHT-(BALLSIZE * 2))) + BALLSIZE;
 		g_spriteArray[1].Type = BALLTYPE_EVILBALL;
 		
 		g_spriteArray[1].PolyDef = new b2PolyDef();	
 		g_spriteArray[1].BodyDef =  new b2BodyDef();
-		// we have discovered that the point of origin is the centre of the object (ie. rotational point)
-		// it stops at silly angles and when jumped on, drops into the platform
+		// when jumped on, drops into the platform, bugger!
 		g_spriteArray[1].PolyDef->vertexCount = 4;
 		g_spriteArray[1].PolyDef->vertices[0].Set( -1.6f, 1.6f);
 		g_spriteArray[1].PolyDef->vertices[1].Set( -1.6f, -1.6f);
 		g_spriteArray[1].PolyDef->vertices[2].Set( 1.6f,-1.6f);
 		g_spriteArray[1].PolyDef->vertices[3].Set( 1.6f, 1.6f);		
-		g_spriteArray[1].PolyDef->density = 0.5F; 
-		g_spriteArray[1].PolyDef->friction = 0.1F; 
-		g_spriteArray[1].PolyDef->restitution = 0.5F; 
+		g_spriteArray[1].PolyDef->density = 0.1F; 
+		g_spriteArray[1].PolyDef->friction = 0.05F; 
+		g_spriteArray[1].PolyDef->restitution = 0.7F; 
 
 		g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
 		g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].PolyDef);
