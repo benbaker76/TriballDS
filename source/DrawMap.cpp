@@ -115,23 +115,18 @@ void drawGLScene()
 	
 	glBegin(GL_QUAD);
 	
-	glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
+
 	glColorTable(GL_RGB256, g_palAddress[0]);
-
-	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-	float rotation = g_spriteArray[0].Body->GetRotation();
-
-	glPushMatrix();
-	glTranslatef(position.x * SCALE, position.y * SCALE, -1 + g_texelSize.Width);
-	//glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
-	glRotatef(degreesToAngle(rotation), 0.0f, 0.0f, 1.0f);
-	drawQuad(0.4f, 32, QUADFLAGS_NONE);
-	glPopMatrix(1);
-
-	glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
-	
-	for(int i=1; i<BALLCOUNT; i++)
+	for(int i=0; i<BALLCOUNT; i++)
 	{	
+	
+		if (i==0)
+		glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
+		else if (i==1)
+		glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
+		else
+		glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
+	
 		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
 		float rotation = g_spriteArray[i].Body->GetRotation();
 		

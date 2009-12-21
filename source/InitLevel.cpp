@@ -40,7 +40,7 @@ void initLevel()
 	g_cameraEnd.Y = 0;
 	g_cameraEnd.Z = 1.0f;
 	
-	g_levelNum = 1;
+	g_levelNum = 0;
 	
 	loadLevel();
 	
@@ -179,7 +179,7 @@ void initLevel()
 // INIT PLAYER AND RANDOM BALLS (FOR NOW)
 void initPlayer()
 {
-for(int i=1; i<BALLCOUNT; i++)
+for(int i=2; i<BALLCOUNT; i++)
 	{
 		g_spriteArray[i].Action = ACTION_NONE;	
 		g_spriteArray[i].X = (rand() % 30)+200; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
@@ -242,7 +242,37 @@ for(int i=1; i<BALLCOUNT; i++)
 	g_spriteArray[0].ColBodyDef->AddShape(g_spriteArray[0].ColCircleDef);
 	
 	g_spriteArray[0].ColBody = g_world->CreateBody(g_spriteArray[0].ColBodyDef);
+
+		// me playing with a box
+
+		g_spriteArray[1].Action = ACTION_NONE;	
+		g_spriteArray[1].X = 60; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
+		g_spriteArray[1].Y = 30; //(rand() % (LEVEL_HEIGHT-(BALLSIZE * 2))) + BALLSIZE;
+		g_spriteArray[1].Type = BALLTYPE_EVILBALL;
+		
+		g_spriteArray[1].PolyDef = new b2PolyDef();	
+		g_spriteArray[1].BodyDef =  new b2BodyDef();
+		
+		g_spriteArray[1].PolyDef->vertexCount = 4;
+		g_spriteArray[1].PolyDef->vertices[0].Set( -1.6f, 1.6f);
+		g_spriteArray[1].PolyDef->vertices[1].Set( -1.6f, -1.6f);
+		g_spriteArray[1].PolyDef->vertices[2].Set( 1.6f,-1.6f);
+		g_spriteArray[1].PolyDef->vertices[3].Set( 1.6f, 1.6f);		
+		g_spriteArray[1].PolyDef->density = 0.1F; 
+		g_spriteArray[1].PolyDef->friction = 0.01F; 
+		g_spriteArray[1].PolyDef->restitution = 0.9F; 
+
+		g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
+		g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].PolyDef);
+		
+		g_spriteArray[1].Body = g_world->CreateBody(g_spriteArray[1].BodyDef);
+
+
+
 }
+
+
+
 
 //	INIT BOX2D ENGINE FOR LEVEL
 void initBox2D()

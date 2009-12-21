@@ -14,6 +14,7 @@ struct Circle						// define the elements that construct our 'balls'
 	b2CircleDef* CircleDef;
 	b2BodyDef* BodyDef;
 	b2Body* Body;
+	b2PolyDef* PolyDef;
 	
 	b2CircleDef* ColCircleDef;
 	b2BodyDef* ColBodyDef;
@@ -221,6 +222,8 @@ enum QuadFlags
 #define		TEXTURE_BALL02			(LEVELTEXTURECOUNT + 1)
 #define		TEXTURE_BALL03			(LEVELTEXTURECOUNT + 2)
 #define		TEXTURE_BALL04			(LEVELTEXTURECOUNT + 3)
+
+#define		TEXTURE_BOX01			(LEVELTEXTURECOUNT + 4)
 
 #define		PLATFORMCOUNT			6
 

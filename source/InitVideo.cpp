@@ -11,6 +11,7 @@
 #include "level02_pal_bin.h"
 #include "ball_tex_bin.h"
 #include "ball_pal_bin.h"
+#include "box_tex_bin.h"
 
 #include "font.h"
 #include "titlescreen.h"
@@ -231,6 +232,9 @@ void initVideo3D()
 	
 	glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)ball_tex_bin + 1024 * 3);
+
+	glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
+	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)box_tex_bin + 1024 * 3);
 	
 	g_palAddress[0] = gluTexLoadPal((u16*)ball_pal_bin, 256, GL_RGB256);
 	
