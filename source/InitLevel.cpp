@@ -54,7 +54,7 @@ void initLevel()
 	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
 	
 	g_groundBoxDef = new b2BoxDef();
-	g_groundBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 0.5f);
+	g_groundBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 1.0f);
 	g_groundBoxDef->density = 0.0f;
 	g_groundBoxDef->friction = 1.0f;
 	g_groundBoxDef->restitution = 0.2F;	
@@ -252,15 +252,16 @@ for(int i=2; i<BALLCOUNT; i++)
 		
 		g_spriteArray[1].PolyDef = new b2PolyDef();	
 		g_spriteArray[1].BodyDef =  new b2BodyDef();
-		
+		// we have discovered that the point of origin is the centre of the object (ie. rotational point)
+		// it stops at silly angles and when jumped on, drops into the platform
 		g_spriteArray[1].PolyDef->vertexCount = 4;
 		g_spriteArray[1].PolyDef->vertices[0].Set( -1.6f, 1.6f);
 		g_spriteArray[1].PolyDef->vertices[1].Set( -1.6f, -1.6f);
 		g_spriteArray[1].PolyDef->vertices[2].Set( 1.6f,-1.6f);
 		g_spriteArray[1].PolyDef->vertices[3].Set( 1.6f, 1.6f);		
-		g_spriteArray[1].PolyDef->density = 0.1F; 
-		g_spriteArray[1].PolyDef->friction = 0.01F; 
-		g_spriteArray[1].PolyDef->restitution = 0.9F; 
+		g_spriteArray[1].PolyDef->density = 0.5F; 
+		g_spriteArray[1].PolyDef->friction = 0.1F; 
+		g_spriteArray[1].PolyDef->restitution = 0.5F; 
 
 		g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
 		g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].PolyDef);
