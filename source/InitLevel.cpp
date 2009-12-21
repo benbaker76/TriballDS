@@ -16,7 +16,7 @@
 #include "Control.h"
 #include "Text.h"
 #include "DrawMap.h"
-
+#include "InitVideo.h"
 
 void initLevel()
 {
@@ -26,7 +26,7 @@ void initLevel()
 	
 	// box2d update vars
 	timeStep = 1.0f / 60.0f;
-	iterations = 2;
+	iterations = 1;
 	
 	g_cameraPos.X = 0;
 	g_cameraPos.Y = 0;
@@ -40,21 +40,58 @@ void initLevel()
 	g_cameraEnd.Y = 0;
 	g_cameraEnd.Z = 1.0f;
 	
+	g_levelNum = 1;
+	
+	loadLevel();
+	
+	g_worldAABB = new b2AABB();
+	g_worldAABB->minVertex.Set(-(g_levelGridSize.Width * 10.0F), -(g_levelGridSize.Height * 10.0F));
+	g_worldAABB->maxVertex.Set(g_levelGridSize.Width * 10.0F, g_levelGridSize.Height * 10.0F);
+	g_gravity = new b2Vec2(0.0f, -55.0f);
+	
+	bool doSleep = true;
+	
+	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
+	
+	g_groundBoxDef = new b2BoxDef();
+	g_groundBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 0.5f);
+	g_groundBoxDef->density = 0.0f;
+	g_groundBoxDef->friction = 1.0f;
+	g_groundBoxDef->restitution = 0.2F;	
+
+	g_groundBodyDef = new b2BodyDef(); 
+	g_groundBodyDef->position.Set(0.0f, -(g_levelGridSize.Height * 10.0f - 0.5F));
+	g_groundBodyDef->AddShape(g_groundBoxDef);
+
+	g_groundBody = g_world->CreateBody(g_groundBodyDef);
+	
+	b2BoxDef* ceilBoxDef = new b2BoxDef();
+	ceilBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 0.5f);
+	ceilBoxDef->density = 0.0f;
+	ceilBoxDef->friction = 1.0f;
+	ceilBoxDef->restitution = 0.2F;		
+	
+	b2BodyDef* ceilBodyDef = new b2BodyDef(); 
+	ceilBodyDef->position.Set(0.0f, g_levelGridSize.Height * 10.0f);
+	ceilBodyDef->AddShape(ceilBoxDef);
+
+	g_world->CreateBody(ceilBodyDef);
+	
 	// test defines for now! ( -40 to 40 for some reason??)
 	
 	b2BoxDef* wallBoxDef = new b2BoxDef();
-	wallBoxDef->extents.Set(1.0f, 40.0f);
+	wallBoxDef->extents.Set(1.0f, g_levelGridSize.Height * 10.0f);
 	wallBoxDef->density = 0.0f;
 	wallBoxDef->friction = 1.0f;
 	wallBoxDef->restitution = 0.8F;
 	
 	b2BodyDef* wallBodyDef = new b2BodyDef();
-	wallBodyDef->position.Set(-40.8f, 0.0f);
+	wallBodyDef->position.Set(-(g_levelGridSize.Width * 10.0f), 0.0f);
 	wallBodyDef->AddShape(wallBoxDef);
 	g_world->CreateBody(wallBodyDef);	
 	
 	wallBodyDef = new b2BodyDef();
-	wallBodyDef->position.Set(40.8f, 0.0f);
+	wallBodyDef->position.Set(g_levelGridSize.Width * 10.0f, 0.0f);
 	wallBodyDef->AddShape(wallBoxDef);
 	g_world->CreateBody(wallBodyDef);
 	
@@ -210,38 +247,5 @@ for(int i=1; i<BALLCOUNT; i++)
 //	INIT BOX2D ENGINE FOR LEVEL
 void initBox2D()
 {
-	g_worldAABB = new b2AABB();
-//	g_worldAABB->minVertex.Set(SCREEN_WIDTH * -SCALE, SCREEN_HEIGHT * -SCALE);
-//	g_worldAABB->maxVertex.Set(SCREEN_WIDTH * SCALE, SCREEN_HEIGHT * SCALE);
-	g_worldAABB->minVertex.Set(-40, -40);
-	g_worldAABB->maxVertex.Set(40,40);	
-	g_gravity = new b2Vec2(0.0f, -55.0f);
-	
-	bool doSleep = true;
-	
-	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
-	
-	g_groundBoxDef = new b2BoxDef();
-	g_groundBoxDef->extents.Set(40.0f, 0.5f);
-	g_groundBoxDef->density = 0.0f;
-	g_groundBoxDef->friction = 1.0f;
-	g_groundBoxDef->restitution = 0.2F;	
 
-	g_groundBodyDef = new b2BodyDef(); 
-	g_groundBodyDef->position.Set(0.0f, -38.0f);
-	g_groundBodyDef->AddShape(g_groundBoxDef);
-
-	g_groundBody = g_world->CreateBody(g_groundBodyDef);
-	
-	b2BoxDef* ceilBoxDef = new b2BoxDef();
-	ceilBoxDef->extents.Set(40.0f, 0.5f);
-	ceilBoxDef->density = 0.0f;
-	ceilBoxDef->friction = 1.0f;
-	ceilBoxDef->restitution = 0.2F;		
-	
-	b2BodyDef* ceilBodyDef = new b2BodyDef(); 
-	ceilBodyDef->position.Set(0.0f, 40.0f);
-	ceilBodyDef->AddShape(ceilBoxDef);
-
-	g_world->CreateBody(ceilBodyDef);
 }

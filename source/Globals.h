@@ -4,6 +4,9 @@
 #include <nds.h>
 #include "Box2D.h"
 
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+
 // Having this struct inside here means it won't make a copy each time you #include it
 
 struct Circle						// define the elements that construct our 'balls'
@@ -33,6 +36,26 @@ struct Poly
 	b2BodyDef* BodyDef;
 	b2Body* Body;
 };
+
+/* struct Rect
+{
+	Rect() : Left(0), Top(0), Right(0), Bottom(0) {}
+	Rect(int left, int top, int right, int bottom) : Left(left), Top(top), Right(right), Bottom(bottom) {}
+	int Left;
+	int Top;
+	int Right;
+	int Bottom;
+};
+
+struct RectF
+{
+	RectF() : Left(0), Top(0), Right(0), Bottom(0) {}
+	RectF(float left, float top, float right, float bottom) : Left(left), Top(top), Right(right), Bottom(bottom) {}
+	float Left;
+	float Top;
+	float Right;
+	float Bottom;
+}; */
 
 struct Rect
 {
@@ -116,8 +139,8 @@ enum QuadFlags
 #define BG0_MAP_BASE				31
 #define BG0_MAP_BASE_SUB			31
 
-#define BG0_TILE_BASE				0
-#define BG0_TILE_BASE_SUB			1
+#define BG0_TILE_BASE				7
+#define BG0_TILE_BASE_SUB			7
 
 #define SCREEN_WIDTH				256
 #define SCREEN_HEIGHT				192
@@ -191,16 +214,13 @@ enum QuadFlags
 #define		IMPX				0.01F
 #define		IMPY				0.01F
 
-#define		TEXTURECOUNT			8
+#define		LEVELTEXTURECOUNT		(32 + 1)
+#define		TEXTURECOUNT			(LEVELTEXTURECOUNT + 4)
 
-#define		TEXTURE_BALL01			0
-#define		TEXTURE_BALL02			1
-#define		TEXTURE_BALL03			2
-#define		TEXTURE_BALL04			3
-#define		TEXTURE_LEVEL01_1		4
-#define		TEXTURE_LEVEL01_2		5
-#define		TEXTURE_LEVEL01_3		6
-#define		TEXTURE_LEVEL01_4		7
+#define		TEXTURE_BALL01			(LEVELTEXTURECOUNT + 0)
+#define		TEXTURE_BALL02			(LEVELTEXTURECOUNT + 1)
+#define		TEXTURE_BALL03			(LEVELTEXTURECOUNT + 2)
+#define		TEXTURE_BALL04			(LEVELTEXTURECOUNT + 3)
 
 #define		PLATFORMCOUNT			6
 
@@ -237,4 +257,18 @@ extern Poly* g_platformArray[];
 
 extern int g_textureIDS[];
 extern int g_palAddress[];
+
+extern int g_levelNum;
+
+extern int g_levelTextureID[];
+extern const u8* g_levelTexture;
+extern const u16* g_levelPalette;
+extern Size g_levelSize;
+extern int g_levelTextureSize;
+extern GL_TEXTURE_SIZE_ENUM g_glTextureSize;
+extern Size g_levelGridSize;
+extern SizeF g_levelQuadSize;
+
+bool IntersectRect(Rect* pRectA, Rect* pRectB);
+bool IntersectRectF(RectF* pRectA, RectF* pRectB);
 

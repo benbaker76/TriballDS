@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Globals.h"
 
 // Here are the real global values. Place a "g_" before so you know you're referencing a global
@@ -14,6 +15,8 @@ Vector3 g_cameraStart;
 Vector3 g_cameraEnd;
 
 SizeF g_texelSize;
+
+RectF g_textureRect;
 
 int g_frameCount;
 
@@ -44,6 +47,36 @@ int g_palAddress[2];
 
 float g_Zoom;
 
+int g_levelNum;
 
+int g_levelTextureID[LEVELTEXTURECOUNT];
+const u8* g_levelTexture;
+const u16* g_levelPalette;
+Size g_levelSize;
+int g_levelTextureSize;
+GL_TEXTURE_SIZE_ENUM g_glTextureSize;
+Size g_levelGridSize;
+SizeF g_levelQuadSize;
 
-//
+bool IntersectRectF(RectF* pRectA, RectF* pRectB)
+{
+	if(pRectA == NULL || pRectB == NULL)
+		return false;
+		
+	float intersectLeft = max(pRectA->X, pRectB->X);
+	float intersectTop = max(pRectA->Y, pRectB->Y);
+	float intersectRight = min(pRectA->X + pRectA->Width, pRectB->X + pRectB->Width);
+	float intersectBottom = min(pRectA->Y + pRectA->Height, pRectB->Y + pRectB->Height);
+	
+	return (intersectRight > intersectLeft && intersectBottom > intersectTop);
+	
+	//return ((pRectA->X < pRectB->X + pRectB->Width) && (pRectA->X + pRectA->Width > pRectB->X) && (pRectA->Y < pRectB->Y + pRectB->Height) && (pRectA->Y + pRectA->Height > pRectB->Y));
+}
+
+/* bool IntersectRectF(RectF* pRectA, RectF* pRectB)
+{
+	if(pRectA == NULL || pRectB == NULL)
+		return false;
+
+	return ((pRectA->Left < pRectB->Right) && (pRectA->Right> pRectB->Left) && (pRectA->Top < pRectB->Bottom) && (pRectA->Bottom > pRectB->Top));
+} */

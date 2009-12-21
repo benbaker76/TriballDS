@@ -4,6 +4,9 @@
 #include <stdlib.h>				// Define's some standard "C" functions
 #include <unistd.h>
 
+#include "level01_tex_bin.h"
+#include "level01_pal_bin.h"
+#include "InitVideo.h"
 #include "DrawMap.h"
 #include "Globals.h"
 #include "Text.h"
@@ -53,6 +56,33 @@ void drawB2Poly(Poly* poly)
 	glEnd();
 }
 
+void drawMap()
+{
+	glColorTable(GL_RGB256, g_palAddress[1]);
+	
+	for(int y=0; y<g_levelGridSize.Height; y++)
+	{
+		for(int x=0; x<g_levelGridSize.Width; x++)
+		{
+			int textureId = x + y * g_levelGridSize.Width;
+			
+			glBindTexture(0, g_textureIDS[textureId]);
+					
+			static RectF quadRect;
+			
+			getLevelQuad(x, y, &quadRect);
+			
+			glPushMatrix();
+			glTranslatef(quadRect.X, quadRect.Y, -1);
+			//glTranslatef(quadRect.Left, quadRect.Top, -1);
+			glRotatef(0, 0.0f, 0.0f, 0.0f);
+			drawQuad(quadRect.Width, g_levelTextureSize, QUADFLAGS_NONE);
+			//drawQuad(quadRect.Right - quadRect.Left, g_levelTextureSize, QUADFLAGS_NONE);
+			glPopMatrix(1);
+		}
+	}
+}
+
 void drawGLScene()
 {
 	//move it away from the camera
@@ -80,15 +110,17 @@ void drawGLScene()
 
 	glNormal(NORMAL_PACK(0, inttov10(-1), 0));
 	
-//	for(int i=0; i<PLATFORMCOUNT; i++)
-//		drawB2Poly(g_platformArray[i]);
+	//for(int i=0; i<PLATFORMCOUNT; i++)
+	//	drawB2Poly(g_platformArray[i]);
 	
 	glBegin(GL_QUAD);
 	
-	glBindTexture(TEXTURE_BALL01, g_textureIDS[TEXTURE_BALL04]);
+	glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
 	glColorTable(GL_RGB256, g_palAddress[0]);
+
 	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
 	float rotation = g_spriteArray[0].Body->GetRotation();
+
 	glPushMatrix();
 	glTranslatef(position.x * SCALE, position.y * SCALE, -1 + g_texelSize.Width);
 	//glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
@@ -96,9 +128,8 @@ void drawGLScene()
 	drawQuad(0.4f, 32, QUADFLAGS_NONE);
 	glPopMatrix(1);
 
-
-
-	glBindTexture(TEXTURE_BALL01, g_textureIDS[TEXTURE_BALL01]);	
+	glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
+	
 	for(int i=1; i<BALLCOUNT; i++)
 	{	
 		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
@@ -112,110 +143,22 @@ void drawGLScene()
 		glPopMatrix(1);
 	}
 	
-	glBindTexture(TEXTURE_LEVEL01_1, g_textureIDS[TEXTURE_LEVEL01_1]);
-	glColorTable(GL_RGB256, g_palAddress[1]);
+	drawMap();
 	
-	/* glPushMatrix();
-	glTranslatef(-6.0f, 6.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
-	glPopMatrix(1);
+	/* static RectF viewRect;
 	
-	glPushMatrix();
-	glTranslatef(-6.0f, 2.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_HFLIP);
-	glPopMatrix(1);
+	viewRect.X = g_cameraPos.X;
+	viewRect.Y = g_cameraPos.Y;
+	viewRect.Width = 4;
+	viewRect.Height = 4;
+	
+	glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
+	glColorTable(GL_RGB256, g_palAddress[0]);
 	
 	glPushMatrix();
-	glTranslatef(-2.0f, 6.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
+	glTranslatef(viewRect.X, viewRect.Y, -1 + g_texelSize.Width);
+	drawQuad(viewRect.Width, 32, QUADFLAGS_NONE);
 	glPopMatrix(1); */
-	
-	glPushMatrix();
-	glTranslatef(-2.0f, 2.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_NONE);
-	glPopMatrix(1);
-	
-	glBindTexture(TEXTURE_LEVEL01_2, g_textureIDS[TEXTURE_LEVEL01_2]);
-	
-	/* glPushMatrix();
-	glTranslatef(6.0f, 6.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
-	glPopMatrix(1);
-	
-	glPushMatrix();
-	glTranslatef(6.0f, 2.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_HFLIP);
-	glPopMatrix(1);
-	
-	glPushMatrix();
-	glTranslatef(2.0f, 6.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
-	glPopMatrix(1); */
-	
-	glPushMatrix();
-	glTranslatef(2.0f, 2.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_NONE);
-	glPopMatrix(1);
-	
-	glBindTexture(TEXTURE_LEVEL01_3, g_textureIDS[TEXTURE_LEVEL01_3]);
-	
-	/* glPushMatrix();
-	glTranslatef(-6.0f, -6.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
-	glPopMatrix(1);
-	
-	glPushMatrix();
-	glTranslatef(-6.0f, -2.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_HFLIP);
-	glPopMatrix(1);
-	
-	glPushMatrix();
-	glTranslatef(-2.0f, -6.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
-	glPopMatrix(1); */
-	
-	glPushMatrix();
-	glTranslatef(-2.0f, -2.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_NONE);
-	glPopMatrix(1);
-	
-	glBindTexture(TEXTURE_LEVEL01_4, g_textureIDS[TEXTURE_LEVEL01_4]);
-	
-	/* glPushMatrix();
-	glTranslatef(6.0f, -6.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_HFLIP | QUADFLAGS_VFLIP);
-	glPopMatrix(1);
-	
-	glPushMatrix();
-	glTranslatef(6.0f, -2.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_HFLIP);
-	glPopMatrix(1);
-	
-	glPushMatrix();
-	glTranslatef(2.0f, -6.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_VFLIP);
-	glPopMatrix(1); */
-	
-	glPushMatrix();
-	glTranslatef(2.0f, -2.0f, -1);
-	glRotatef(0, 0.0f, 0.0f, 0.0f);
-	drawQuad(4.0f, 256, QUADFLAGS_NONE);
-	glPopMatrix(1);
 	
 	glEnd();
 }
@@ -259,27 +202,31 @@ void updateCamera()
 	g_cameraPos.Y = Cubic.EaseOut(g_frameCount, g_cameraStart.Y, g_cameraEnd.Y - g_cameraStart.Y, 100);
 	g_cameraPos.Z = Cubic.EaseOut(1, g_cameraStart.Z, g_cameraEnd.Z - g_cameraStart.Z, 100);
 	
-	if(g_cameraPos.X > 1)
+	if(g_cameraPos.X > (g_levelGridSize.Width / 2 + 1.0F))
 	{
-		g_cameraPos.X = 1;
+		g_cameraPos.X = (g_levelGridSize.Width / 2 + 1.0F);
 	}
-	if(g_cameraPos.X < -1)
+	if(g_cameraPos.X < -(g_levelGridSize.Width / 2 + 1.0F))
 	{
-		g_cameraPos.X = -1;
+		g_cameraPos.X = -(g_levelGridSize.Width / 2 + 1.0F);
 	}
-	if(g_cameraPos.Y > 1.8F)
+	if(g_cameraPos.Y > (g_levelGridSize.Height / 2 - 0.2F)) // 1.8
 	{
-		g_cameraPos.Y = 1.8F;
+		g_cameraPos.Y = (g_levelGridSize.Height / 2 - 0.2F);
 	}
-	if(g_cameraPos.Y < -1.8F)
+	if(g_cameraPos.Y < -(g_levelGridSize.Height / 2 - 0.2F))
 	{
-		g_cameraPos.Y = -1.8F;
+		g_cameraPos.Y = -(g_levelGridSize.Height / 2 - 0.2F);
 	}
 	
 	sprintf(buffer, "CamPos X:%02.02f Y:%02.02f Z:%02.02f", (float)g_cameraPos.X, (float)g_cameraPos.Y, (float)g_cameraPos.Z);
 	DrawString(buffer, 0, 12, true);
 
 	glLoadIdentity();
+	
+	//gluLookAt(	0, 0,8,		//camera possition
+	//			0, 0, 0.0,		//look at
+	//			0.0, 1.0, 0.0);		//up
 
 	gluLookAt(	g_cameraPos.X, g_cameraPos.Y, g_cameraPos.Z,		//camera possition
 				g_cameraPos.X, g_cameraPos.Y, 0.0,		//look at

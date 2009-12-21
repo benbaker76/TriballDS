@@ -90,7 +90,7 @@ int main(void)
 		// Wait for vblank
 		swiWaitForVBlank();
 		
-		
+		loadTextures();
 	}
 
 	// Will never reach here
