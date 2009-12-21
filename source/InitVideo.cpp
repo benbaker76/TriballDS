@@ -44,6 +44,25 @@ void getLevelQuad(int x, int y, RectF* rect)
 	rect->Height = g_levelQuadSize.Height;
 }
 
+int getTextureSlot(int quadId)
+{
+	int textureId = g_textureIDS[g_levelQuadID[quadId]];
+	uint32* addr = (uint32*) glGetTexturePointer(textureId);
+	
+	if(!addr)
+		return -1;
+
+	for(int i=0; i<LEVELTEXTURECOUNT; i++)
+	{
+		uint32* texPtr = (uint32*) glGetTexturePointer(g_textureIDS[g_levelQuadID[i]]);
+		
+		if(addr == texPtr)
+			return i;
+	}
+	
+	return -1;
+}
+
 void loadTextures()
 {
 	int textureSlot = 0;
@@ -52,7 +71,7 @@ void loadTextures()
 	{
 		for(int x=0; x<g_levelGridSize.Width; x++)
 		{
-			int textureId = x + y * g_levelGridSize.Width;
+			int quadId = x + y * g_levelGridSize.Width;
 			static RectF viewRect;
 			static RectF quadRect;
 			
@@ -62,18 +81,42 @@ void loadTextures()
 			viewRect.Bottom = viewRect.Top + 2; */
 			
 			viewRect.X = -2 + g_cameraPos.X;
-			viewRect.Y = -2 + g_cameraPos.Y;
-			viewRect.Width = 4;
+			viewRect.Y = -1 + g_cameraPos.Y;
+			viewRect.Width = 6;
 			viewRect.Height = 4;
+			
+			/* viewRect.X = g_cameraPos.X;
+			viewRect.Y = -1 + g_cameraPos.Y;
+			viewRect.Width = 4;
+			viewRect.Height = 4; */
 			
 			getLevelQuad(x, y, &quadRect);
 			
 			if(IntersectRectF(&viewRect, &quadRect))
 			{
-				reloadTexture(textureSlot, textureId);
+				//if(!g_levelQuadLoaded[quadId])
+				//{
 				
-				if(textureSlot < LEVELTEXTURECOUNT - 1)
-					textureSlot++;
+				/* int oldTextureSlot = getTextureSlot(quadId);
+				
+				if(oldTextureSlot != -1)
+				{
+					g_levelQuadID[quadId] = oldTextureSlot;
+					
+					continue;
+				} */
+				
+					//g_levelQuadLoaded[quadId] = true;
+					
+					reloadTexture(textureSlot, quadId);
+					
+					if(textureSlot < LEVELTEXTURECOUNT - 1)
+						textureSlot++;
+				//}
+			}
+			else
+			{
+				g_levelQuadID[quadId] = -1;
 			}
 		}
 	}
@@ -83,27 +126,31 @@ void loadTextures()
 	//fprintf(stderr, buf);
 }
 
-int loadTexture(int textureSlot, int textureId)
+int loadTexture(int textureSlot, int quadId)
 {
-	const uint8* texture = g_levelTexture + g_levelTextureSize * g_levelTextureSize * textureId;
+	g_levelQuadID[quadId] = textureSlot;
+	int textureId = g_textureIDS[g_levelQuadID[quadId]];
+	//m_levelTextureLoaded[textureSlot] = quadId;
 	
-	g_textureIDS[textureId] = textureSlot;
+	const uint8* texture = g_levelTexture + g_levelTextureSize * g_levelTextureSize * quadId;
 	
-	glBindTexture(0, textureSlot);
+	glBindTexture(0, textureId);
 	return glTexImage2D(0, 0, GL_RGB256, g_glTextureSize, g_glTextureSize, 0, TEXGEN_TEXCOORD, texture);
 }
 
-int reloadTexture(int textureSlot, int textureId)
+int reloadTexture(int textureSlot, int quadId)
 {
-	uint32 size = 1 << (g_glTextureSize + g_glTextureSize + 6);
-	uint32* addr = (uint32*) glGetTexturePointer(textureSlot);
-	uint32 vramTemp;
-	const uint8* texture = g_levelTexture + g_levelTextureSize * g_levelTextureSize * textureId;
+	g_levelQuadID[quadId] = textureSlot;
+	int textureId = g_textureIDS[g_levelQuadID[quadId]];
+	//m_levelTextureLoaded[textureSlot] = quadId;
 	
-	g_textureIDS[textureId] = textureSlot;
+	uint32 size = 1 << (g_glTextureSize + g_glTextureSize + 6);
+	uint32* addr = (uint32*) glGetTexturePointer(textureId);
+	uint32 vramTemp;
+	const uint8* texture = g_levelTexture + g_levelTextureSize * g_levelTextureSize * quadId;
    
 	if(!addr)
-		return loadTexture(textureSlot, textureId);
+		return loadTexture(textureSlot, quadId);
 
 	// unlock texture memory
 	vramTemp = vramSetMainBanks(VRAM_A_LCD, VRAM_B_LCD, VRAM_C_LCD, VRAM_D_LCD);
@@ -116,7 +163,6 @@ int reloadTexture(int textureSlot, int textureId)
 	
 	return 1;
 }
-
 
 void loadLevel()
 {
@@ -175,13 +221,13 @@ void loadLevel()
 	g_levelGridSize.Width = g_levelSize.Width / g_levelTextureSize;
 	g_levelGridSize.Height = g_levelSize.Height / g_levelTextureSize;
 	
-	for(int y=0; y<1; y++)
+	for(int y=0; y<g_levelGridSize.Height; y++)
 	{
-		for(int x=0; x<1; x++)
+		for(int x=0; x<g_levelGridSize.Width; x++)
 		{
 			int textureId = x + y * g_levelGridSize.Width;
 			
-			if(textureId < LEVELTEXTURECOUNT)
+			//if(textureId < LEVELTEXTURECOUNT)
 				loadTexture(textureId, textureId);
 		}
 	}

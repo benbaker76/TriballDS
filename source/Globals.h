@@ -215,8 +215,9 @@ enum QuadFlags
 #define		IMPX				0.01F
 #define		IMPY				0.01F
 
-#define		LEVELTEXTURECOUNT		32
-#define		TEXTURECOUNT			(LEVELTEXTURECOUNT + 4)
+#define		LEVELTEXTURECOUNT		(4 * 4)
+#define		LEVELQUADCOUNT			(4 * 4)
+#define		TEXTURECOUNT			(LEVELTEXTURECOUNT + 5)
 
 #define		TEXTURE_BALL01			(LEVELTEXTURECOUNT + 0)
 #define		TEXTURE_BALL02			(LEVELTEXTURECOUNT + 1)
@@ -263,7 +264,10 @@ extern int g_palAddress[];
 
 extern int g_levelNum;
 
-extern int g_levelTextureID[];
+//extern int m_levelTextureLoaded[];
+
+extern int g_levelQuadID[];
+//extern bool g_levelQuadLoaded[];
 extern const u8* g_levelTexture;
 extern const u16* g_levelPalette;
 extern Size g_levelSize;
