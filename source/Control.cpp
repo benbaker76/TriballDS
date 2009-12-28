@@ -87,21 +87,43 @@ void movePlayer()
 			g_spriteArray[0].Body->SetAngularVelocity( aVelocity );		
 		}
 	}
-	else	// we are not moving LEFT or RIGHT
+	else if (g_spriteArray[0].Status != BALLSTATUS_JUMPING)	// we are not moving LEFT or RIGHT, we need to stop
 	{
+		float oldvel = vel.x;
+		if (vel.x > 0.0f)
+			{
+			vel.x -= FRICTION / 2;
+			if (oldvel > 0 && vel.x < 0)
+				vel.x = 0;
+			//	g_spriteArray[0].Body->SetAngularVelocity( 0);
+			
+			}
+		else
+			{
+			vel.x += FRICTION / 2;
+			if (oldvel < 0 && vel.x > 0)
+				vel.x = 0;
+			//	g_spriteArray[0].Body->SetAngularVelocity( 0 );
+			}
+		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		
+
 		// may need a control in here to stop that cocking left drift?
 	}
-	if (vel.x >= -1.1f && vel.x < 0.75f)			// ******* REMOVE THIS WHEN LEFT DRIFT IS FIXED
-	{
-	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(0.025f, vel.y));
-	}
-	// This is going to be tricky?
+//	if (vel.x >= -1.1f && vel.x < 0.75f)			// ******* REMOVE THIS WHEN LEFT DRIFT IS FIXED
+//	{
+//	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(0.025f, vel.y));
+//	}
+	
+	
+	
 	// if we have landed, reset ball status!
 	if(g_spriteArray[0].OnGround && g_spriteArray[0].Status == BALLSTATUS_JUMPING && vel.y >= -1.00f)
 	{
 		g_spriteArray[0].Status = BALLSTATUS_NORMAL;
 	}
-
+	
+// Check for a jump and init if able
 	if ((held & KEY_A || held & KEY_B) && (g_spriteArray[0].Status != BALLSTATUS_JUMPING))
 	{
 		g_spriteArray[0].Status = BALLSTATUS_JUMPING;

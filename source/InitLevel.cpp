@@ -252,7 +252,7 @@ for(int i=2; i<BALLCOUNT; i++)
 		
 		g_spriteArray[1].PolyDef = new b2PolyDef();	
 		g_spriteArray[1].BodyDef =  new b2BodyDef();
-		// when jumped on, drops into the platform, bugger!
+		// when jumped on, drops into the platform
 		g_spriteArray[1].PolyDef->vertexCount = 4;
 		g_spriteArray[1].PolyDef->vertices[0].Set( -1.6f, 1.6f);
 		g_spriteArray[1].PolyDef->vertices[1].Set( -1.6f, -1.6f);
