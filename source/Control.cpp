@@ -18,8 +18,6 @@ void movePlayer()
 	int held = keysHeld();			// Used to calculate if a button is down
 	
 	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
-	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-	float aVelocity = g_spriteArray[0].Body->GetAngularVelocity();
 
 	if (held & KEY_LEFT)
 	{
@@ -37,25 +35,17 @@ void movePlayer()
 //	{
 //	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(0.025f, vel.y));
 //	}
-	
-	
-	
-	// if we have landed, reset ball status!
-	if(g_spriteArray[0].OnGround && g_spriteArray[0].Status == BALLSTATUS_JUMPING && vel.y >= -1.00f)
-	{
-		g_spriteArray[0].Status = BALLSTATUS_NORMAL;
-	}
-	
+
 // Check for a jump and init if able
 	if ((held & KEY_A || held & KEY_B) && (g_spriteArray[0].Status != BALLSTATUS_JUMPING))
 	{
-		// Start a new jump
 		g_spriteArray[0].Status = BALLSTATUS_JUMPING;
 		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
 	}
 }
 
 
+// Update the character position
 void updateCharacter(Circle *pChar)
 {
 
@@ -63,7 +53,6 @@ void updateCharacter(Circle *pChar)
 	float charAVelocity = pChar->Body->GetAngularVelocity();
 	int charAction = pChar->Action;
 	int charStatus = pChar->Status;
-	
 	
 	if (charAction == ACTION_MOVELEFT)									// MOVE LEFT
 	{
@@ -73,24 +62,19 @@ void updateCharacter(Circle *pChar)
 			{
 				vel.x -= ACCEL * TURNSPEED;
 				if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
-				pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 			}
 			else					// We are already moving LEFT
 			{
 				vel.x -= ACCEL;
 				if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
-				pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 			}
 			if (charAVelocity < ROTMAX ) charAVelocity += ROTSPEED;
-			pChar->Body->SetAngularVelocity(charAVelocity);
 		}
-		else	// we are jumping and trying to move LEFT
+		else						// we are jumping and trying to move LEFT
 		{	
 			vel.x -= ACCEL /2 ;
 			if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
 			if (charAVelocity < ROTMAX ) charAVelocity += ROTSPEED * AIRSPIN;
-			pChar->Body->SetAngularVelocity(charAVelocity);
-			pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 		}
 	}
 	else if (charAction == ACTION_MOVERIGHT)							// MOVE RIGHT
@@ -101,24 +85,19 @@ void updateCharacter(Circle *pChar)
 			{
 				vel.x += ACCEL * TURNSPEED;
 				if (vel.x > MAXACCEL) vel.x = MAXACCEL;
-				pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 			}
 			else					// We are already moving RIGHT
 			{
 				vel.x += ACCEL;
 				if (vel.x > MAXACCEL) vel.x = MAXACCEL;
-				pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 			}
 			if (charAVelocity > ROTMAX ) charAVelocity -= ROTSPEED;
-			pChar->Body->SetAngularVelocity(charAVelocity);
 		}
-		else	// we are jumping and trying to move RIGHT
+		else						// we are jumping and trying to move RIGHT
 		{	
 			vel.x += ACCEL /2 ;
 			if (vel.x > MAXACCEL) vel.x = MAXACCEL;
 			if (charAVelocity > -ROTMAX ) charAVelocity -= ROTSPEED * AIRSPIN;
-			pChar->Body->SetAngularVelocity(charAVelocity);
-			pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 		}
 	}
 	else if (charAction == ACTION_SLOW)									// SLOW DOWN
@@ -135,18 +114,24 @@ void updateCharacter(Circle *pChar)
 			vel.x += FRICTION / 2;
 			if (oldvel < 0 && vel.x > 0)
 				vel.x = 0;
-			//	g_spriteArray[0].Body->SetAngularVelocity( 0 );
 			}
-		pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 	}
 	if (pChar->Status == BALLSTATUS_JUMPING)							// UPDATE JUMP
 	{
 		vel.x = vel.x / 1.02f ;				// we need to shorten our linear velocity horizontally to make it more parabolic
-		pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		// Check if we have landed!
+		if(pChar->OnGround && vel.y >= -1.00f)
+		{
+			pChar->Status = BALLSTATUS_NORMAL;
+		//	vel.y = 0;
+		}
 	} 
 
+
+	// Update changes to velocities
 	
-	
+	pChar->Body->SetAngularVelocity(charAVelocity);	
+	pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 	
 	
 	// Update outer (ColBody) collision circle with new pos and rotation
