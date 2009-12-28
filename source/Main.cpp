@@ -73,7 +73,7 @@ int main(void)
 	
 	
 		
-		movePlayer();
+		moveCharacter(&g_spriteArray[0]);
 		updateCharacter(&g_spriteArray[0]);
 		updateCamera();
 

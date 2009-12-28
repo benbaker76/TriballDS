@@ -12,35 +12,24 @@
 
 
 
-void movePlayer()
+void moveCharacter(Circle *pChar)
 {
 	scanKeys();						// Read button data
 	int held = keysHeld();			// Used to calculate if a button is down
 	
-	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
+	b2Vec2 vel = pChar->Body->GetLinearVelocity();
 
 	if (held & KEY_LEFT)
-	{
-		g_spriteArray[0].Action = ACTION_MOVELEFT;
-	}
+		pChar->Action = ACTION_MOVELEFT;
 	else if (held & KEY_RIGHT)
+		pChar->Action = ACTION_MOVERIGHT;
+	else if (pChar->Status != BALLSTATUS_JUMPING)	// we are not moving LEFT or RIGHT, we need to stop
+		pChar->Action = ACTION_SLOW;
+	// Check for a jump and init if able
+	if ((held & KEY_A || held & KEY_B) && (pChar->Status != BALLSTATUS_JUMPING))
 	{
-		g_spriteArray[0].Action = ACTION_MOVERIGHT;
-	}
-	else if (g_spriteArray[0].Status != BALLSTATUS_JUMPING)	// we are not moving LEFT or RIGHT, we need to stop
-	{
-		g_spriteArray[0].Action = ACTION_SLOW;
-	}
-//	if (vel.x >= -1.1f && vel.x < 0.75f)			// ******* REMOVE THIS WHEN LEFT DRIFT IS FIXED
-//	{
-//	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(0.025f, vel.y));
-//	}
-
-// Check for a jump and init if able
-	if ((held & KEY_A || held & KEY_B) && (g_spriteArray[0].Status != BALLSTATUS_JUMPING))
-	{
-		g_spriteArray[0].Status = BALLSTATUS_JUMPING;
-		g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
+		pChar->Status = BALLSTATUS_JUMPING;
+		pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
 	}
 }
 
@@ -106,7 +95,7 @@ void updateCharacter(Circle *pChar)
 		if (vel.x > 0.0f)
 			{
 			vel.x -= FRICTION / 2;
-			if (oldvel > 0 && vel.x < 0)
+			if (oldvel > 0 && vel.x < 0) 
 				vel.x = 0;
 			}
 		else
@@ -133,11 +122,17 @@ void updateCharacter(Circle *pChar)
 	pChar->Body->SetAngularVelocity(charAVelocity);	
 	pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 	
-	
 	// Update outer (ColBody) collision circle with new pos and rotation
 	pChar->ColBody->SetCenterPosition(pChar->Body->GetCenterPosition(), pChar->Body->GetRotation());
 
 }
+// removed for now!
+//	if (vel.x >= -1.1f && vel.x < 0.75f)			// ******* REMOVE THIS WHEN LEFT DRIFT IS FIXED
+//	{
+//	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(0.025f, vel.y));
+//	}
+
+
 /*
 void moveCircle(Circle *pCircle)
 
