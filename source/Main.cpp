@@ -74,6 +74,7 @@ int main(void)
 	
 		
 		movePlayer();
+		updateCharacter(&g_spriteArray[0]);
 		updateCamera();
 
 

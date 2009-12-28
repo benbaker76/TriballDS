@@ -194,7 +194,6 @@ enum QuadFlags
 #define		ACTION_MOVELEFT		1
 #define		ACTION_MOVERIGHT	2
 #define		ACTION_SLOW			3
-#define		ACTION_JUMP			4
 
 	// Collision data (these are the decypted values from colmaps)
 	
