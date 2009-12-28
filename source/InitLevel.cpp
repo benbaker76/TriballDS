@@ -198,6 +198,21 @@ for(int i=2; i<BALLCOUNT; i++)
 		g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].CircleDef);
 		
 		g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
+
+		g_spriteArray[i].ColCircleDef = new b2CircleDef();
+		g_spriteArray[i].ColBodyDef =  new b2BodyDef();
+	
+		g_spriteArray[i].ColCircleDef->radius = 34 / 2 * SCALE; 
+		g_spriteArray[i].ColCircleDef->density = 1.0F; 
+		g_spriteArray[i].ColCircleDef->friction = 1.0F; 
+		g_spriteArray[i].ColCircleDef->restitution = 0.4F;
+	
+		g_spriteArray[i].ColBodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
+		g_spriteArray[i].ColBodyDef->AddShape(g_spriteArray[i].ColCircleDef);
+	
+		g_spriteArray[i].ColBody = g_world->CreateBody(g_spriteArray[i].ColBodyDef);
+
+
 	}
 	
 	// INIT PLAYER
