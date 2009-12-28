@@ -18,21 +18,36 @@ void moveCharacter(Circle *pChar)
 	int held = keysHeld();			// Used to calculate if a button is down
 	
 	b2Vec2 vel = pChar->Body->GetLinearVelocity();
-
-	if (held & KEY_LEFT)
-		pChar->Action = ACTION_MOVELEFT;
-	else if (held & KEY_RIGHT)
-		pChar->Action = ACTION_MOVERIGHT;
-	else if (pChar->Status != BALLSTATUS_JUMPING)	// we are not moving LEFT or RIGHT, we need to stop
-		pChar->Action = ACTION_SLOW;
-	// Check for a jump and init if able
-	if ((held & KEY_A || held & KEY_B) && (pChar->Status != BALLSTATUS_JUMPING))
+	if (pChar->Type == BALLTYPE_PLAYER)				// PLAYER MOVEMENT
 	{
-		pChar->Status = BALLSTATUS_JUMPING;
-		pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
+		if (held & KEY_LEFT)							// Move left
+			pChar->Action = ACTION_MOVELEFT;
+		else if (held & KEY_RIGHT)						// Move right
+			pChar->Action = ACTION_MOVERIGHT;
+		else if (pChar->Status != BALLSTATUS_JUMPING)	// No Movement
+			pChar->Action = ACTION_SLOW;
+													// Check for a jump and init if able
+		if ((held & KEY_A || held & KEY_B) && (pChar->Status != BALLSTATUS_JUMPING))
+		{
+			pChar->Status = BALLSTATUS_JUMPING;
+			pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
+		}
+	}
+	else if (pChar->Type == BALLTYPE_EVILBALL)			// ENEMY BALL MOVEMENT
+	{
+		if(rand() % 32 == 0) // Only move enemy occasionally
+		{
+			int Action = rand() % 5;					// (0-4)
+			if ((Action == ACTION_NEWJUMP) && (pChar->Status != BALLSTATUS_JUMPING))
+			{
+				pChar->Status = BALLSTATUS_JUMPING;
+				pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
+			}
+			if (Action == ACTION_NEWJUMP) Action = pChar->Action;	// retain current direction
+			pChar->Action = Action;
+		}	
 	}
 }
-
 
 // Update the character position
 void updateCharacter(Circle *pChar)
@@ -109,19 +124,19 @@ void updateCharacter(Circle *pChar)
 	{
 		vel.x = vel.x / 1.02f ;				// we need to shorten our linear velocity horizontally to make it more parabolic
 		// Check if we have landed!
-		if(pChar->OnGround && vel.y >= -1.00f)
-		{
-			pChar->Status = BALLSTATUS_NORMAL;
-		//	vel.y = 0;
+		if(pChar->OnGround && vel.y >= -1.00f)		// This will not work correctly as we need to set vel.y
+		{											// to 0 when landed, and doing so stops another jump,
+			pChar->Status = BALLSTATUS_NORMAL;		// as a new jump is instantly killed by groundcheck
+													// I have an idea that I will implement when plats are in!
+			// vel.y = 0;							// uncomment to try
 		}
 	} 
 
-
 	// Update changes to velocities
-	
 	pChar->Body->SetAngularVelocity(charAVelocity);	
 	pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-	
+	// Reset movement if Player
+	if (pChar->Type == BALLTYPE_PLAYER) pChar->Action = 0;		
 	// Update outer (ColBody) collision circle with new pos and rotation
 	pChar->ColBody->SetCenterPosition(pChar->Body->GetCenterPosition(), pChar->Body->GetRotation());
 
@@ -131,116 +146,3 @@ void updateCharacter(Circle *pChar)
 //	{
 //	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(0.025f, vel.y));
 //	}
-
-
-/*
-void moveCircle(Circle *pCircle)
-
-// add control head to this first, only if type == player.
-// if type == normal (enemy) then check and set random movement
-// we do not need to pass action? Should we add action to the class?
-
-// The problem with this is if we want to move LR and jump, we can't
-
-
-{
-	if (pCircle->Type == BALLTYPE_PLAYER)								// = Player control
-	{
-		scanKeys();						// Read button data
-		int held = keysHeld();			// Used to calculate if a button is down
-		
-		// checks for left and right movement		(Use L/R and LEFT/RIGHT)
-		
-		if (held & KEY_L || held & KEY_LEFT)
-		{
-			pCircle->Action = ACTION_MOVELEFT;
-		}
-		else if (held & KEY_R || held & KEY_RIGHT)
-		{
-			pCircle->Action = ACTION_MOVERIGHT;
-		}
-		else
-		{
-		pCircle->Action = ACTION_SLOW;
-		};
-		
-		// check for jump.								(USE A)
-		
-		// check players status for the setting of jump, and if true, do not init until false
-		// if jump is held, do not allow another jump!
-		if (held & KEY_A || g_reJump == TRUE)
-		{
-			if (g_jumpTrap == FALSE || g_reJump == TRUE)
-			{	// time to jump
-				if ((pCircle->Status != BALLSTATUS_JUMPING) && (pCircle->Status != BALLSTATUS_FALLING))
-				{
-					pCircle->Status = BALLSTATUS_JUMPING;
-					pCircle->YSpeed = -JUMPSPEED;
-					g_reJump = FALSE;
-					g_jumpTrap = TRUE;
-				}
-				else if (pCircle->YSpeed > 0) //if (g_jumpTrap == FALSE)
-		//	}
-		//	else if (g_jumpTrap == FALSE && g_reJump == FALSE)
-		//	{
-				g_reJump = TRUE;
-			}
-		}
-		else
-		{
-			g_jumpTrap = FALSE;
-		}
-	}
-	else if (pCircle->Type == BALLTYPE_EVILBALL)							// = Random control
-	{
-		if(rand() % 32 == 0) // Only move enemy occasionally
-		{
-			// rand() % 5 returns a random value from 0 to 4
-			pCircle->Action = rand() % 5;
-			if ((pCircle->Action == ACTION_JUMP) && (pCircle->Status != BALLSTATUS_JUMPING && pCircle->Status != BALLSTATUS_FALLING))
-			{
-				pCircle->Status = BALLSTATUS_JUMPING;
-				pCircle->YSpeed = -JUMPSPEED;		
-			}
-		}
-	}
-	
-	// Act on the 'action' of the ball
-	
-	switch(pCircle->Action)
-	{
-	case ACTION_MOVELEFT:													// LEFT
-		if ((pCircle->Status == BALLSTATUS_NORMAL) && (pCircle->XSpeed > 0))		// if we are on the ground,
-			pCircle->XSpeed = pCircle->XSpeed - (ACCEL * 4);						// then allow a quicker turn
-		else
-			pCircle->XSpeed = pCircle->XSpeed - (ACCEL * 1.5);						// else, normal turn
-		if (pCircle->XSpeed < -MAXACCEL) pCircle->XSpeed = -MAXACCEL;				// stop the speed from going past maximum
-		break;
-	case ACTION_MOVERIGHT:													// RIGHT
-		if ((pCircle->Status == BALLSTATUS_NORMAL) && (pCircle->XSpeed < 0))		// if we are on the ground,
-			pCircle->XSpeed = pCircle->XSpeed + (ACCEL * 4);						// then allow a quicker turn
-		else
-			pCircle->XSpeed = pCircle->XSpeed + (ACCEL * 1.5);								// else, normal turn
-		if (pCircle->XSpeed > MAXACCEL) pCircle->XSpeed = MAXACCEL;				// stop the speed from going past maximum
-		break;
-	case ACTION_SLOW:														// SLOW DOWN
-		if (pCircle->XSpeed < 0)													// if speed if negative	
-		{
-			pCircle->XSpeed = pCircle->XSpeed + FRICTION;							// add friction to the movement
-			if (pCircle->XSpeed > 0)												// if speed becomes a positive
-			{
-				pCircle->XSpeed = 0;												// time to stop
-			}
-		}
-		else if (pCircle->XSpeed > 0)												// if speed is positive
-		{
-			pCircle->XSpeed = pCircle->XSpeed - FRICTION;							// do the reverse af above!
-			if (pCircle->XSpeed < 0)
-			{
-				pCircle->XSpeed = 0;
-			}
-		}
-		break;
-	}
-}
-*/

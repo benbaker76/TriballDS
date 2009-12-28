@@ -248,7 +248,7 @@ for(int i=2; i<BALLCOUNT; i++)
 		g_spriteArray[1].Action = ACTION_NONE;	
 		g_spriteArray[1].X = 65; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
 		g_spriteArray[1].Y = 25; //(rand() % (LEVEL_HEIGHT-(BALLSIZE * 2))) + BALLSIZE;
-		g_spriteArray[1].Type = BALLTYPE_EVILBALL;
+		g_spriteArray[1].Type = BALLTYPE_OBJECT;
 		
 		g_spriteArray[1].PolyDef = new b2PolyDef();	
 		g_spriteArray[1].BodyDef =  new b2BodyDef();

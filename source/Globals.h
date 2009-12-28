@@ -174,7 +174,7 @@ enum QuadFlags
 #define		BALLSCROLLY			80				// closeness to top/bot to enable scrolling
 #define		BALLSIZE			32				// Size of balls
 #define		BALLOFFSET			0				// Ball offset of balls
-#define		BALLCOUNT			5				// Number of balls
+#define		BALLCOUNT			10				// Number of balls
 
 	// Defines for player (ball) status
 	
@@ -185,15 +185,17 @@ enum QuadFlags
 
 	//	Defines for the balls type
 	
-#define		BALLTYPE_NULL		0
+#define		BALLTYPE_NULL		0				// non moving object
 #define		BALLTYPE_PLAYER		1
 #define		BALLTYPE_EVILBALL	2
+#define		BALLTYPE_OBJECT		3				// General stationary object
 
 	// Defines for ball actions
 #define		ACTION_NONE			0
 #define		ACTION_MOVELEFT		1
 #define		ACTION_MOVERIGHT	2
 #define		ACTION_SLOW			3
+#define		ACTION_NEWJUMP		4
 
 	// Collision data (these are the decypted values from colmaps)
 	

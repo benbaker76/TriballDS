@@ -69,19 +69,16 @@ int main(void)
 	
 		debugText();
 		
-		
-	
-	
-		
-		moveCharacter(&g_spriteArray[0]);
-		updateCharacter(&g_spriteArray[0]);
+		for(register int i=0; i<BALLCOUNT; i++)
+		{
+			moveCharacter(&g_spriteArray[i]);
+			updateCharacter(&g_spriteArray[i]);
+			updateCharacterContacts(&g_spriteArray[i]);
+		}	
 		updateCamera();
 
-
-		
 		//updateWorldContacts();
-		updatePlayerContacts();
-	
+		
 		g_world->Step(timeStep, iterations);
 		
 		glMatrixMode(GL_MODELVIEW);

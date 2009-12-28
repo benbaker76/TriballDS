@@ -29,13 +29,13 @@ void updateWorldContacts()
 	}
 }
 
-void updatePlayerContacts()
+void updateCharacterContacts(Circle *pChar)
 {
-	g_spriteArray[0].OnGround = false;
+	pChar->OnGround = false;
 	
-	DrawString("                                ", 0, 7, true);
+//	DrawString("                                ", 0, 7, true);
 
-	for (b2ContactNode* contactNode = g_spriteArray[0].ColBody->GetContactList(); contactNode; contactNode = contactNode->next)
+	for (b2ContactNode* contactNode = pChar->ColBody->GetContactList(); contactNode; contactNode = contactNode->next)
 	{
 		b2Contact* contact = contactNode->contact;
 		
@@ -46,21 +46,22 @@ void updatePlayerContacts()
 			b2Body* body = NULL;
 			
 			// Which body is the player?
-			if(g_spriteArray[0].ColBody == body1)
+			if(pChar->ColBody == body1)
 				body = body2;
 			else
 				body = body1;
 			
 			if(g_groundBody == body) // Collide with ground?
 			{
-				DrawString("Player Collided With Ground", 0, 7, true);
+//				DrawString("Player Collided With Ground", 0, 7, true);
 				
 				b2Manifold* manifold = contact->GetManifolds();
 				b2ContactPoint* cp = manifold->points;
 				b2Vec2 position1 = cp->position;
-				b2Vec2 position2 = g_spriteArray[0].ColBody->GetOriginPosition();
+				b2Vec2 position2 = pChar->ColBody->GetOriginPosition();
 				
-				g_spriteArray[0].OnGround = (position1.y < position2.y);
+				pChar->OnGround = (position1.y < position2.y);
+				
 			}
 			else // Which platform did it collide with?
 			{
@@ -69,23 +70,23 @@ void updatePlayerContacts()
 					if(g_platformArray[i]->Body == body)
 					{
 						static char buf[256];
-						sprintf(buf, "Player Collided With Platform %d   ", i);
-						DrawString(buf, 0, 7, true);
+//						sprintf(buf, "Player Collided With Platform %d   ", i);
+//						DrawString(buf, 0, 7, true);
 						
 						b2Manifold* manifold = contact->GetManifolds();
 						b2ContactPoint* cp = manifold->points;
 						b2Vec2 position1 = cp->position;
-						b2Vec2 position2 = g_spriteArray[0].ColBody->GetOriginPosition();
+						b2Vec2 position2 = pChar->ColBody->GetOriginPosition();
 						
-						g_spriteArray[0].OnGround = (position1.y < position2.y);
+						pChar->OnGround = (position1.y < position2.y);
 					}
 				}
 			}
 		}
 	}
 	
-	if(g_spriteArray[0].OnGround)
+/*	if(pChar->OnGround)
 		DrawString("Player     On Ground", 0, 8, true);
 	else
 		DrawString("Player Not On Ground", 0, 8, true);
-}
+*/}

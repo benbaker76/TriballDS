@@ -1,2 +1,2 @@
 void updateWorldContacts();
-void updatePlayerContacts();
+void updateCharacterContacts(Circle *pChar);
