@@ -40,14 +40,18 @@ void debugText()
 	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
 	float aVelocity = g_spriteArray[0].Body->GetAngularVelocity();
 	
-	sprintf(buffer, "L VEL %d / V VEL %d    ",(int)(vel.x * 10), (int)(vel.y * 10));
+	sprintf(buffer, "X VEL %d / Y VEL %d    ",(int)(vel.x * 10), (int)(vel.y * 10));
 	DrawString(buffer, 0, 19, true);
 	sprintf(buffer, "A VEL %d  ",(int)aVelocity);
 	DrawString(buffer, 0, 20, true);	
 
 	sprintf(buffer, "Status %d  ",g_spriteArray[0].Status);
 	DrawString(buffer, 0, 18, true);	
-
+	
+	if (g_spriteArray[0].OnGround != FALSE)
+		DrawString("ON GROUND", 0, 16, true);
+	else
+		DrawString("NO GROUND", 0, 16, true);
 }
 
 int main(void)
@@ -77,7 +81,7 @@ int main(void)
 		{
 			moveCharacter(&g_spriteArray[i]);
 			updateCharacter(&g_spriteArray[i]);
-			updateCharacterContacts(&g_spriteArray[i]);
+			updateCharacterContacts(&g_spriteArray[i]);	
 		}	
 		updateCamera();
 

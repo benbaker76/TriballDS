@@ -29,6 +29,7 @@ struct Circle						// define the elements that construct our 'balls'
 	int Type;
 	int Action;
 	bool OnGround;
+	bool LandTrap;
 };
 
 struct Poly
@@ -156,7 +157,7 @@ enum QuadFlags
 #define		FRICTION			0.2f
 #define 	ROTSPEED			0.2f			// Speed in which to increase rotation when moving on platform
 #define		ROTMAX				10.0f			// Maximum 'controlled' rotation speed
-#define		JUMPSPEED			45.0F			// initial speed of a jump
+#define		JUMPSPEED			60.0F			// initial speed of a jump
 #define		AIRSPIN				3.0f			// multiplyer to add spin to a jumping ball
 
 // THESE ARE NOT USED CURRENTLY
@@ -174,7 +175,7 @@ enum QuadFlags
 #define		BALLSCROLLY			80				// closeness to top/bot to enable scrolling
 #define		BALLSIZE			32				// Size of balls
 #define		BALLOFFSET			0				// Ball offset of balls
-#define		BALLCOUNT			6				// Number of balls
+#define		BALLCOUNT			2				// Number of balls
 
 	// Defines for player (ball) status
 	

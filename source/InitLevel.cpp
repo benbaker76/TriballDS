@@ -47,7 +47,7 @@ void initLevel()
 	g_worldAABB = new b2AABB();
 	g_worldAABB->minVertex.Set(-(g_levelGridSize.Width * 10.0F), -(g_levelGridSize.Height * 10.0F));
 	g_worldAABB->maxVertex.Set(g_levelGridSize.Width * 10.0F, g_levelGridSize.Height * 10.0F);
-	g_gravity = new b2Vec2(0.0f, -55.0f);
+	g_gravity = new b2Vec2(0.0f, -50.0f);
 	
 	bool doSleep = true;
 	

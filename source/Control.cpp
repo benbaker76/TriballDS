@@ -17,6 +17,8 @@ void moveCharacter(Circle *pChar)
 	scanKeys();						// Read button data
 	int held = keysHeld();			// Used to calculate if a button is down
 	
+	pChar->LandTrap = FALSE;
+	
 	b2Vec2 vel = pChar->Body->GetLinearVelocity();
 	if (pChar->Type == BALLTYPE_PLAYER)				// PLAYER MOVEMENT
 	{
@@ -26,12 +28,30 @@ void moveCharacter(Circle *pChar)
 			pChar->Action = ACTION_MOVERIGHT;
 		else if (pChar->Status != BALLSTATUS_JUMPING)	// No Movement
 			pChar->Action = ACTION_SLOW;
-													// Check for a jump and init if able
-		if ((held & KEY_A || held & KEY_B) && (pChar->Status != BALLSTATUS_JUMPING))	// Swap these!
-	//	if ((held & KEY_A || held & KEY_B) && (pChar->OnGround))
+			
+		if (held & KEY_A || held & KEY_B || g_reJump == TRUE)				// Check for a jump and init if able
 		{
-			pChar->Status = BALLSTATUS_JUMPING;
-			pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
+			if (pChar->Status != BALLSTATUS_JUMPING && pChar->OnGround && vel.y > -1.0f)	// We could start a jump
+			{
+				if (g_jumpTrap == FALSE || g_reJump == TRUE)								// ok, jump
+				{
+					pChar->Status = BALLSTATUS_JUMPING;
+					pChar->LandTrap = TRUE;
+					pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
+					g_jumpTrap = TRUE;
+					if (g_reJump == TRUE) g_reJump = FALSE;
+					//	pChar->Body->ApplyImpulse(b2Vec2(0.0, 250.0), pChar->Body->GetCenterPosition());
+					//	pChar->Body->ApplyForce(b2Vec2(0.0f,10.0f),b2Vec2(0.0f,0.0f) );
+				}
+			}
+			else if (g_jumpTrap == FALSE && vel.y < 1.0f)									// if we cant jump, then
+			{
+				g_reJump = TRUE;															// store a jump for when we can
+			}
+		}
+		else
+		{
+			g_jumpTrap = FALSE;																// not pressing jump, so clear flag
 		}
 	}
 	else if (pChar->Type == BALLTYPE_EVILBALL)			// ENEMY BALL MOVEMENT
@@ -39,9 +59,10 @@ void moveCharacter(Circle *pChar)
 		if(rand() % 32 == 0) // Only move enemy occasionally
 		{
 			int Action = rand() % 5;					// (0-4)
-			if ((Action == ACTION_NEWJUMP) && (pChar->Status != BALLSTATUS_JUMPING))
+			if ((Action == ACTION_NEWJUMP) && (pChar->Status != BALLSTATUS_JUMPING && pChar->OnGround))
 			{
 				pChar->Status = BALLSTATUS_JUMPING;
+				pChar->LandTrap = TRUE;
 				pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
 			}
 			if (Action == ACTION_NEWJUMP) Action = pChar->Action;	// retain current direction
@@ -61,7 +82,7 @@ void updateCharacter(Circle *pChar)
 	
 	if (charAction == ACTION_MOVELEFT)									// MOVE LEFT
 	{
-		if (charStatus != BALLSTATUS_JUMPING )
+		if (pChar->OnGround)
 		{
 			if (vel.x > 0)			// We are moving RIGHT, turn quicker
 			{
@@ -84,7 +105,7 @@ void updateCharacter(Circle *pChar)
 	}
 	else if (charAction == ACTION_MOVERIGHT)							// MOVE RIGHT
 	{
-		if (charStatus != BALLSTATUS_JUMPING )
+		if (pChar->OnGround)
 		{
 			if (vel.x < 0)			// We are moving LEFT, turn quicker
 			{
@@ -120,16 +141,17 @@ void updateCharacter(Circle *pChar)
 			if (oldvel < 0 && vel.x > 0)
 				vel.x = 0;
 			}
-	}
-	if (pChar->Status == BALLSTATUS_JUMPING)							// UPDATE JUMP
+	};
+	if (charStatus == BALLSTATUS_JUMPING)							// UPDATE JUMP
 	{
 		vel.x = vel.x / 1.02f ;				// we need to shorten our linear velocity horizontally to make it more parabolic
 		// Check if we have landed!
-		if(pChar->OnGround && vel.y >= -1.00f)		// This will not work correctly as we need to set vel.y
+		if(pChar->OnGround && pChar->LandTrap == FALSE && vel.y < 1.0f)		// This will not work correctly as we need to set vel.y
 		{											// to 0 when landed, and doing so stops another jump,
 			pChar->Status = BALLSTATUS_NORMAL;		// as a new jump is instantly killed by groundcheck
 													// I have an idea that I will implement when plats are in!
-			// vel.y = 0;							// uncomment to try
+		//	if (vel.y > JUMPSPEED)
+		//	vel.y = 0;							// uncomment to try
 		}
 	} 
 
