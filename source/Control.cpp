@@ -27,7 +27,8 @@ void moveCharacter(Circle *pChar)
 		else if (pChar->Status != BALLSTATUS_JUMPING)	// No Movement
 			pChar->Action = ACTION_SLOW;
 													// Check for a jump and init if able
-		if ((held & KEY_A || held & KEY_B) && (pChar->Status != BALLSTATUS_JUMPING))
+		if ((held & KEY_A || held & KEY_B) && (pChar->Status != BALLSTATUS_JUMPING))	// Swap these!
+	//	if ((held & KEY_A || held & KEY_B) && (pChar->OnGround))
 		{
 			pChar->Status = BALLSTATUS_JUMPING;
 			pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));

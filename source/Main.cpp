@@ -44,6 +44,10 @@ void debugText()
 	DrawString(buffer, 0, 19, true);
 	sprintf(buffer, "A VEL %d  ",(int)aVelocity);
 	DrawString(buffer, 0, 20, true);	
+
+	sprintf(buffer, "Status %d  ",g_spriteArray[0].Status);
+	DrawString(buffer, 0, 18, true);	
+
 }
 
 int main(void)
