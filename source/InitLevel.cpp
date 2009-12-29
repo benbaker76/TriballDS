@@ -179,7 +179,7 @@ void initLevel()
 // INIT PLAYER AND RANDOM BALLS (FOR NOW)
 void initPlayer()
 {
-for(int i=2; i<BALLCOUNT; i++)
+	for(int i=2; i<BALLCOUNT; i++)
 	{
 		g_spriteArray[i].Action = ACTION_NONE;	
 		g_spriteArray[i].X = (rand() % 30)+200; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
@@ -199,20 +199,23 @@ for(int i=2; i<BALLCOUNT; i++)
 		
 		g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
 
-		g_spriteArray[i].ColCircleDef = new b2CircleDef();
-		g_spriteArray[i].ColBodyDef =  new b2BodyDef();
-	
-		g_spriteArray[i].ColCircleDef->radius = 34 / 2 * SCALE; 
-		g_spriteArray[i].ColCircleDef->density = 1.0F; 
-		g_spriteArray[i].ColCircleDef->friction = 1.0F; 
-		g_spriteArray[i].ColCircleDef->restitution = 0.4F;
-	
-		g_spriteArray[i].ColBodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
-		g_spriteArray[i].ColBodyDef->AddShape(g_spriteArray[i].ColCircleDef);
-	
-		g_spriteArray[i].ColBody = g_world->CreateBody(g_spriteArray[i].ColBodyDef);
-
-
+		if(i == 0) // If we are the main player create a collision circle around it so detection is earlier than the visible character
+		{
+			g_spriteArray[i].ColCircleDef = new b2CircleDef();
+			g_spriteArray[i].ColBodyDef =  new b2BodyDef();
+		
+			g_spriteArray[i].ColCircleDef->radius = 34 / 2 * SCALE; 
+			g_spriteArray[i].ColCircleDef->density = 1.0F; 
+			g_spriteArray[i].ColCircleDef->friction = 1.0F; 
+			g_spriteArray[i].ColCircleDef->restitution = 0.4F;
+		
+			g_spriteArray[i].ColBodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
+			g_spriteArray[i].ColBodyDef->AddShape(g_spriteArray[i].ColCircleDef);
+		
+			g_spriteArray[i].ColBody = g_world->CreateBody(g_spriteArray[i].ColBodyDef);
+		}
+		else
+			g_spriteArray[i].ColBody = g_spriteArray[i].Body; // We are an enemy so just make the collision body the main body to save CPU time
 	}
 	
 	// INIT PLAYER
