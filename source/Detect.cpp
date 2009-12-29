@@ -69,9 +69,28 @@ void updateCharacterContacts(Circle *pChar)
 				{
 					if(g_platformArray[i]->Body == body)
 					{
-						static char buf[256];
-//						sprintf(buf, "Player Collided With Platform %d   ", i);
-//						DrawString(buf, 0, 7, true);
+						//static char buf[256];
+						//sprintf(buf, "Player Collided With Platform %d   ", i);
+						//DrawString(buf, 0, 7, true);
+						
+						b2Manifold* manifold = contact->GetManifolds();
+						b2ContactPoint* cp = manifold->points;
+						b2Vec2 position1 = cp->position;
+						b2Vec2 position2 = pChar->ColBody->GetOriginPosition();
+						
+						pChar->OnGround = (position1.y < position2.y);
+						
+						return;
+					}
+				}
+				
+				for(int i=1; i<BALLCOUNT; i++)
+				{
+					if(g_spriteArray[i].Body == body)
+					{
+						//static char buf[256];
+						//sprintf(buf, "Player Collided With Platform %d   ", i);
+						//DrawString(buf, 0, 7, true);
 						
 						b2Manifold* manifold = contact->GetManifolds();
 						b2ContactPoint* cp = manifold->points;
