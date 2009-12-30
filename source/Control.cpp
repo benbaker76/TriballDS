@@ -14,22 +14,19 @@
 
 void moveCharacter(Circle *pChar)
 {
-	scanKeys();						// Read button data
-	int held = keysHeld();			// Used to calculate if a button is down
-	
 	pChar->LandTrap = FALSE;
 	
 	b2Vec2 vel = pChar->Body->GetLinearVelocity();
 	if (pChar->Type == BALLTYPE_PLAYER)				// PLAYER MOVEMENT
 	{
-		if (held & KEY_LEFT)							// Move left
+		if (g_input.keysHeld & KEY_LEFT)							// Move left
 			pChar->Action = ACTION_MOVELEFT;
-		else if (held & KEY_RIGHT)						// Move right
+		else if (g_input.keysHeld & KEY_RIGHT)						// Move right
 			pChar->Action = ACTION_MOVERIGHT;
 		else if (pChar->Status != BALLSTATUS_JUMPING)	// No Movement
 			pChar->Action = ACTION_SLOW;
 			
-		if (held & KEY_A || held & KEY_B || g_reJump == TRUE)				// Check for a jump and init if able
+		if (g_input.keysHeld & KEY_A || g_input.keysHeld & KEY_B || g_reJump == TRUE)				// Check for a jump and init if able
 		{
 			if (pChar->Status != BALLSTATUS_JUMPING && pChar->OnGround && vel.y > -1.0f)	// We could start a jump
 			{

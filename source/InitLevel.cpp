@@ -263,7 +263,7 @@ void initPlayer()
 
 		// me playing with a box
 
-		g_spriteArray[1].Action = ACTION_NONE;	
+		/* g_spriteArray[1].Action = ACTION_NONE;	
 		g_spriteArray[1].X = 65; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
 		g_spriteArray[1].Y = 25; //(rand() % (LEVEL_HEIGHT-(BALLSIZE * 2))) + BALLSIZE;
 		g_spriteArray[1].Type = BALLTYPE_OBJECT;
@@ -283,10 +283,25 @@ void initPlayer()
 		g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
 		g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].PolyDef);
 		
-		g_spriteArray[1].Body = g_world->CreateBody(g_spriteArray[1].BodyDef);
+		g_spriteArray[1].Body = g_world->CreateBody(g_spriteArray[1].BodyDef); */
 
+	g_spriteArray[1].BoxDef = new b2BoxDef();
+	g_spriteArray[1].BodyDef =  new b2BodyDef();
+	
+	g_spriteArray[1].BoxDef->extents.Set(32 / 2 * SCALE, 32 / 2 * SCALE);
+	g_spriteArray[1].BoxDef->density = 1.0F; 
+	g_spriteArray[1].BoxDef->friction = 1.0F; 
+	g_spriteArray[1].BoxDef->restitution = 0.0F; 
 
+	g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
+	g_spriteArray[1].BodyDef->allowSleep = false;
+	g_spriteArray[1].BodyDef->preventRotation = false;
+	g_spriteArray[1].BodyDef->angularDamping = 0.04f;
+	g_spriteArray[1].BodyDef->linearDamping = 0.00f;
 
+	g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].BoxDef);
+	
+	g_spriteArray[1].Body = g_world->CreateBody(g_spriteArray[1].BodyDef);
 }
 
 

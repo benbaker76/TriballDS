@@ -10,6 +10,39 @@
 #include "Detect.h"
 #include "Text.h"
 
+b2Body* getBodyAtPoint(Point* p)
+{
+	// Create a small box at point
+	/* b2Vec2 v = physics.screenToWorld(p->X, p->Y);
+	b2AABB aabb;
+	aabb.minVertex.Set(v.x - 0.001, v.y - 0.001);
+	aabb.maxVertex.Set(v.x + 0.001, v.y + 0.001);
+	
+	// Look at the shapes intersecting this box (max.: 10)
+	b2Shape* shapes[10];
+	int32 count = g_world->Query(aabb, shapes, 10);
+
+	if (shapes == NULL)
+		return NULL;  // No body there...
+
+	for (int i = 0; i < count; i++)
+	{
+		b2Shape* shape = shapes[i];
+		b2Body* body = shape->GetBody();
+		
+		if (!body->IsStatic())  // Don't pick static shapes
+		{
+			b2Vec2 position = body->GetOriginPosition();
+		
+			// Ensure it is really at this point
+			if (shape->TestPoint(position))
+				return body; // Return the first body found
+		}
+	} */
+
+	return NULL;
+} 
+
 void updateWorldContacts()
 {
 	DrawString("               ", 0, 8, true);

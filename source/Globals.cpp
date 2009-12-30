@@ -61,6 +61,8 @@ GL_TEXTURE_SIZE_ENUM g_glTextureSize;
 Size g_levelGridSize;
 SizeF g_levelQuadSize;
 
+Input g_input;
+
 bool IntersectRectF(RectF* pRectA, RectF* pRectB)
 {
 	if(pRectA == NULL || pRectB == NULL)

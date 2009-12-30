@@ -59,6 +59,8 @@ int main(void)
 	consoleDebugInit(DebugDevice_NOCASH);
 	//consoleDemoInit();
 	
+	lcdMainOnBottom();
+	
 	initBox2D();
 	initVideo3D();
 	initVideo2D();
@@ -74,6 +76,12 @@ int main(void)
 	
 	while(1)
 	{
+		touchRead(&g_input.touch);
+		scanKeys();
+			
+		g_input.keysHeld = keysHeld();
+		g_input.keysDown = keysDown();
+		g_input.keysUp = keysUp();
 	
 		debugText();
 		
@@ -82,7 +90,11 @@ int main(void)
 			moveCharacter(&g_spriteArray[i]);
 			updateCharacter(&g_spriteArray[i]);
 			updateCharacterContacts(&g_spriteArray[i]);	
-		}	
+		}
+		
+		b2Vec2 v(g_input.touch.px * SCALE, -g_input.touch.py * SCALE);
+		g_spriteArray[1].Body->SetCenterPosition(v, g_spriteArray[1].Body->GetRotation());
+		
 		updateCamera();
 
 		//updateWorldContacts();

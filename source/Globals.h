@@ -9,12 +9,22 @@
 
 // Having this struct inside here means it won't make a copy each time you #include it
 
+struct Input
+{
+	touchPosition touch;
+	int keysHeld;
+	int keysDown;
+	int keysUp;
+};
+
 struct Circle						// define the elements that construct our 'balls'
 {
+	b2PolyDef* PolyDef;
 	b2CircleDef* CircleDef;
+	b2BoxDef* BoxDef;
+	
 	b2BodyDef* BodyDef;
 	b2Body* Body;
-	b2PolyDef* PolyDef;
 	
 	b2CircleDef* ColCircleDef;
 	b2BodyDef* ColBodyDef;
@@ -277,6 +287,8 @@ extern int g_levelTextureSize;
 extern GL_TEXTURE_SIZE_ENUM g_glTextureSize;
 extern Size g_levelGridSize;
 extern SizeF g_levelQuadSize;
+
+extern Input g_input;
 
 bool IntersectRect(Rect* pRectA, Rect* pRectB);
 bool IntersectRectF(RectF* pRectA, RectF* pRectB);
