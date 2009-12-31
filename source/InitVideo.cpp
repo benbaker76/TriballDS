@@ -239,23 +239,6 @@ void initVideo3D()
 {
 	//set mode 0, enable BG0 and set it to 3D
 	videoSetMode(MODE_0_3D);
-
-	// initialize gl
-	glInit();
-	
-	//enable textures
-	glEnable(GL_TEXTURE_2D);
-	
-	// enable antialiasing
-//	glEnable(GL_ANTIALIAS);
-	
-	// setup the rear plane
-	glClearColor(0, 0, 0, 31); // BG must be opaque for AA to work
-	glClearPolyID(63); // BG must have a unique polygon ID for AA to work
-	glClearDepth(0x7FFF);
-
-	//this should work the same as the normal gl call
-	glViewport(0, 0, 255, 191);
 	
 	vramSetBankA(VRAM_A_TEXTURE);
 	vramSetBankB(VRAM_B_TEXTURE);
@@ -264,6 +247,51 @@ void initVideo3D()
 	//vramSetBankE(VRAM_E_TEX_PALETTE);
 	//vramSetBankF(VRAM_F_TEX_PALETTE);
 	//vramSetBankG(VRAM_G_TEX_PALETTE);
+
+	// initialize gl
+	glInit();
+	
+	//enable textures
+	glEnable(GL_TEXTURE_2D);
+	
+	// enable antialiasing
+	glEnable(GL_ANTIALIAS);
+	
+	// setup the rear plane
+	glClearColor(0, 0, 0, 31); // BG must be opaque for AA to work
+	glClearPolyID(63); // BG must have a unique polygon ID for AA to work
+	glClearDepth(0x7FFF);
+
+	//this should work the same as the normal gl call
+	glViewport(0, 0, 255, 191);
+			  
+	//any floating point gl call is being converted to fixed prior to being implemented
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(70, 256.0 / 192.0, 0.1, 40);
+	//glOrtho(-3, 3,-2, 2, 0.1, 100);
+	
+	gluLookAt(	0.0, 0.0, 1.0,		//camera possition
+				0.0, 0.0, 0.0,		//look at
+				0.0, 1.0, 0.0);		//up
+				
+	glLight(0, RGB15(31,31,31), 0, floattov10(-1.0), 0);
+	glLight(1, RGB15(31,0,0), 0, floattov10(1) - 1, 0);
+	glLight(2, RGB15(0,31,0), floattov10(-1.0), 0, 0);
+	glLight(3, RGB15(0,0,31), floattov10(1.0) - 1, 0, 0);
+	
+	//need to set up some material properties since DS does not have them set by default
+	glMaterialf(GL_AMBIENT, RGB15(16, 16, 16));
+	glMaterialf(GL_DIFFUSE, RGB15(16, 16, 16));
+	glMaterialf(GL_SPECULAR, BIT(15) | RGB15(8, 8, 8));
+	glMaterialf(GL_EMISSION, RGB15(16, 16, 16));
+	
+	//not a real gl function and will likely change
+	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | 
+			  POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3 ) ;
+				
+	g_texelSize.Width = 0.228 / 256.0;
+	g_texelSize.Height = 0.228 / 192.0;
 
 	glGenTextures(TEXTURECOUNT, g_textureIDS);
 	
@@ -297,16 +325,4 @@ void initVideo3D()
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_256, TEXTURE_SIZE_256, 0, TEXGEN_TEXCOORD, (u8*)level01_tex_bin + 65536 * 3);
 	
 	g_palAddress[1] = gluTexLoadPal((u16*)level01_pal_bin, 256, GL_RGB256); */
-	
-	//any floating point gl call is being converted to fixed prior to being implemented
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(70, 256.0 / 192.0, 0.1, 40);
-	
-	gluLookAt(	0.0, 0.0, 1.0,		//camera possition
-				0.0, 0.0, 0.0,		//look at
-				0.0, 1.0, 0.0);		//up
-				
-	g_texelSize.Width = 0.228 / 256.0;
-	g_texelSize.Height = 0.228 / 192.0;
 }

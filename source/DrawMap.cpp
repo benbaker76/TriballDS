@@ -94,20 +94,6 @@ void drawGLScene()
 	//glRotatef(yrot,0.0f,1.0f,0.0f);
 	//glRotatef(zrot,0.0f,0.0f,1.0f);
 
-	glMaterialf(GL_AMBIENT, RGB15(31, 31, 31));
-	glMaterialf(GL_DIFFUSE, RGB15(31, 31, 31));
-	glMaterialf(GL_SPECULAR, BIT(15) | RGB15(31, 31, 31));
-	glMaterialf(GL_EMISSION, RGB15(31, 31, 31));
-	
-	// setup the lighting
-	//glLight(0, RGB15(31,31,31) , 0, floattov10(-.5), floattov10(-.85));
-
-	//ds uses a table for shinyness..this generates a half-ass one
-	glMaterialShinyness();
-
-	//not a real gl function and will likely change
-	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK);
-
 	glNormal(NORMAL_PACK(0, inttov10(-1), 0));
 	
 	//for(int i=0; i<PLATFORMCOUNT; i++)
@@ -115,8 +101,8 @@ void drawGLScene()
 	
 	glBegin(GL_QUAD);
 	
-
 	glColorTable(GL_RGB256, g_palAddress[0]);
+	
 	for(int i=0; i<BALLCOUNT; i++)
 	{	
 	
