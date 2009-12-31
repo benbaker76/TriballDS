@@ -156,9 +156,7 @@ void updateCharacter(Circle *pChar)
 	pChar->Body->SetAngularVelocity(charAVelocity);	
 	pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 	// Reset movement if Player
-	if (pChar->Type == BALLTYPE_PLAYER) pChar->Action = 0;		
-	// Update outer (ColBody) collision circle with new pos and rotation
-	pChar->ColBody->SetCenterPosition(pChar->Body->GetCenterPosition(), pChar->Body->GetRotation());
+	if (pChar->Type == BALLTYPE_PLAYER) pChar->Action = 0;
 
 }
 // removed for now!

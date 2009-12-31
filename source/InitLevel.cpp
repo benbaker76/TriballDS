@@ -56,8 +56,8 @@ void initLevel()
 	g_groundBoxDef = new b2BoxDef();
 	g_groundBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 1.0f);
 	g_groundBoxDef->density = 0.0f;
-	g_groundBoxDef->friction = 1.0f;
-	g_groundBoxDef->restitution = 0.2F;	
+	g_groundBoxDef->friction = 0.2f;
+	g_groundBoxDef->restitution = 0.0F;	
 
 	g_groundBodyDef = new b2BodyDef(); 
 	g_groundBodyDef->position.Set(0.0f, -(g_levelGridSize.Height * 10.0f - 0.5F));
@@ -107,73 +107,81 @@ void initLevel()
 	g_platformArray[0]->PolyDef->vertices[6].Set( 10.0f, 2.8f);
 
 	g_platformArray[0]->PolyDef->density = 0.0f;
-	g_platformArray[0]->PolyDef->friction = 1.0f;
+	g_platformArray[0]->PolyDef->friction = 0.2f;
+	g_platformArray[0]->PolyDef->restitution = 0.0f;
 	g_platformArray[0]->BodyDef = new b2BodyDef();
 	g_platformArray[0]->BodyDef->position.Set(15.0f, -2.4f);
 	g_platformArray[0]->BodyDef->AddShape(g_platformArray[0]->PolyDef);
 	g_platformArray[0]->Body = g_world->CreateBody(g_platformArray[0]->BodyDef);
 	
 	
-	g_platformArray[2] = new Poly();
-	g_platformArray[2]->PolyDef = new b2PolyDef();	// little plat
-	g_platformArray[2]->PolyDef->vertexCount = 8;
-	g_platformArray[2]->PolyDef->vertices[0].Set( -9.0f, 0.0f);
-	g_platformArray[2]->PolyDef->vertices[1].Set( -12.0f, -1.0f);
-	g_platformArray[2]->PolyDef->vertices[2].Set( -12.0f, -3.0f);
-	g_platformArray[2]->PolyDef->vertices[3].Set( -8.0f, -4.0f);	
-	g_platformArray[2]->PolyDef->vertices[4].Set( -2.0f, -4.0f);	
-	g_platformArray[2]->PolyDef->vertices[5].Set( 3.0f, -2.0f);
-	g_platformArray[2]->PolyDef->vertices[6].Set( 2.0f, -0.1f);	
-	g_platformArray[2]->PolyDef->vertices[7].Set( -3.0f, 0.0f);
+	g_platformArray[1] = new Poly();
+	g_platformArray[1]->PolyDef = new b2PolyDef();	// little plat
+	g_platformArray[1]->PolyDef->vertexCount = 8;
+	g_platformArray[1]->PolyDef->vertices[0].Set( -9.0f, 0.0f);
+	g_platformArray[1]->PolyDef->vertices[1].Set( -12.0f, -1.0f);
+	g_platformArray[1]->PolyDef->vertices[2].Set( -12.0f, -3.0f);
+	g_platformArray[1]->PolyDef->vertices[3].Set( -8.0f, -4.0f);	
+	g_platformArray[1]->PolyDef->vertices[4].Set( -2.0f, -4.0f);	
+	g_platformArray[1]->PolyDef->vertices[5].Set( 3.0f, -2.0f);
+	g_platformArray[1]->PolyDef->vertices[6].Set( 2.0f, -0.1f);	
+	g_platformArray[1]->PolyDef->vertices[7].Set( -3.0f, 0.0f);
 
+	g_platformArray[1]->PolyDef->density = 0.0f;
+	g_platformArray[1]->PolyDef->friction = 0.2f;
+	g_platformArray[1]->PolyDef->restitution = 0.0f;
+	g_platformArray[1]->BodyDef = new b2BodyDef();
+	g_platformArray[1]->BodyDef->position.Set(11.0f, -21.0f);
+	g_platformArray[1]->BodyDef->AddShape(g_platformArray[1]->PolyDef);
+	g_platformArray[1]->Body = g_world->CreateBody(g_platformArray[1]->BodyDef);
+
+	g_platformArray[2] = new Poly();
+	g_platformArray[2]->PolyDef = new b2PolyDef();	// bongo base
+	g_platformArray[2]->PolyDef->vertexCount = 4;
+	g_platformArray[2]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
+	g_platformArray[2]->PolyDef->vertices[1].Set( 5.0f, -5.0f);
+	g_platformArray[2]->PolyDef->vertices[2].Set( 10.0f,-3.0f);
+	g_platformArray[2]->PolyDef->vertices[3].Set( 6.0f, 4.0f);
+	
 	g_platformArray[2]->PolyDef->density = 0.0f;
-	g_platformArray[2]->PolyDef->friction = 1.0f;
+	g_platformArray[2]->PolyDef->friction = 0.2f;
+	g_platformArray[2]->PolyDef->restitution = 0.0f;
 	g_platformArray[2]->BodyDef = new b2BodyDef();
-	g_platformArray[2]->BodyDef->position.Set(11.0f, -21.0f);
+	g_platformArray[2]->BodyDef->position.Set(30.0f, -15.0f);
 	g_platformArray[2]->BodyDef->AddShape(g_platformArray[2]->PolyDef);
 	g_platformArray[2]->Body = g_world->CreateBody(g_platformArray[2]->BodyDef);
-
+	
 	g_platformArray[3] = new Poly();
-	g_platformArray[3]->PolyDef = new b2PolyDef();	// bongo base
-	g_platformArray[3]->PolyDef->vertexCount = 4;
+	g_platformArray[3]->PolyDef = new b2PolyDef();	// bongo top
+	g_platformArray[3]->PolyDef->vertexCount = 3;
 	g_platformArray[3]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
-	g_platformArray[3]->PolyDef->vertices[1].Set( 5.0f, -5.0f);
-	g_platformArray[3]->PolyDef->vertices[2].Set( 10.0f,-3.0f);
-	g_platformArray[3]->PolyDef->vertices[3].Set( 6.0f, 4.0f);	
+	g_platformArray[3]->PolyDef->vertices[1].Set( 5.0f, 4.0f);
+	g_platformArray[3]->PolyDef->vertices[2].Set( 2.5f, 4.0f);
+	g_platformArray[3]->PolyDef->restitution = 2.8F;
+	
 	g_platformArray[3]->PolyDef->density = 0.0f;
-	g_platformArray[3]->PolyDef->friction = 1.0f;
+	g_platformArray[3]->PolyDef->friction = 0.2f;
+	g_platformArray[3]->PolyDef->restitution = 0.0f;
 	g_platformArray[3]->BodyDef = new b2BodyDef();
 	g_platformArray[3]->BodyDef->position.Set(30.0f, -15.0f);
 	g_platformArray[3]->BodyDef->AddShape(g_platformArray[3]->PolyDef);
 	g_platformArray[3]->Body = g_world->CreateBody(g_platformArray[3]->BodyDef);
 	
 	g_platformArray[4] = new Poly();
-	g_platformArray[4]->PolyDef = new b2PolyDef();	// bongo top
-	g_platformArray[4]->PolyDef->vertexCount = 3;
-	g_platformArray[4]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
-	g_platformArray[4]->PolyDef->vertices[1].Set( 5.0f, 4.0f);
-	g_platformArray[4]->PolyDef->vertices[2].Set( 2.5f, 4.0f);
-	g_platformArray[4]->PolyDef->restitution = 2.8F;
+	g_platformArray[4]->PolyDef = new b2PolyDef();	// plat under bongo
+	g_platformArray[4]->PolyDef->vertexCount = 4;
+	g_platformArray[4]->PolyDef->vertices[0].Set( 0.0f, -0.5f);
+	g_platformArray[4]->PolyDef->vertices[1].Set( 0.0f, -4.0f);
+	g_platformArray[4]->PolyDef->vertices[2].Set( 13.0f,-4.0f);
+	g_platformArray[4]->PolyDef->vertices[3].Set( 13.0f, 1.0f);
+	
 	g_platformArray[4]->PolyDef->density = 0.0f;
-	g_platformArray[4]->PolyDef->friction = 1.0f;
+	g_platformArray[4]->PolyDef->friction = 0.2f;
+	g_platformArray[4]->PolyDef->restitution = 0.0f;
 	g_platformArray[4]->BodyDef = new b2BodyDef();
-	g_platformArray[4]->BodyDef->position.Set(30.0f, -15.0f);
+	g_platformArray[4]->BodyDef->position.Set(27.0f, -20.5f);
 	g_platformArray[4]->BodyDef->AddShape(g_platformArray[4]->PolyDef);
 	g_platformArray[4]->Body = g_world->CreateBody(g_platformArray[4]->BodyDef);
-	
-	g_platformArray[5] = new Poly();
-	g_platformArray[5]->PolyDef = new b2PolyDef();	// plat under bongo
-	g_platformArray[5]->PolyDef->vertexCount = 4;
-	g_platformArray[5]->PolyDef->vertices[0].Set( 0.0f, -0.5f);
-	g_platformArray[5]->PolyDef->vertices[1].Set( 0.0f, -4.0f);
-	g_platformArray[5]->PolyDef->vertices[2].Set( 13.0f,-4.0f);
-	g_platformArray[5]->PolyDef->vertices[3].Set( 13.0f, 1.0f);	
-	g_platformArray[5]->PolyDef->density = 0.0f;
-	g_platformArray[5]->PolyDef->friction = 1.0f;
-	g_platformArray[5]->BodyDef = new b2BodyDef();
-	g_platformArray[5]->BodyDef->position.Set(27.0f, -20.5f);
-	g_platformArray[5]->BodyDef->AddShape(g_platformArray[5]->PolyDef);
-	g_platformArray[5]->Body = g_world->CreateBody(g_platformArray[5]->BodyDef);
 }
 
 // INIT PLAYER AND RANDOM BALLS (FOR NOW)
@@ -198,7 +206,6 @@ void initPlayer()
 		g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].CircleDef);
 		
 		g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
-		g_spriteArray[i].ColBody = g_spriteArray[i].Body;
 	}
 	
 	// INIT PLAYER
@@ -224,25 +231,6 @@ void initPlayer()
 	g_spriteArray[0].BodyDef->AddShape(g_spriteArray[0].CircleDef);
 	
 	g_spriteArray[0].Body = g_world->CreateBody(g_spriteArray[0].BodyDef);
-	
-	// INIT PLAYER COLLISION
-	g_spriteArray[0].ColCircleDef = new b2CircleDef();
-	g_spriteArray[0].ColBodyDef =  new b2BodyDef();
-	
-	g_spriteArray[0].ColCircleDef->radius = 34 / 2 * SCALE; 
-	g_spriteArray[0].ColCircleDef->density = 1.0F; 
-	g_spriteArray[0].ColCircleDef->friction = 1.0F; 
-	g_spriteArray[0].ColCircleDef->restitution = 0.0F;
-
-	g_spriteArray[0].ColBodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
-	g_spriteArray[0].ColBodyDef->allowSleep = false;
-	g_spriteArray[0].ColBodyDef->preventRotation = false;
-	g_spriteArray[0].ColBodyDef->angularDamping = 0.04f;
-	g_spriteArray[0].ColBodyDef->linearDamping = 0.00f;
-
-	g_spriteArray[0].ColBodyDef->AddShape(g_spriteArray[0].ColCircleDef);
-	
-	g_spriteArray[0].ColBody = g_world->CreateBody(g_spriteArray[0].ColBodyDef);
 
 		// me playing with a box
 
@@ -285,7 +273,6 @@ void initPlayer()
 	g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].BoxDef);
 	
 	g_spriteArray[1].Body = g_world->CreateBody(g_spriteArray[1].BodyDef);
-	g_spriteArray[1].ColBody = g_spriteArray[1].Body;
 }
 
 

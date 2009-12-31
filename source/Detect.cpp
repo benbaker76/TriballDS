@@ -68,7 +68,7 @@ void updateCharacterContacts(Circle *pChar)
 	
 //	DrawString("                                ", 0, 7, true);
 
-	for (b2ContactNode* contactNode = pChar->ColBody->GetContactList(); contactNode; contactNode = contactNode->next)
+	for (b2ContactNode* contactNode = pChar->Body->GetContactList(); contactNode; contactNode = contactNode->next)
 	{
 		b2Contact* contact = contactNode->contact;
 		
@@ -79,7 +79,7 @@ void updateCharacterContacts(Circle *pChar)
 			b2Body* body = NULL;
 			
 			// Which body is the player?
-			if(pChar->ColBody == body1)
+			if(pChar->Body == body1)
 				body = body2;
 			else
 				body = body1;
@@ -91,7 +91,7 @@ void updateCharacterContacts(Circle *pChar)
 				b2Manifold* manifold = contact->GetManifolds();
 				b2ContactPoint* cp = manifold->points;
 				b2Vec2 position1 = cp->position;
-				b2Vec2 position2 = pChar->ColBody->GetOriginPosition();
+				b2Vec2 position2 = pChar->Body->GetOriginPosition();
 				
 				pChar->OnGround = (position1.y < position2.y);
 				
@@ -109,7 +109,7 @@ void updateCharacterContacts(Circle *pChar)
 						b2Manifold* manifold = contact->GetManifolds();
 						b2ContactPoint* cp = manifold->points;
 						b2Vec2 position1 = cp->position;
-						b2Vec2 position2 = pChar->ColBody->GetOriginPosition();
+						b2Vec2 position2 = pChar->Body->GetOriginPosition();
 						
 						pChar->OnGround = (position1.y < position2.y);
 						
@@ -128,7 +128,7 @@ void updateCharacterContacts(Circle *pChar)
 						b2Manifold* manifold = contact->GetManifolds();
 						b2ContactPoint* cp = manifold->points;
 						b2Vec2 position1 = cp->position;
-						b2Vec2 position2 = pChar->ColBody->GetOriginPosition();
+						b2Vec2 position2 = pChar->Body->GetOriginPosition();
 						
 						pChar->OnGround = (position1.y < position2.y);
 					}
