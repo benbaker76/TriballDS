@@ -198,24 +198,7 @@ void initPlayer()
 		g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].CircleDef);
 		
 		g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
-
-		if(i == 0) // If we are the main player create a collision circle around it so detection is earlier than the visible character
-		{
-			g_spriteArray[i].ColCircleDef = new b2CircleDef();
-			g_spriteArray[i].ColBodyDef =  new b2BodyDef();
-		
-			g_spriteArray[i].ColCircleDef->radius = 34 / 2 * SCALE; 
-			g_spriteArray[i].ColCircleDef->density = 1.0F; 
-			g_spriteArray[i].ColCircleDef->friction = 1.0F; 
-			g_spriteArray[i].ColCircleDef->restitution = 0.4F;
-		
-			g_spriteArray[i].ColBodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
-			g_spriteArray[i].ColBodyDef->AddShape(g_spriteArray[i].ColCircleDef);
-		
-			g_spriteArray[i].ColBody = g_world->CreateBody(g_spriteArray[i].ColBodyDef);
-		}
-		else
-			g_spriteArray[i].ColBody = g_spriteArray[i].Body; // We are an enemy so just make the collision body the main body to save CPU time
+		g_spriteArray[i].ColBody = g_spriteArray[i].Body;
 	}
 	
 	// INIT PLAYER
@@ -302,6 +285,7 @@ void initPlayer()
 	g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].BoxDef);
 	
 	g_spriteArray[1].Body = g_world->CreateBody(g_spriteArray[1].BodyDef);
+	g_spriteArray[1].ColBody = g_spriteArray[1].Body;
 }
 
 

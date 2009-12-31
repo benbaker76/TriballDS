@@ -131,7 +131,7 @@ void drawGLScene()
 		float rotation = g_spriteArray[i].Body->GetRotation();
 		
 		glPushMatrix();
-		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + g_texelSize.Width);
+		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + 0.01F);
 		glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
 	//	glRotatef(degreesToAngle(rotation), 0.0f, 0.0f, 1.0f); // this does not work?
 		drawQuad(0.4f, 32, QUADFLAGS_NONE);
