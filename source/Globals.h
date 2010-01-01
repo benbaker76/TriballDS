@@ -28,14 +28,11 @@ struct Circle						// define the elements that construct our 'balls'
 	
 	float X;
 	float Y;
-	float XSpeed;
-	float YSpeed;
-	int Angle;
 	int Status;
 	int Type;
 	int Action;
 	bool OnGround;
-	bool LandTrap;
+
 };
 
 struct Poly
@@ -43,6 +40,13 @@ struct Poly
 	b2PolyDef* PolyDef;
 	b2BodyDef* BodyDef;
 	b2Body* Body;
+};
+
+struct Trail
+{
+	float X;
+	float Y;
+	float Rot;
 };
 
 /* struct Rect
@@ -157,38 +161,23 @@ enum QuadFlags
 #define LEVEL_HEIGHT				512
 	
 	// Defines for the physics effects
-#define 	ACCEL				0.95F			// Horizontal acceleration on forced movement		( *1.5 when turning)
-#define		MAXACCEL			24.0F			// Maximum horizontal speed
-#define		TURNSPEED			3.0F			// multiple of ACCEL when turning (should only work when on platform)
+#define 	ACCEL				1.05F			// Horizontal acceleration on forced movement		( *1.5 when turning)
+#define		MAXACCEL			25.0F			// Maximum horizontal speed
+#define		TURNSPEED			2.6F			// multiple of ACCEL when turning (should only work when on platform)
 #define		FRICTION			0.2f
 #define 	ROTSPEED			0.2f			// Speed in which to increase rotation when moving on platform
-#define		ROTMAX				10.0f			// Maximum 'controlled' rotation speed
-#define		JUMPSPEED			60.0F			// initial speed of a jump
-#define		AIRSPIN				3.0f			// multiplyer to add spin to a jumping ball
-
-// THESE ARE NOT USED CURRENTLY
-#define		BOUNCE_X_DEADEN		1.55F			// how much to deaden a horzontal bounce
-#define		GRAVITY				0.18F			// force of gravity									(affects jump and bounce)
-#define		BOUNCEFACTOR		0				// used to reverse a vertical drop for a bounce		( < for more bounces)
-#define		BOUNCEFACTORAMOUNT	1.55F			// the amount of bounce to allow on a vertical drop	( > for smaller bounce)
-#define		MAXYSPEED			4.5F			// maximum speed you can drop
-#define		ROLLSPEEDLIMIT		1F				// speed at which a roll works of a platform
-#define		ROLLSPEED			0.15F			// amount ball speed is affected by a roll
-
+#define		ROTMAX				16.0f			// Maximum 'controlled' rotation speed
+#define		JUMPSPEED			45.0F			// initial speed of a jump
+#define		AIRSPIN				4.5f			// multiplyer to add spin to a jumping ball
 
 	// Defines for ball properties
-#define		BALLSCROLLX			72				// closeness to sides to enable scrolling
-#define		BALLSCROLLY			80				// closeness to top/bot to enable scrolling
 #define		BALLSIZE			32				// Size of balls
-#define		BALLOFFSET			0				// Ball offset of balls
-#define		BALLCOUNT			2				// Number of balls
+#define		BALLCOUNT			1				// Number of balls
 
 	// Defines for player (ball) status
 	
 #define		BALLSTATUS_NORMAL				0
 #define		BALLSTATUS_JUMPING				1
-#define		BALLSTATUS_FALLING				2
-#define		BALLSTATUS_GROUNDTOUCH			3
 
 	//	Defines for the balls type
 	
@@ -204,29 +193,15 @@ enum QuadFlags
 #define		ACTION_SLOW			3
 #define		ACTION_NEWJUMP		4
 
-	// Collision data (these are the decypted values from colmaps)
-	
-#define		PLATFORM			2				// the highest value of a decryted colmap platform
-
-#define		BLANK				0
-#define		SOLID				1
-#define		JUMPTHROUGH			2
-#define		CRUMBLER			3
-#define		FALLER				4
-
-#define		DEADLY				64
-
+	// Define for scale factor
 #define		SCALE				0.1F
 
-#define		VELX				5.0F
-#define		VELY				5.0F
-#define		IMPX				0.01F
-#define		IMPY				0.01F
-
+	// Defines for GL level contruction
 #define		LEVELTEXTURECOUNT		(4 * 4)
 #define		LEVELQUADCOUNT			(4 * 4)
 #define		TEXTURECOUNT			(LEVELTEXTURECOUNT + 5)
 
+	// Defines for objects
 #define		TEXTURE_BALL01			(LEVELTEXTURECOUNT + 0)
 #define		TEXTURE_BALL02			(LEVELTEXTURECOUNT + 1)
 #define		TEXTURE_BALL03			(LEVELTEXTURECOUNT + 2)
@@ -236,11 +211,23 @@ enum QuadFlags
 
 #define		PLATFORMCOUNT			5
 
+	// Defines for the Trails on the Players balls
+	
+#define		TRAILCOUNT				32		// This may be a good idea to have this as a global, then we could have fun with other lenghs
+#define		TRAILINTERVAL			6
+
 #endif
 
 // This means that g_playerBall; is defined externally (in Globals.cpp)
 
 extern Circle g_spriteArray[];
+
+extern Trail TrailPoints[];
+
+
+extern Point TT[];			// could not work out how to use points in Circle (left books at work)
+
+
 extern Vector2 g_scrollPos;
 extern Vector3 g_cameraPos;
 extern Vector3 g_cameraStart;
@@ -255,7 +242,7 @@ extern float timeStep;
 extern int iterations;
 
 extern bool g_jumpTrap;
-extern bool g_reJump;
+extern int g_reJump;
 
 extern b2AABB* g_worldAABB;
 extern b2World* g_world;

@@ -29,12 +29,10 @@ void debugText()
 	char buffer[20];
 	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
 	float rotationP = g_spriteArray[0].Body->GetRotation();
-	sprintf(buffer, "%d X ",(int)(position.x * 10));
-	DrawString(buffer, 10, 21, true);
-	sprintf(buffer, "%d Y ",192 - (int)(position.y * 10));
-	DrawString(buffer, 16, 21, true);
-	sprintf(buffer, "%d Rot",(int)(rotationP *100));
-	DrawString(buffer, 16, 20, true);
+	sprintf(buffer, "X: %d,Y: %d   ",(int)(position.x * 10),192 - (int)(position.y * 10));
+	DrawString(buffer, 0, 21, true);
+	sprintf(buffer, "Rotation Value: %d        ",(int)(rotationP *10));
+	DrawString(buffer, 0, 22, true);
 	
 	
 	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
@@ -49,9 +47,12 @@ void debugText()
 	DrawString(buffer, 0, 18, true);	
 	
 	if (g_spriteArray[0].OnGround != FALSE)
-		DrawString("ON GROUND", 0, 16, true);
+		DrawString("ON GROUND", 0, 6, true);
 	else
-		DrawString("NO GROUND", 0, 16, true);
+		DrawString("NO GROUND", 0, 6, true);
+		
+	sprintf(buffer, "ReJump %d  ",g_reJump);
+	DrawString(buffer, 0, 16, true);	
 }
 
 int main(void)
@@ -69,9 +70,10 @@ int main(void)
 	initPlayer();
 
 	DrawString("Triball, whatever next?", 0, 0, true);
-	DrawString("So, Control, hmm...", 0, 4, true);
-	DrawString("ALPHA 0.00000006 and an onion", 0, 2, true);
+	DrawString("Little detect problem...", 0, 4, true);
+	DrawString("ALPHA 0.00000007 and an winkle", 0, 2, true);
 	
+	int TrailDelay = TRAILINTERVAL;
 	// --------------------------
 	
 	while(1)
@@ -92,14 +94,37 @@ int main(void)
 			updateCharacterContacts(&g_spriteArray[i]);	
 		}
 		
-		b2Vec2 v(g_input.touch.px * SCALE, -g_input.touch.py * SCALE);
-		g_spriteArray[1].Body->SetCenterPosition(v, g_spriteArray[1].Body->GetRotation());
+		if (g_reJump > 0) g_reJump -= 1;
+		
+//		b2Vec2 v(g_input.touch.px * SCALE, -g_input.touch.py * SCALE);
+//		g_spriteArray[1].Body->SetCenterPosition(v, g_spriteArray[1].Body->GetRotation());
 		
 		updateCamera();
+
 
 		//updateWorldContacts();
 		
 		g_world->Step(timeStep, iterations);
+		
+		
+// My little bit of junk for now! (Looks shit!!)
+//if((REG_VCOUNT % TRAILINTERVAL) == 0) Did not work for me?
+		TrailDelay -= 1;
+		if (TrailDelay == 0)
+		 
+		 {
+			TrailDelay = TRAILINTERVAL;
+		 	for(int i=1; i<TRAILCOUNT; i++)
+			{	
+				TrailPoints[i].X = TrailPoints[i-1].X;
+				TrailPoints[i].Y = TrailPoints[i-1].Y;
+				TrailPoints[i].Rot = TrailPoints[i-1].Rot;
+			}
+			b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+			TrailPoints[0].X = position.x;
+			TrailPoints[0].Y = position.y;
+			TrailPoints[0].Rot = g_spriteArray[0].Body->GetRotation();
+		 }
 		
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
@@ -111,8 +136,11 @@ int main(void)
 		glFlush(0);
 
 
+
 		// Wait for vblank
 		swiWaitForVBlank();
+		
+//		TrailPoints[9].X = 0.0f;
 		
 		//loadTextures();
 	}

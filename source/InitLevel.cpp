@@ -47,7 +47,7 @@ void initLevel()
 	g_worldAABB = new b2AABB();
 	g_worldAABB->minVertex.Set(-(g_levelGridSize.Width * 10.0F), -(g_levelGridSize.Height * 10.0F));
 	g_worldAABB->maxVertex.Set(g_levelGridSize.Width * 10.0F, g_levelGridSize.Height * 10.0F);
-	g_gravity = new b2Vec2(0.0f, -50.0f);
+	g_gravity = new b2Vec2(0.0f, -40.0f);								// -30 for Gravity seems to work best (better than -50)
 	
 	bool doSleep = true;
 	
@@ -56,7 +56,7 @@ void initLevel()
 	g_groundBoxDef = new b2BoxDef();
 	g_groundBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 1.0f);
 	g_groundBoxDef->density = 0.0f;
-	g_groundBoxDef->friction = 0.2f;
+	g_groundBoxDef->friction = 1.0f;
 	g_groundBoxDef->restitution = 0.0F;	
 
 	g_groundBodyDef = new b2BodyDef(); 
@@ -107,7 +107,7 @@ void initLevel()
 	g_platformArray[0]->PolyDef->vertices[6].Set( 10.0f, 2.8f);
 
 	g_platformArray[0]->PolyDef->density = 0.0f;
-	g_platformArray[0]->PolyDef->friction = 0.2f;
+	g_platformArray[0]->PolyDef->friction = 1.0f;
 	g_platformArray[0]->PolyDef->restitution = 0.0f;
 	g_platformArray[0]->BodyDef = new b2BodyDef();
 	g_platformArray[0]->BodyDef->position.Set(15.0f, -2.4f);
@@ -128,7 +128,7 @@ void initLevel()
 	g_platformArray[1]->PolyDef->vertices[7].Set( -3.0f, 0.0f);
 
 	g_platformArray[1]->PolyDef->density = 0.0f;
-	g_platformArray[1]->PolyDef->friction = 0.2f;
+	g_platformArray[1]->PolyDef->friction = 1.0f;
 	g_platformArray[1]->PolyDef->restitution = 0.0f;
 	g_platformArray[1]->BodyDef = new b2BodyDef();
 	g_platformArray[1]->BodyDef->position.Set(11.0f, -21.0f);
@@ -144,7 +144,7 @@ void initLevel()
 	g_platformArray[2]->PolyDef->vertices[3].Set( 6.0f, 4.0f);
 	
 	g_platformArray[2]->PolyDef->density = 0.0f;
-	g_platformArray[2]->PolyDef->friction = 0.2f;
+	g_platformArray[2]->PolyDef->friction = 1.0f;
 	g_platformArray[2]->PolyDef->restitution = 0.0f;
 	g_platformArray[2]->BodyDef = new b2BodyDef();
 	g_platformArray[2]->BodyDef->position.Set(30.0f, -15.0f);
@@ -175,7 +175,7 @@ void initLevel()
 	g_platformArray[4]->PolyDef->vertices[3].Set( 13.0f, 1.0f);
 	
 	g_platformArray[4]->PolyDef->density = 0.0f;
-	g_platformArray[4]->PolyDef->friction = 0.2f;
+	g_platformArray[4]->PolyDef->friction = 1.0f;
 	g_platformArray[4]->PolyDef->restitution = 0.0f;
 	g_platformArray[4]->BodyDef = new b2BodyDef();
 	g_platformArray[4]->BodyDef->position.Set(27.0f, -20.5f);
@@ -260,14 +260,12 @@ void initPlayer()
 	
 	g_spriteArray[1].BoxDef->extents.Set(32 / 2 * SCALE, 32 / 2 * SCALE);
 	g_spriteArray[1].BoxDef->density = 1.0F; 
-	g_spriteArray[1].BoxDef->friction = 1.0F; 
-	g_spriteArray[1].BoxDef->restitution = 0.0F; 
+	g_spriteArray[1].BoxDef->friction = 0.05F; 
+	g_spriteArray[1].BoxDef->restitution = 0.8F; 
 
 	g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
 	g_spriteArray[1].BodyDef->allowSleep = false;
 	g_spriteArray[1].BodyDef->preventRotation = false;
-	g_spriteArray[1].BodyDef->angularDamping = 0.04f;
-	g_spriteArray[1].BodyDef->linearDamping = 0.00f;
 
 	g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].BoxDef);
 	

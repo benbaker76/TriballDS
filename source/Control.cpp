@@ -13,9 +13,7 @@
 
 
 void moveCharacter(Circle *pChar)
-{
-	pChar->LandTrap = FALSE;
-	
+{	
 	b2Vec2 vel = pChar->Body->GetLinearVelocity();
 	if (pChar->Type == BALLTYPE_PLAYER)				// PLAYER MOVEMENT
 	{
@@ -26,29 +24,27 @@ void moveCharacter(Circle *pChar)
 		else if (pChar->Status != BALLSTATUS_JUMPING)	// No Movement
 			pChar->Action = ACTION_SLOW;
 			
-		if (g_input.keysHeld & KEY_A || g_input.keysHeld & KEY_B || g_reJump == TRUE)				// Check for a jump and init if able
+		if (g_input.keysHeld & KEY_A || g_input.keysHeld & KEY_B || g_reJump >0)			// Check for a jump and init if able
 		{
 			if (pChar->Status != BALLSTATUS_JUMPING && pChar->OnGround && vel.y > -1.0f)	// We could start a jump
 			{
-				if (g_jumpTrap == FALSE || g_reJump == TRUE)								// ok, jump
+				if (g_jumpTrap == FALSE || g_reJump >0 )							// ok, jump
 				{
-					pChar->Status = BALLSTATUS_JUMPING;
-					pChar->LandTrap = TRUE;
-					pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
-					g_jumpTrap = TRUE;
-					if (g_reJump == TRUE) g_reJump = FALSE;
-					//	pChar->Body->ApplyImpulse(b2Vec2(0.0, 250.0), pChar->Body->GetCenterPosition());
-					//	pChar->Body->ApplyForce(b2Vec2(0.0f,10.0f),b2Vec2(0.0f,0.0f) );
+					pChar->Status = BALLSTATUS_JUMPING;								// Set to jumping
+					pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));		// set the velocity of the jump
+					g_jumpTrap = TRUE;												// trap 'Jump Button' from releasing
+					if (g_reJump > 0) g_reJump = 0;									// if this was caused by a buffered jump, clear it
 				}
 			}
-			else if (g_jumpTrap == FALSE && vel.y < 1.0f)									// if we cant jump, then
+			else if (g_jumpTrap == FALSE)											// if we cant jump, then check if a buffered jump is free
 			{
-				g_reJump = TRUE;															// store a jump for when we can
-			}
+				g_reJump = 40;														// Set the timer for a reJump
+				g_jumpTrap = TRUE;													// Trap the jump again
+			}	
 		}
 		else
 		{
-			g_jumpTrap = FALSE;																// not pressing jump, so clear flag
+			g_jumpTrap = FALSE;														// not pressing jump, so clear flag
 		}
 	}
 	else if (pChar->Type == BALLTYPE_EVILBALL)			// ENEMY BALL MOVEMENT
@@ -59,11 +55,12 @@ void moveCharacter(Circle *pChar)
 			if ((Action == ACTION_NEWJUMP) && (pChar->Status != BALLSTATUS_JUMPING && pChar->OnGround))
 			{
 				pChar->Status = BALLSTATUS_JUMPING;
-				pChar->LandTrap = TRUE;
 				pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));
 			}
-			if (Action == ACTION_NEWJUMP) Action = pChar->Action;	// retain current direction
-			pChar->Action = Action;
+			else if (Action != ACTION_NEWJUMP)
+			{
+				pChar->Action = Action;
+			}
 		}	
 	}
 }
@@ -77,86 +74,67 @@ void updateCharacter(Circle *pChar)
 	int charAction = pChar->Action;
 	int charStatus = pChar->Status;
 	
-	if (charAction == ACTION_MOVELEFT)									// MOVE LEFT
+	switch (charAction)
 	{
+	case ACTION_MOVELEFT:														// MOVE LEFT
 		if (pChar->OnGround)
 		{
 			if (vel.x > 0)			// We are moving RIGHT, turn quicker
-			{
 				vel.x -= ACCEL * TURNSPEED;
-				if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
-			}
 			else					// We are already moving LEFT
-			{
 				vel.x -= ACCEL;
-				if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
-			}
-			if (charAVelocity < ROTMAX ) charAVelocity += ROTSPEED;
+			if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;					// Make sure we do not move too fast
+			if (charAVelocity < ROTMAX ) charAVelocity += ROTSPEED;	// Make sure we do not spin too fast
 		}
-		else						// we are jumping and trying to move LEFT
+		else						// trying to move LEFT while in the air
 		{	
-			vel.x -= ACCEL /2 ;
+			vel.x -= ACCEL / 1.75 ;
 			if (vel.x < -MAXACCEL) vel.x = -MAXACCEL;
 			if (charAVelocity < ROTMAX ) charAVelocity += ROTSPEED * AIRSPIN;
 		}
-	}
-	else if (charAction == ACTION_MOVERIGHT)							// MOVE RIGHT
-	{
+		break;
+	case ACTION_MOVERIGHT:														// MOVE RIGHT
 		if (pChar->OnGround)
 		{
 			if (vel.x < 0)			// We are moving LEFT, turn quicker
-			{
 				vel.x += ACCEL * TURNSPEED;
-				if (vel.x > MAXACCEL) vel.x = MAXACCEL;
-			}
 			else					// We are already moving RIGHT
-			{
 				vel.x += ACCEL;
-				if (vel.x > MAXACCEL) vel.x = MAXACCEL;
-			}
-			if (charAVelocity > ROTMAX ) charAVelocity -= ROTSPEED;
+			if (vel.x > MAXACCEL) vel.x = MAXACCEL;					// Make sure we do not move too fast
+			if (charAVelocity > ROTMAX ) charAVelocity -= ROTSPEED;	// Make sure we do not spin too fast
 		}
-		else						// we are jumping and trying to move RIGHT
+		else						// trying to move RIGHT while in the air
 		{	
-			vel.x += ACCEL /2 ;
+			vel.x += ACCEL / 1.75 ;
 			if (vel.x > MAXACCEL) vel.x = MAXACCEL;
 			if (charAVelocity > -ROTMAX ) charAVelocity -= ROTSPEED * AIRSPIN;
 		}
-	}
-	else if (charAction == ACTION_SLOW)									// SLOW DOWN
-	{
+		break;
+	case ACTION_SLOW:															// SLOW DOWN
 		float oldvel = vel.x;
 		if (vel.x > 0.0f)
-			{
 			vel.x -= FRICTION / 2;
-			if (oldvel > 0 && vel.x < 0) 
-				vel.x = 0;
-			}
 		else
-			{
 			vel.x += FRICTION / 2;
-			if (oldvel < 0 && vel.x > 0)
-				vel.x = 0;
-			}
-	};
-	if (charStatus == BALLSTATUS_JUMPING)							// UPDATE JUMP
+			if (oldvel > 0 && vel.x < 0) vel.x = 0;
+
+		break;
+	}
+	if (charStatus == BALLSTATUS_JUMPING)										// UPDATE JUMP
 	{
-		vel.x = vel.x / 1.02f ;				// we need to shorten our linear velocity horizontally to make it more parabolic
-		// Check if we have landed!
-		if(pChar->OnGround && pChar->LandTrap == FALSE && vel.y < 1.0f)		// This will not work correctly as we need to set vel.y
-		{											// to 0 when landed, and doing so stops another jump,
-			pChar->Status = BALLSTATUS_NORMAL;		// as a new jump is instantly killed by groundcheck
-													// I have an idea that I will implement when plats are in!
-		//	if (vel.y > JUMPSPEED)
-		//	vel.y = 0;							// uncomment to try
-		}
+		if (charAction != ACTION_SLOW)											// if we are moving in a direction the we need to shorten our -
+		vel.x = vel.x / 1.03f ;													// velocity horizontally to make it more parabolic.
+		if(pChar->OnGround && vel.y < 0.0f) pChar->Status = BALLSTATUS_NORMAL;	// if onGround, return to normal control
 	} 
 
-	// Update changes to velocities
+	// Update changes to velocities (x,y and rotation)
 	pChar->Body->SetAngularVelocity(charAVelocity);	
 	pChar->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-	// Reset movement if Player
+	// Reset movement if this is a Player
 	if (pChar->Type == BALLTYPE_PLAYER) pChar->Action = 0;
+
+	// this is to compensate for a slightly lower gravity
+	pChar->Body->ApplyImpulse(b2Vec2(0.0, -3.0f), pChar->Body->GetCenterPosition());
 
 }
 // removed for now!

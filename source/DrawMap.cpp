@@ -123,6 +123,17 @@ void drawGLScene()
 		drawQuad(0.4f, 32, QUADFLAGS_NONE);
 		glPopMatrix(1);
 	}
+
+	for (int i=0; i<TRAILCOUNT; i++)
+	{	
+		glBindTexture(0, g_textureIDS[TEXTURE_BALL02]);
+		glPushMatrix();
+		glTranslatef(TrailPoints[i].X * SCALE, TrailPoints[i].Y * SCALE, -1 + 0.01F);
+		glRotatef(TrailPoints[i].Rot * (180 / PI), 0.0f, 0.0f, 1.0f);
+		drawQuad(0.4f, 32, QUADFLAGS_NONE);
+		glPopMatrix(1);
+	}
+	
 	
 	drawMap();
 	
