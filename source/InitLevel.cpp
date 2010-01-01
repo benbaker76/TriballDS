@@ -157,11 +157,10 @@ void initLevel()
 	g_platformArray[3]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
 	g_platformArray[3]->PolyDef->vertices[1].Set( 5.0f, 4.0f);
 	g_platformArray[3]->PolyDef->vertices[2].Set( 2.5f, 4.0f);
-	g_platformArray[3]->PolyDef->restitution = 2.8F;
 	
 	g_platformArray[3]->PolyDef->density = 0.0f;
 	g_platformArray[3]->PolyDef->friction = 0.2f;
-	g_platformArray[3]->PolyDef->restitution = 0.0f;
+	g_platformArray[3]->PolyDef->restitution = 2.8f;
 	g_platformArray[3]->BodyDef = new b2BodyDef();
 	g_platformArray[3]->BodyDef->position.Set(30.0f, -15.0f);
 	g_platformArray[3]->BodyDef->AddShape(g_platformArray[3]->PolyDef);
