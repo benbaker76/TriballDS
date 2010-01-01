@@ -13,7 +13,7 @@
 b2Body* getBodyAtPoint(Point* p)
 {
 	// Create a small box at point
-	/* b2Vec2 v = physics.screenToWorld(p->X, p->Y);
+	b2Vec2 v = b2Vec2(p->X / SCALE, p->Y / SCALE);
 	b2AABB aabb;
 	aabb.minVertex.Set(v.x - 0.001, v.y - 0.001);
 	aabb.maxVertex.Set(v.x + 0.001, v.y + 0.001);
@@ -38,7 +38,7 @@ b2Body* getBodyAtPoint(Point* p)
 			if (shape->TestPoint(position))
 				return body; // Return the first body found
 		}
-	} */
+	}
 
 	return NULL;
 } 
