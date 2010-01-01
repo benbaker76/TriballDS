@@ -172,7 +172,7 @@ enum QuadFlags
 
 	// Defines for ball properties
 #define		BALLSIZE			32				// Size of balls
-#define		BALLCOUNT			1				// Number of balls
+#define		BALLCOUNT			28				// Number of balls
 
 	// Defines for player (ball) status
 	
@@ -213,8 +213,8 @@ enum QuadFlags
 
 	// Defines for the Trails on the Players balls
 	
-#define		TRAILCOUNT				32		// This may be a good idea to have this as a global, then we could have fun with other lenghs
-#define		TRAILINTERVAL			6
+#define		TRAILCOUNT				8		// This may be a good idea to have this as a global, then we could have fun with other lenghs
+#define		TRAILINTERVAL			2
 
 #endif
 

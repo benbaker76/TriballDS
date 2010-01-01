@@ -140,8 +140,6 @@ int main(void)
 		// Wait for vblank
 		swiWaitForVBlank();
 		
-//		TrailPoints[9].X = 0.0f;
-		
 		//loadTextures();
 	}
 

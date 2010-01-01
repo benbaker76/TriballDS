@@ -25,7 +25,7 @@ void initLevel()
 	g_scrollPos.Y = 0;
 	
 	// box2d update vars
-	timeStep = 1.0f / 60.0f;
+	timeStep = 1.0f / 30.0f;
 	iterations = 1;
 	
 	g_cameraPos.X = 0;
@@ -189,7 +189,7 @@ void initPlayer()
 	for(int i=2; i<BALLCOUNT; i++)
 	{
 		g_spriteArray[i].Action = ACTION_NONE;	
-		g_spriteArray[i].X = (rand() % 30)+200; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
+		g_spriteArray[i].X = (rand() % 500)-250; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
 		g_spriteArray[i].Y =  192 - ((rand() % 100)); //(rand() % (LEVEL_HEIGHT-(BALLSIZE * 2))) + BALLSIZE;
 		g_spriteArray[i].Type = BALLTYPE_EVILBALL;
 		

@@ -130,7 +130,7 @@ void drawGLScene()
 		glPushMatrix();
 		glTranslatef(TrailPoints[i].X * SCALE, TrailPoints[i].Y * SCALE, -1 + 0.01F);
 		glRotatef(TrailPoints[i].Rot * (180 / PI), 0.0f, 0.0f, 1.0f);
-		drawQuad(0.4f, 32, QUADFLAGS_NONE);
+		drawQuad(0.2f, 32, QUADFLAGS_NONE);
 		glPopMatrix(1);
 	}
 	
