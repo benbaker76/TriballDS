@@ -103,7 +103,7 @@ void drawGLScene()
 	
 	glColorTable(GL_RGB256, g_palAddress[0]);
 	
-	for(int i=0; i<BALLCOUNT; i++)
+	for(int register i=0; i<BALLCOUNT; i++)
 	{	
 	
 		if (i==0)
@@ -124,17 +124,28 @@ void drawGLScene()
 		glPopMatrix(1);
 	}
 
-	for (int i=0; i<TRAILCOUNT; i++)
-	{	
-		glBindTexture(0, g_textureIDS[TEXTURE_BALL02]);
+	// Update trail display
+	glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
+	int drawPos = g_trailPos;
+	float drawScale = 0.4f;
+	float scaleStep = drawScale / (TRAILAMOUNT - 1);
+
+glEnable (GL_BLEND);
+
+glBlendFunc(GL_ONE, GL_ONE); // sniff - how do I use it?
+
+	for (int register i=0; i<TRAILAMOUNT; i++)
+	{
+		drawPos += TRAILINTERVAL - (i / TRAILINTERVAL);	// the (i/ti) is to pull the end sections closer (a kludge)
+		if (drawPos > (TRAILINTERVAL * TRAILAMOUNT) - 1) drawPos = drawPos - (TRAILINTERVAL * TRAILAMOUNT);
 		glPushMatrix();
-		glTranslatef(TrailPoints[i].X * SCALE, TrailPoints[i].Y * SCALE, -1 + 0.01F);
-		glRotatef(TrailPoints[i].Rot * (180 / PI), 0.0f, 0.0f, 1.0f);
-		drawQuad(0.2f, 32, QUADFLAGS_NONE);
-		glPopMatrix(1);
+		glTranslatef(TrailPoints[drawPos].X, TrailPoints[drawPos].Y, -1 + 0.01F);
+		glRotatef(TrailPoints[drawPos].Rot, 0.0f, 0.0f, 1.0f);
+		drawQuad(drawScale -= scaleStep, 32, QUADFLAGS_NONE);
+		glPopMatrix(1);		
+		
 	}
-	
-	
+
 	drawMap();
 	
 	/* static RectF viewRect;

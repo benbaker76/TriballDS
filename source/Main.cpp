@@ -72,8 +72,7 @@ int main(void)
 	DrawString("Triball, whatever next?", 0, 0, true);
 	DrawString("Little detect problem...", 0, 4, true);
 	DrawString("ALPHA 0.00000007 and an winkle", 0, 2, true);
-	
-	int TrailDelay = TRAILINTERVAL;
+
 	// --------------------------
 	
 	while(1)
@@ -105,37 +104,23 @@ int main(void)
 		//updateWorldContacts();
 		
 		g_world->Step(timeStep, iterations);
-		
-		
-// My little bit of junk for now! (Looks shit!!)
-//if((REG_VCOUNT % TRAILINTERVAL) == 0) Did not work for me?
-		TrailDelay -= 1;
-		if (TrailDelay == 0)
-		 
-		 {
-			TrailDelay = TRAILINTERVAL;
-		 	for(int i=1; i<TRAILCOUNT; i++)
-			{	
-				TrailPoints[i].X = TrailPoints[i-1].X;
-				TrailPoints[i].Y = TrailPoints[i-1].Y;
-				TrailPoints[i].Rot = TrailPoints[i-1].Rot;
-			}
-			b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-			TrailPoints[0].X = position.x;
-			TrailPoints[0].Y = position.y;
-			TrailPoints[0].Rot = g_spriteArray[0].Body->GetRotation();
-		 }
-		
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
 
+		// update to trail
+		b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+		TrailPoints[g_trailPos].X = position.x * SCALE;			// do SCALE here as it is quicker to do once here
+		TrailPoints[g_trailPos].Y = position.y * SCALE;			// than for all in the draw loop
+		TrailPoints[g_trailPos].Rot = g_spriteArray[0].Body->GetRotation() * (180 / PI);	// same for rotation (if needed)
+	
+		g_trailPos -= 1;
+		if (g_trailPos < 0) g_trailPos = (TRAILINTERVAL * TRAILAMOUNT) - 1;
+
+		glMatrixMode(GL_MODELVIEW);			// what is this needed for, commenting out does nothing?
+
+		glPushMatrix();
 		drawGLScene();
-		
 		glPopMatrix(1);
 			
 		glFlush(0);
-
-
 
 		// Wait for vblank
 		swiWaitForVBlank();

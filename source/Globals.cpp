@@ -6,7 +6,7 @@
 
 Circle g_spriteArray[BALLCOUNT];
 
-Trail TrailPoints[TRAILCOUNT];						// Sorry, but could not work out how to use PointF within Circle
+Trail TrailPoints[TRAILAMOUNT * TRAILINTERVAL];				// Sorry, but could not work out how to use PointF within Circle
 
 //
 // X,Y coord of game map
@@ -28,6 +28,10 @@ int g_frameCount;
 
 bool g_jumpTrap = 0;
 int g_reJump = 0;
+
+// Trail position
+
+int g_trailPos = 0;
 
 // box2d
 
