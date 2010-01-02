@@ -132,7 +132,7 @@ void drawGLScene()
 
 glEnable (GL_BLEND);
 
-glBlendFunc(GL_ONE, GL_ONE); // sniff - how do I use it?
+//glBlendFunc(GL_ONE, GL_ONE); // sniff - how do I use it?
 
 	for (int register i=0; i<TRAILAMOUNT; i++)
 	{
@@ -145,6 +145,7 @@ glBlendFunc(GL_ONE, GL_ONE); // sniff - how do I use it?
 		glPopMatrix(1);		
 		
 	}
+	glDisable (GL_BLEND);
 
 	drawMap();
 	
