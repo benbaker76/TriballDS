@@ -23,6 +23,7 @@
 #include "InitLevel.h"
 #include "InitVideo.h"
 #include "Detect.h"
+#include "SpecialFX.h"
 
 void debugText()
 {
@@ -68,6 +69,7 @@ int main(void)
 
 	initLevel();
 	initPlayer();
+	initTrail();
 
 	DrawString("Triball, whatever next?", 0, 0, true);
 	DrawString("Little detect problem...", 0, 4, true);
@@ -105,14 +107,7 @@ int main(void)
 		
 		g_world->Step(timeStep, iterations);
 
-		// update to trail
-		b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-		TrailPoints[g_trailPos].X = position.x * SCALE;			// do SCALE here as it is quicker to do once here
-		TrailPoints[g_trailPos].Y = position.y * SCALE;			// than for all in the draw loop
-		TrailPoints[g_trailPos].Rot = g_spriteArray[0].Body->GetRotation() * (180 / PI);	// same for rotation (if needed)
-	
-		g_trailPos -= 1;
-		if (g_trailPos < 0) g_trailPos = (TRAILINTERVAL * TRAILAMOUNT) - 1;
+		trailUpdate();
 
 		glMatrixMode(GL_MODELVIEW);			// what is this needed for, commenting out does nothing?
 

@@ -1,0 +1,2 @@
+void trailUpdate();
+void initTrail();
