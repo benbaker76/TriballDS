@@ -65,6 +65,7 @@ void updateWorldContacts()
 void updateCharacterContacts(Circle *pChar)
 {
 	pChar->OnGround = false;
+	pChar->OnCeil = false;
 	
 //	DrawString("                                ", 0, 7, true);
 
@@ -94,6 +95,7 @@ void updateCharacterContacts(Circle *pChar)
 				b2Vec2 position2 = pChar->Body->GetOriginPosition();
 				
 				pChar->OnGround = (position1.y < position2.y);
+				pChar->OnCeil = (position1.y > position2.y);
 				
 			}
 			else // Which platform did it collide with?
@@ -112,6 +114,7 @@ void updateCharacterContacts(Circle *pChar)
 						b2Vec2 position2 = pChar->Body->GetOriginPosition();
 						
 						pChar->OnGround = (position1.y < position2.y);
+						pChar->OnCeil = (position1.y > position2.y);
 						
 						return;
 					}

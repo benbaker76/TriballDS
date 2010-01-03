@@ -32,6 +32,7 @@ struct Circle						// define the elements that construct our 'balls'
 	int Type;
 	int Action;
 	bool OnGround;
+	bool OnCeil;
 
 };
 

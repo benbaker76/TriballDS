@@ -52,6 +52,11 @@ void debugText()
 	else
 		DrawString("NO GROUND", 0, 6, true);
 		
+	if (g_spriteArray[0].OnCeil != FALSE)
+		DrawString("ON CEIL", 0, 7, true);
+	else
+		DrawString("NO CIEL", 0, 7, true);
+		
 	sprintf(buffer, "ReJump %d  ",g_reJump);
 	DrawString(buffer, 0, 16, true);	
 }
