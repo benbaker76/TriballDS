@@ -173,7 +173,7 @@ enum QuadFlags
 
 	// Defines for ball properties
 #define		BALLSIZE			32				// Size of balls
-#define		BALLCOUNT			8				// Number of balls
+#define		BALLCOUNT			2				// Number of balls
 
 	// Defines for player (ball) status
 	

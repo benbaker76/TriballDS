@@ -10,13 +10,12 @@
 #include "Detect.h"
 #include "Text.h"
 
-b2Body* getBodyAtPoint(Point* p)
+b2Body* getBodyAtPoint(b2Vec2* v)
 {
 	// Create a small box at point
-	b2Vec2 v = b2Vec2(p->X / SCALE, p->Y / SCALE);
 	b2AABB aabb;
-	aabb.minVertex.Set(v.x - 0.001, v.y - 0.001);
-	aabb.maxVertex.Set(v.x + 0.001, v.y + 0.001);
+	aabb.minVertex.Set(v->x - 0.001, v->y - 0.001);
+	aabb.maxVertex.Set(v->x + 0.001, v->y + 0.001);
 	
 	// Look at the shapes intersecting this box (max.: 10)
 	b2Shape* shapes[10];
@@ -30,14 +29,15 @@ b2Body* getBodyAtPoint(Point* p)
 		b2Shape* shape = shapes[i];
 		b2Body* body = shape->GetBody();
 		
-		if (!body->IsStatic())  // Don't pick static shapes
-		{
-			b2Vec2 position = body->GetOriginPosition();
+		if(g_spriteArray[0].Body == body)
+			continue;
 		
+		//if (!body->IsStatic())  // Don't pick static shapes
+		//{
 			// Ensure it is really at this point
-			if (shape->TestPoint(position))
+			if (shape->TestPoint(*v))
 				return body; // Return the first body found
-		}
+		//}
 	}
 
 	return NULL;
@@ -145,3 +145,13 @@ void updateCharacterContacts(Circle *pChar)
 	else
 		DrawString("Player Not On Ground", 0, 8, true);
 */}
+
+void updateGroundCollision()
+{
+	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+	b2Vec2 v(position.x, position.y - (32 / 2 * SCALE) - 0.01F);
+	b2Body* body = getBodyAtPoint(&v);
+	
+	if(body != NULL)
+		g_spriteArray[0].OnGround = true;
+}

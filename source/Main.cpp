@@ -97,7 +97,8 @@ int main(void)
 		{
 			moveCharacter(&g_spriteArray[i]);
 			updateCharacter(&g_spriteArray[i]);
-			updateCharacterContacts(&g_spriteArray[i]);	
+			updateCharacterContacts(&g_spriteArray[i]);
+			updateGroundCollision();
 		}
 		
 		if (g_reJump > 0) g_reJump -= 1;
