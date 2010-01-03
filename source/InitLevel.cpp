@@ -218,8 +218,8 @@ void initPlayer()
 	
 	g_spriteArray[0].CircleDef->radius = 32 / 2 * SCALE; 
 	g_spriteArray[0].CircleDef->density = 1.0F; 
-	g_spriteArray[0].CircleDef->friction = 1.0F; 
-	g_spriteArray[0].CircleDef->restitution = 0.0F; 
+	g_spriteArray[0].CircleDef->friction = 2.0F; 
+	g_spriteArray[0].CircleDef->restitution = 0.4F; 
 
 	g_spriteArray[0].BodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
 	g_spriteArray[0].BodyDef->allowSleep = false;

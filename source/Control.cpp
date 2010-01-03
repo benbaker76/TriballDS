@@ -125,12 +125,16 @@ void updateCharacter(Circle *pChar)
 	if (charStatus == BALLSTATUS_JUMPING)										// UPDATE JUMP
 	{
 		// ok, we need to check if hit ceiling and jumpcount < 44 (centre of jump) and SOMEHOW retain Y position
-	
+		if (pChar->OnCeil && pChar->JumpCount <=44)
+		{
+		//	vel.y = 1.0f;	// This cannot work as a collision is mate that stops l/r movement, So, if this movement stop did not occur, it would work.
+		
+		}
 	
 	
 		if (vel.y >0.0f) pChar->JumpCount ++;
 		if (charAction != ACTION_SLOW)											// if we are moving in a direction the we need to shorten our -
-		vel.x = vel.x / 1.03f ;													// velocity horizontally to make it more parabolic.
+		if (pChar->OnCeil == FALSE) vel.x = vel.x / 1.03f ;							// velocity horizontally to make it more parabolic.
 		if(pChar->OnGround && vel.y < 20.0f) pChar->Status = BALLSTATUS_NORMAL;	// if onGround, return to normal control
 	} 						// vel.y < 0.0f = it SHOULD be but moving causes strange vel.y effects!
 
