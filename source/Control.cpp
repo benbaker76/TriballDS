@@ -26,7 +26,8 @@ void moveCharacter(Circle *pChar)
 			
 		if (g_input.keysHeld & KEY_A || g_input.keysHeld & KEY_B || g_reJump >0)			// Check for a jump and init if able
 		{
-			if (pChar->Status != BALLSTATUS_JUMPING && pChar->OnGround && vel.y > -1.0f)	// We could start a jump
+			if (pChar->Status != BALLSTATUS_JUMPING && pChar->OnGround && vel.y < 20.0f)	// We could start a jump
+																// vel.y SHOULD be <0.0f, but moving right increases vel.y ? ? ?
 			{
 				if (g_jumpTrap == FALSE || g_reJump >0 )							// ok, jump
 				{
@@ -38,7 +39,7 @@ void moveCharacter(Circle *pChar)
 			}
 			else if (g_jumpTrap == FALSE)											// if we cant jump, then check if a buffered jump is free
 			{
-				g_reJump = 30;														// Set the timer for a reJump
+				g_reJump = 30;														// Set the timer for a reJump (30 seems about right)
 				g_jumpTrap = TRUE;													// Trap the jump again
 			}	
 		}
@@ -124,8 +125,8 @@ void updateCharacter(Circle *pChar)
 	{
 		if (charAction != ACTION_SLOW)											// if we are moving in a direction the we need to shorten our -
 		vel.x = vel.x / 1.03f ;													// velocity horizontally to make it more parabolic.
-		if(pChar->OnGround && vel.y < 0.0f) pChar->Status = BALLSTATUS_NORMAL;	// if onGround, return to normal control
-	} 
+		if(pChar->OnGround && vel.y < 20.0f) pChar->Status = BALLSTATUS_NORMAL;	// if onGround, return to normal control
+	} 						// vel.y < 0.0f = it SHOULD be but moving causes strange vel.y effects!
 
 	// Update changes to velocities (x,y and rotation)
 	pChar->Body->SetAngularVelocity(charAVelocity);	
