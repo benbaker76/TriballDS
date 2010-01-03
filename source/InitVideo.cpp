@@ -287,8 +287,7 @@ void initVideo3D()
 	glMaterialf(GL_EMISSION, RGB15(16, 16, 16));
 	
 	//not a real gl function and will likely change
-	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | 
-			  POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3 ) ;
+	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3);
 				
 	g_texelSize.Width = 0.228 / 256.0;
 	g_texelSize.Height = 0.228 / 192.0;
@@ -306,6 +305,9 @@ void initVideo3D()
 	
 	glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)ball_tex_bin + 1024 * 3);
+	
+	glBindTexture(0, g_textureIDS[TEXTURE_BALL05]);
+	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)ball_tex_bin + 1024 * 4);
 
 	glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)box_tex_bin + 1024 * 3);
