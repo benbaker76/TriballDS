@@ -113,6 +113,8 @@ void drawGLScene()
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
 		else if (i==1)
 			glBindTexture(0, NULL); // g_textureIDS[TEXTURE_BOX01]
+		else if (i==2)
+			glBindTexture(0, NULL); // g_textureIDS[TEXTURE_BOX01]
 		else
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
 	

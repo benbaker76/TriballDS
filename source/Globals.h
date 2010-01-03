@@ -175,7 +175,7 @@ enum QuadFlags
 
 	// Defines for ball properties
 #define		BALLSIZE			32				// Size of balls
-#define		BALLCOUNT			2				// Number of balls
+#define		BALLCOUNT			8				// Number of balls
 
 	// Defines for player (ball) status
 	
@@ -211,10 +211,11 @@ enum QuadFlags
 #define		TEXTURE_BALL04			(LEVELTEXTURECOUNT + 3)
 
 #define		TEXTURE_TRAIL			(LEVELTEXTURECOUNT + 4)
+#define		TEXTURE_TRAIL2			(LEVELTEXTURECOUNT + 5)
 
-#define		TEXTURE_BOX01			(LEVELTEXTURECOUNT + 5)
+#define		TEXTURE_BOX01			(LEVELTEXTURECOUNT + 6)
 
-#define		PLATFORMCOUNT			5
+#define		PLATFORMCOUNT			9
 
 	// Defines for the Trails on the Players balls
 	

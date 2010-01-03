@@ -128,7 +128,7 @@ void updateCharacter(Circle *pChar)
 		if (pChar->OnCeil && pChar->JumpCount <=44)
 		{
 		//	vel.y = 1.0f;	// This cannot work as a collision is mate that stops l/r movement, So, if this movement stop did not occur, it would work.
-		
+		//	if (charAVelocity > 0) charAVelocity = -charAVelocity;
 		}
 	
 	
@@ -148,8 +148,3 @@ void updateCharacter(Circle *pChar)
 	pChar->Body->ApplyImpulse(b2Vec2(0.0, -3.0f), pChar->Body->GetCenterPosition());
 
 }
-// removed for now!
-//	if (vel.x >= -1.1f && vel.x < 0.75f)			// ******* REMOVE THIS WHEN LEFT DRIFT IS FIXED
-//	{
-//	g_spriteArray[0].Body->SetLinearVelocity(b2Vec2(0.025f, vel.y));
-//	}

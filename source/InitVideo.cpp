@@ -13,6 +13,8 @@
 #include "ball_pal_bin.h"
 #include "trail_tex_bin.h"
 #include "trail_pal_bin.h"
+#include "trail2_tex_bin.h"
+#include "trail2_pal_bin.h"
 #include "box_tex_bin.h"
 
 #include "font.h"
@@ -317,6 +319,11 @@ void initVideo3D()
 	glTexImage2D(0, 0, GL_RGB32_A3, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD, (u8*)trail_tex_bin);
 	
 	g_palAddress[1] = gluTexLoadPal((u16*)trail_pal_bin, 256, GL_RGB32_A3);
+
+	glBindTexture(0, g_textureIDS[TEXTURE_TRAIL2]);
+	glTexImage2D(0, 0, GL_RGB32_A3, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD, (u8*)trail2_tex_bin);
+	
+	g_palAddress[1] = gluTexLoadPal((u16*)trail2_pal_bin, 256, GL_RGB32_A3);
 	
 	/* glBindTexture(0, g_textureIDS[TEXTURE_LEVEL01]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_256, TEXTURE_SIZE_256, 0, TEXGEN_TEXCOORD, (u8*)level01_tex_bin);
