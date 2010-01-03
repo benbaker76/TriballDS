@@ -31,6 +31,7 @@ void moveCharacter(Circle *pChar)
 			{
 				if (g_jumpTrap == FALSE || g_reJump >0 )							// ok, jump
 				{
+					pChar->JumpCount = 0;
 					pChar->Status = BALLSTATUS_JUMPING;								// Set to jumping
 					pChar->Body->SetLinearVelocity(b2Vec2(vel.x, JUMPSPEED ));		// set the velocity of the jump
 					g_jumpTrap = TRUE;												// trap 'Jump Button' from releasing
@@ -123,6 +124,11 @@ void updateCharacter(Circle *pChar)
 	}
 	if (charStatus == BALLSTATUS_JUMPING)										// UPDATE JUMP
 	{
+		// ok, we need to check if hit ceiling and jumpcount < 44 (centre of jump) and SOMEHOW retain Y position
+	
+	
+	
+		if (vel.y >0.0f) pChar->JumpCount ++;
 		if (charAction != ACTION_SLOW)											// if we are moving in a direction the we need to shorten our -
 		vel.x = vel.x / 1.03f ;													// velocity horizontally to make it more parabolic.
 		if(pChar->OnGround && vel.y < 20.0f) pChar->Status = BALLSTATUS_NORMAL;	// if onGround, return to normal control

@@ -57,7 +57,7 @@ void debugText()
 	else
 		DrawString("NO CIEL", 0, 7, true);
 		
-	sprintf(buffer, "ReJump %d  ",g_reJump);
+	sprintf(buffer, "ReJump %d  JumpCount %d    ",g_reJump,g_spriteArray[0].JumpCount);
 	DrawString(buffer, 0, 16, true);	
 }
 

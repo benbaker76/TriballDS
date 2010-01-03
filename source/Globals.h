@@ -33,6 +33,8 @@ struct Circle						// define the elements that construct our 'balls'
 	int Action;
 	bool OnGround;
 	bool OnCeil;
+	
+	int JumpCount;			// using for debug and testing for now
 
 };
 
