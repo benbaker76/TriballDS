@@ -76,9 +76,9 @@ int main(void)
 	initPlayer();
 	initTrail();
 
-	DrawString("Triball, whatever next?", 0, 0, true);
-	DrawString("Little detect problem...", 0, 4, true);
-	DrawString("ALPHA 0.00000007 and an winkle", 0, 2, true);
+	DrawString("Triball, A thing of ours!", 0, 0, true);
+	DrawString("SMALL detect problem...", 0, 4, true);
+	DrawString("ALPHA 0.00000008 and an poofly", 0, 2, true);
 
 	// --------------------------
 	
