@@ -66,8 +66,8 @@ void drawTrail()
 	int drawPos = g_trailPos;
 	float drawScale = 0.4f;
 	float scaleStep = drawScale / (TRAILAMOUNT - 1);
-	float alphaStep = 15 / TRAILAMOUNT;
-	float alphaValue = 15;
+	float alphaStep = 8 / TRAILAMOUNT;
+	float alphaValue = 8;
 	b2Vec2 pos = g_spriteArray[0].Body->GetOriginPosition();
 	float x1 = pos.x;
 	float y1 = pos.y;
@@ -80,7 +80,7 @@ void drawTrail()
 
 		glBegin(GL_QUAD);
 		
-		drawPos += TRAILINTERVAL - (i / TRAILINTERVAL);	// the (i/ti) is to pull the end sections closer (a kludge)
+		drawPos += TRAILINTERVAL;  // - (i / TRAILINTERVAL);	// the (i/ti) is to pull the end sections closer (a kludge)
 		if (drawPos > (TRAILINTERVAL * TRAILAMOUNT) - 1) drawPos = drawPos - (TRAILINTERVAL * TRAILAMOUNT);
 		
 	//	double n1 = sqrt(x1 * x1 + y1 * y1), n2 = sqrt(TrailPoints[drawPos].X * TrailPoints[drawPos].X + TrailPoints[drawPos].Y * TrailPoints[drawPos].Y);
