@@ -11,10 +11,10 @@
 #include "level02_pal_bin.h"
 #include "ball_tex_bin.h"
 #include "ball_pal_bin.h"
+#include "particle_tex_bin.h"
+#include "particle_pal_bin.h"
 #include "trail_tex_bin.h"
 #include "trail_pal_bin.h"
-#include "trail2_tex_bin.h"
-#include "trail2_pal_bin.h"
 #include "box_tex_bin.h"
 
 #include "font.h"
@@ -236,7 +236,7 @@ void loadLevel()
 		}
 	}
 	
-	g_palAddress[2] = gluTexLoadPal(g_levelPalette, 256, GL_RGB256);
+	g_palAddress[PALETTE_LEVEL] = gluTexLoadPal(g_levelPalette, 256, GL_RGB256);
 }
 
 void initVideo3D()
@@ -313,17 +313,17 @@ void initVideo3D()
 	glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)box_tex_bin + 1024 * 3);
 	
-	g_palAddress[0] = gluTexLoadPal((u16*)ball_pal_bin, 256, GL_RGB256);
+	g_palAddress[PALETTE_BALL] = gluTexLoadPal((u16*)ball_pal_bin, 256, GL_RGB256);
 	
+	glBindTexture(0, g_textureIDS[TEXTURE_PARTICLE]);
+	glTexImage2D(0, 0, GL_RGB32_A3, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD, (u8*)particle_tex_bin);
+	
+	g_palAddress[PALETTE_PARTICLE] = gluTexLoadPal((u16*)particle_pal_bin, 256, GL_RGB32_A3);
+
 	glBindTexture(0, g_textureIDS[TEXTURE_TRAIL]);
 	glTexImage2D(0, 0, GL_RGB32_A3, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD, (u8*)trail_tex_bin);
 	
-	g_palAddress[1] = gluTexLoadPal((u16*)trail_pal_bin, 256, GL_RGB32_A3);
-
-	glBindTexture(0, g_textureIDS[TEXTURE_TRAIL2]);
-	glTexImage2D(0, 0, GL_RGB32_A3, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD, (u8*)trail2_tex_bin);
-	
-	g_palAddress[1] = gluTexLoadPal((u16*)trail2_pal_bin, 256, GL_RGB32_A3);
+	g_palAddress[PALETTE_TRAIL] = gluTexLoadPal((u16*)trail_pal_bin, 256, GL_RGB32_A3);
 	
 	/* glBindTexture(0, g_textureIDS[TEXTURE_LEVEL01]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_256, TEXTURE_SIZE_256, 0, TEXGEN_TEXCOORD, (u8*)level01_tex_bin);

@@ -60,9 +60,12 @@ void drawTrail()
 */
 void drawTrail()
 {
-	glBindTexture(0, g_textureIDS[TEXTURE_TRAIL2]);
-	glColorTable(GL_RGB32_A3, g_palAddress[1]); // were using 32 colors with 5 bits for alpha so edges can be alpha blended out
+	glBindTexture(0, g_textureIDS[TEXTURE_TRAIL]);
+	glColorTable(GL_RGB32_A3, g_palAddress[PALETTE_TRAIL]); // were using 32 colors with 5 bits for alpha so edges can be alpha blended out
 	
+	// Set color to blue
+	glColor3b(0, 0, 255);
+
 	int drawPos = g_trailPos;
 	float drawScale = 0.4f;
 	float scaleStep = drawScale / (TRAILAMOUNT - 1);
@@ -76,8 +79,10 @@ void drawTrail()
 	{
 		// Set the alpha value so it will alpha blend out more towards the end of the trail
 		//int alphaValue = (((float)(TRAILAMOUNT - i) / (float) TRAILAMOUNT) * 30.0F) + 1;		// just trying to take the calcs out of the loop
-		glPolyFmt(POLY_ALPHA((alphaValue -= alphaStep)) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3);
+		//glPolyFmt(POLY_ALPHA(alphaValue) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3);
 
+		glPolyFmt(POLY_ALPHA((alphaValue -= alphaStep)) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3);
+	
 		glBegin(GL_QUAD);
 		
 		drawPos += TRAILINTERVAL;  // - (i / TRAILINTERVAL);	// the (i/ti) is to pull the end sections closer (a kludge)
@@ -95,8 +100,7 @@ void drawTrail()
 		glTranslatef(TrailPoints[drawPos].X, TrailPoints[drawPos].Y, -1 + 0.01F);
 		glRotatef(a1, 0.0f, 0.0f, 1.0f);
 		
-		// Draw it red..
-		drawQuad(drawScale, drawScale, 32, 0, 0, 255, QUADFLAGS_NONE);
+		drawQuad(drawScale, drawScale, 32, QUADFLAGS_NONE);
 		
 		drawScale -= scaleStep;
 		
@@ -104,6 +108,9 @@ void drawTrail()
 
 		glEnd();
 	}
+	
+	// Set color back to white
+	glColor3b(255, 255, 255);
 	
 	glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3);
 }
