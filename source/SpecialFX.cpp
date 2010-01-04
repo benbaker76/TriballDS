@@ -32,7 +32,7 @@ void drawTrail()
 	glColor3b(0, 0, 255);
 
 	int drawPos = g_trailPos;
-	float drawScale = 0.4f;
+	float drawScale = 0.36f;
 	float scaleStep = drawScale / (TRAILAMOUNT - 1);
 	float alphaStep = 8 / TRAILAMOUNT;
 	float alphaValue = 8;

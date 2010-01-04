@@ -220,7 +220,8 @@ enum QuadFlags
 #define		PALETTE_BALL			0
 #define		PALETTE_PARTICLE		1
 #define		PALETTE_TRAIL			2
-#define		PALETTE_LEVEL			3
+#define		PALETTE_BOX				3
+#define		PALETTE_LEVEL			4
 
 	// Defines for the Trails on the Players balls
 	
