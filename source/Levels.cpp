@@ -154,4 +154,20 @@ void Level1()
 	g_platformArray[8]->BodyDef->position.Set(10.0f, 20.0f);
 	g_platformArray[8]->BodyDef->AddShape(g_platformArray[8]->PolyDef);
 	g_platformArray[8]->Body = g_world->CreateBody(g_platformArray[8]->BodyDef);	
+	
+	g_platformArray[9] = new Poly();
+	g_platformArray[9]->PolyDef = new b2PolyDef();	// FLOOR
+	g_platformArray[9]->PolyDef->vertexCount = 4;
+	g_platformArray[9]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
+	g_platformArray[9]->PolyDef->vertices[1].Set( 0.0f, -2.0f);
+	g_platformArray[9]->PolyDef->vertices[2].Set( 80.0f, -2.0f);
+	g_platformArray[9]->PolyDef->vertices[3].Set( 80.0f, 0.0f);
+	
+	g_platformArray[9]->PolyDef->density = 0.0f;
+	g_platformArray[9]->PolyDef->friction = 1.0f;
+	g_platformArray[9]->PolyDef->restitution = 0.0f;
+	g_platformArray[9]->BodyDef = new b2BodyDef();
+	g_platformArray[9]->BodyDef->position.Set(-40.0f, -39.0f);
+	g_platformArray[9]->BodyDef->AddShape(g_platformArray[9]->PolyDef);
+	g_platformArray[9]->Body = g_world->CreateBody(g_platformArray[9]->BodyDef);		
 }

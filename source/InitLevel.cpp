@@ -64,7 +64,8 @@ void initLevel()
 	g_groundBodyDef->position.Set(0.0f, -(g_levelGridSize.Height * 10.0f - 0.5F));
 	g_groundBodyDef->AddShape(g_groundBoxDef);
 
-	g_groundBody = g_world->CreateBody(g_groundBodyDef);
+// *** NO IDEA WHY THIS CAUSES PROBLEMS FOR BOX2D!
+//	g_groundBody = g_world->CreateBody(g_groundBodyDef);
 	
 	b2BoxDef* ceilBoxDef = new b2BoxDef();
 	ceilBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 0.5f);

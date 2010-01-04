@@ -175,7 +175,7 @@ enum QuadFlags
 
 	// Defines for ball properties
 #define		BALLSIZE			32				// Size of balls
-#define		BALLCOUNT			8				// Number of balls
+#define		BALLCOUNT			1				// Number of balls
 
 	// Defines for player (ball) status
 	
@@ -215,7 +215,7 @@ enum QuadFlags
 
 #define		TEXTURE_BOX01			(LEVELTEXTURECOUNT + 6)
 
-#define		PLATFORMCOUNT			9
+#define		PLATFORMCOUNT			10
 
 #define		PALETTE_BALL			0
 #define		PALETTE_PARTICLE		1
