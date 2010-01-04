@@ -157,8 +157,8 @@ void initPlayer()
 	g_spriteArray[1].X = 350;
 	g_spriteArray[1].Y = 260;	
 	g_spriteArray[1].Type = BALLTYPE_OBJECT;
-	g_spriteArray[1].BoxDef->extents.Set(32 / 2 * SCALE, 32 / 2 * SCALE);
-	g_spriteArray[1].BoxDef->density = 0.6F; 
+	g_spriteArray[1].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
+	g_spriteArray[1].BoxDef->density = 0.3F; 
 	g_spriteArray[1].BoxDef->friction = 0.05F; 
 	g_spriteArray[1].BoxDef->restitution = 0.95F; 
 
@@ -174,8 +174,8 @@ void initPlayer()
 	g_spriteArray[2].X = -200;
 	g_spriteArray[2].Y = -100;	
 	g_spriteArray[2].Type = BALLTYPE_OBJECT;
-	g_spriteArray[2].BoxDef->extents.Set(32 / 2 * SCALE, 32 / 2 * SCALE);
-	g_spriteArray[2].BoxDef->density = 0.6F; 
+	g_spriteArray[2].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
+	g_spriteArray[2].BoxDef->density = 0.3F; 
 	g_spriteArray[2].BoxDef->friction = 0.05F; 
 	g_spriteArray[2].BoxDef->restitution = 0.95F; 
 	g_spriteArray[2].BodyDef->position.Set(g_spriteArray[2].X * SCALE, g_spriteArray[2].Y * SCALE);

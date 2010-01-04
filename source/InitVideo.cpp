@@ -313,7 +313,7 @@ void initVideo3D()
 	g_palAddress[PALETTE_BALL] = gluTexLoadPal((u16*)ball_pal_bin, 256, GL_RGB256);
 	
 	glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
-	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD, (u8*)box_tex_bin );	
+	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)box_tex_bin );	
 	g_palAddress[PALETTE_BOX] = gluTexLoadPal((u16*)box_pal_bin, 256, GL_RGB256);
 	
 	glBindTexture(0, g_textureIDS[TEXTURE_PARTICLE]);

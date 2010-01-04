@@ -122,7 +122,10 @@ void drawGLScene()
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + 0.01F);
 		glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
 	//	glRotatef(degreesToAngle(rotation), 0.0f, 0.0f, 1.0f); // this does not work?
+		if (i==0 || i>2)
 		drawQuad(0.4f, 0.4f, 32, QUADFLAGS_NONE);
+		else
+		drawQuad(0.8f, 0.8f, 64, QUADFLAGS_NONE);
 		glPopMatrix(1);
 	}
 
