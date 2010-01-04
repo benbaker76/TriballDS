@@ -148,9 +148,26 @@ void updateCharacterContacts(Circle *pChar)
 
 void updateGroundCollision()
 {
+	// Get position of player
 	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-	b2Vec2 v(position.x, position.y - (32 / 2 * SCALE) - 0.01F);
-	b2Body* body = getBodyAtPoint(&v);
+	b2Vec2 v1(position.x - (24 / 2 * SCALE), position.y - (32 / 2 * SCALE) - 0.01F);
+	b2Vec2 v2(position.x, position.y - (32 / 2 * SCALE) - 0.01F);
+	b2Vec2 v3(position.x + (24 / 2 * SCALE), position.y - (32 / 2 * SCALE) - 0.01F);
+	
+	// Bottom left of player
+	b2Body* body = getBodyAtPoint(&v1);
+	
+	if(body != NULL)
+		g_spriteArray[0].OnGround = true;
+	
+	// Bottom centre of player
+	body = getBodyAtPoint(&v2);
+	
+	if(body != NULL)
+		g_spriteArray[0].OnGround = true;
+
+	// Bottom right of player
+	body = getBodyAtPoint(&v3);
 	
 	if(body != NULL)
 		g_spriteArray[0].OnGround = true;

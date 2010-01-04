@@ -96,7 +96,10 @@ void drawTrail()
 		glRotatef(a1, 0.0f, 0.0f, 1.0f);
 		
 		// Draw it red..
-		drawQuad(drawScale -= scaleStep, 32, 0, 0, 255, QUADFLAGS_NONE);
+		drawQuad(drawScale, drawScale, 32, 0, 0, 255, QUADFLAGS_NONE);
+		
+		drawScale -= scaleStep;
+		
 		glPopMatrix(1);
 
 		glEnd();

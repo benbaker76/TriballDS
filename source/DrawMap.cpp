@@ -13,24 +13,26 @@
 #include "Easing.h"
 #include "SpecialFX.h"
 
-void drawQuad(float quadSize, int textureSize, int r, int g, int b, int quadFlags)
+void drawQuad(float width, float height, int textureSize, int r, int g, int b, int quadFlags)
 {
-	quadSize /= 2.0;
-	quadSize += g_texelSize.Width;
+	// Since we're drawing from origin we draw out from origin. Also add a small value to overlap
+	width = (width / 2.0F) + 0.001F;
+	height = (height / 2.0F) + 0.001F;
 	
+	// Set color
 	glColor3b(r, g, b);
 
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? inttot16(textureSize) : 0, quadFlags & QUADFLAGS_VFLIP ? 0 : inttot16(textureSize)));
-	glVertex3v16(floattov16(-quadSize), floattov16(-quadSize), 0);
+	glVertex3v16(floattov16(-width), floattov16(-height), 0);
 
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? 0 : inttot16(textureSize), quadFlags & QUADFLAGS_VFLIP ? 0 : inttot16(textureSize)));
-	glVertex3v16(floattov16(quadSize), floattov16(-quadSize), 0);
+	glVertex3v16(floattov16(width), floattov16(-height), 0);
 
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? 0 : inttot16(textureSize), quadFlags & QUADFLAGS_VFLIP ? inttot16(textureSize) : 0));
-	glVertex3v16(floattov16(quadSize), floattov16(quadSize), 0);
+	glVertex3v16(floattov16(width), floattov16(height), 0);
 
 	GFX_TEX_COORD = (TEXTURE_PACK(quadFlags & QUADFLAGS_HFLIP ? inttot16(textureSize) : 0, quadFlags & QUADFLAGS_VFLIP ? inttot16(textureSize) : 0));
-	glVertex3v16(floattov16(-quadSize), floattov16(quadSize), 0);
+	glVertex3v16(floattov16(-width), floattov16(height), 0);
 }
 
 void drawB2Poly(Poly* poly)
@@ -79,7 +81,7 @@ void drawMap()
 			glTranslatef(quadRect.X, quadRect.Y, -1);
 			//glTranslatef(quadRect.Left, quadRect.Top, -1);
 			glRotatef(0, 0.0f, 0.0f, 0.0f);
-			drawQuad(quadRect.Width, g_levelTextureSize, 255, 255, 255, QUADFLAGS_NONE);
+			drawQuad(quadRect.Width, quadRect.Height, g_levelTextureSize, 255, 255, 255, QUADFLAGS_NONE);
 			//drawQuad(quadRect.Right - quadRect.Left, g_levelTextureSize, QUADFLAGS_NONE);
 			glPopMatrix(1);
 		}
@@ -125,7 +127,7 @@ void drawGLScene()
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + 0.01F);
 		glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
 	//	glRotatef(degreesToAngle(rotation), 0.0f, 0.0f, 1.0f); // this does not work?
-		drawQuad(0.4f, 32, 255, 255, 255, QUADFLAGS_NONE);
+		drawQuad(0.4f, 0.4f, 32, 255, 255, 255, QUADFLAGS_NONE);
 		glPopMatrix(1);
 	}
 
