@@ -104,7 +104,7 @@ void initLevel()
 // INIT PLAYER AND RANDOM BALLS (FOR NOW)
 void initPlayer()
 {
-	for(int i=2; i<BALLCOUNT; i++)
+/*	for(int i=2; i<BALLCOUNT; i++)
 	{
 		g_spriteArray[i].Action = ACTION_NONE;	
 		g_spriteArray[i].X = (rand() % 760)-400; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
@@ -124,7 +124,7 @@ void initPlayer()
 		
 		g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
 	}
-	
+	*/
 	// INIT PLAYER
 	g_spriteArray[0].Action = ACTION_NONE;	
 	g_spriteArray[0].X = 128;
@@ -156,6 +156,7 @@ void initPlayer()
 	g_spriteArray[1].BodyDef =  new b2BodyDef();
 	g_spriteArray[1].X = 350;
 	g_spriteArray[1].Y = 260;	
+	g_spriteArray[1].Type = BALLTYPE_OBJECT;
 	g_spriteArray[1].BoxDef->extents.Set(32 / 2 * SCALE, 32 / 2 * SCALE);
 	g_spriteArray[1].BoxDef->density = 0.6F; 
 	g_spriteArray[1].BoxDef->friction = 0.05F; 
@@ -164,28 +165,23 @@ void initPlayer()
 	g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
 	g_spriteArray[1].BodyDef->allowSleep = false;
 	g_spriteArray[1].BodyDef->preventRotation = false;
-
 	g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].BoxDef);
-	
 	g_spriteArray[1].Body = g_world->CreateBody(g_spriteArray[1].BodyDef);
 	
 	
 	g_spriteArray[2].BoxDef = new b2BoxDef();
 	g_spriteArray[2].BodyDef =  new b2BodyDef();
-		g_spriteArray[2].X = -200;
-		g_spriteArray[2].Y = -100;	
-		g_spriteArray[2].Type = BALLTYPE_OBJECT;
+	g_spriteArray[2].X = -200;
+	g_spriteArray[2].Y = -100;	
+	g_spriteArray[2].Type = BALLTYPE_OBJECT;
 	g_spriteArray[2].BoxDef->extents.Set(32 / 2 * SCALE, 32 / 2 * SCALE);
 	g_spriteArray[2].BoxDef->density = 0.6F; 
 	g_spriteArray[2].BoxDef->friction = 0.05F; 
 	g_spriteArray[2].BoxDef->restitution = 0.95F; 
-
 	g_spriteArray[2].BodyDef->position.Set(g_spriteArray[2].X * SCALE, g_spriteArray[2].Y * SCALE);
 	g_spriteArray[2].BodyDef->allowSleep = false;
 	g_spriteArray[2].BodyDef->preventRotation = false;
-
 	g_spriteArray[2].BodyDef->AddShape(g_spriteArray[2].BoxDef);
-	
 	g_spriteArray[2].Body = g_world->CreateBody(g_spriteArray[2].BodyDef);	
 }
 
