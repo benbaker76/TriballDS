@@ -49,7 +49,7 @@ b2Body* g_groundBody;
 Poly* g_platformArray[PLATFORMCOUNT];
 
 int g_textureIDS[TEXTURECOUNT];
-int g_palAddress[4];
+int g_palAddress[5];
 
 float g_Zoom;
 

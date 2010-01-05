@@ -103,17 +103,24 @@ void drawGLScene()
 	
 	glBegin(GL_QUAD);
 	
-	glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
-	
 	for(int register i=0; i<BALLCOUNT; i++)
-	{	
-	
-		if (i==0)
+	{
+		switch(i)
+		{
+		case 0: // Player's ball
+			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
-		else if (i<=2)
-			glBindTexture(0, g_textureIDS[TEXTURE_BOX01]); // g_textureIDS[TEXTURE_BOX01]
-		else
+			break;
+		case 1:	// Box's
+		case 2:
+			glColorTable(GL_RGB256, g_palAddress[PALETTE_BOX]);
+			glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
+			break;
+		default: // Other Balls
+			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
+			break;
+		}
 	
 		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
 		float rotation = g_spriteArray[i].Body->GetRotation();
@@ -121,11 +128,23 @@ void drawGLScene()
 		glPushMatrix();
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + 0.01F);
 		glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
-	//	glRotatef(degreesToAngle(rotation), 0.0f, 0.0f, 1.0f); // this does not work?
-		if (i==0 || i>2)
-		drawQuad(0.4f, 0.4f, 32, QUADFLAGS_NONE);
-		else
-		drawQuad(0.8f, 0.8f, 64, QUADFLAGS_NONE);
+	
+		switch(i)
+		{
+		case 0: // Player's ball
+			drawQuad(g_spriteArray[0].CircleDef->radius * 2 * SCALE, g_spriteArray[0].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
+			break;
+		case 1:	// Box's
+			drawQuad(g_spriteArray[1].BoxDef->extents.x * 2 * SCALE, g_spriteArray[1].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+			break;
+		case 2:
+			drawQuad(g_spriteArray[2].BoxDef->extents.x * 2 * SCALE, g_spriteArray[2].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+			break;
+		default: // Other Balls
+			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
+			break;
+		}
+
 		glPopMatrix(1);
 	}
 
