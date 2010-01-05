@@ -171,8 +171,8 @@ void initPlayer()
 	
 	g_spriteArray[2].BoxDef = new b2BoxDef();
 	g_spriteArray[2].BodyDef =  new b2BodyDef();
-	g_spriteArray[2].X = -200;
-	g_spriteArray[2].Y = -100;	
+	g_spriteArray[2].X = 320;
+	g_spriteArray[2].Y = 260;	
 	g_spriteArray[2].Type = BALLTYPE_OBJECT;
 	g_spriteArray[2].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
 	g_spriteArray[2].BoxDef->density = 0.3F; 
@@ -182,7 +182,15 @@ void initPlayer()
 	g_spriteArray[2].BodyDef->allowSleep = false;
 	g_spriteArray[2].BodyDef->preventRotation = false;
 	g_spriteArray[2].BodyDef->AddShape(g_spriteArray[2].BoxDef);
-	g_spriteArray[2].Body = g_world->CreateBody(g_spriteArray[2].BodyDef);	
+	g_spriteArray[2].Body = g_world->CreateBody(g_spriteArray[2].BodyDef);
+	
+	// Create a joint between the two boxes
+	b2DistanceJointDef* djd = new b2DistanceJointDef();
+	djd->body1 = g_spriteArray[1].Body;
+	djd->body2 = g_spriteArray[2].Body;
+	djd->collideConnected = true;
+	b2DistanceJoint* dj = new b2DistanceJoint(djd);
+	b2Joint* distJoint = g_world->CreateJoint(djd);
 }
 
 
