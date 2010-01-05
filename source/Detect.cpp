@@ -150,9 +150,9 @@ void updateGroundCollision()
 {
 	// Get position of player
 	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-	b2Vec2 v1(position.x - g_spriteArray[0].CircleDef->radius, position.y - g_spriteArray[0].CircleDef->radius - 0.1F);
+	b2Vec2 v1(position.x - g_spriteArray[0].CircleDef->radius + 0.1f, position.y - g_spriteArray[0].CircleDef->radius - 0.1F);
 	b2Vec2 v2(position.x, position.y - g_spriteArray[0].CircleDef->radius - 0.1F);
-	b2Vec2 v3(position.x + g_spriteArray[0].CircleDef->radius, position.y - g_spriteArray[0].CircleDef->radius - 0.1F);
+	b2Vec2 v3(position.x + g_spriteArray[0].CircleDef->radius - 0.1f , position.y - g_spriteArray[0].CircleDef->radius - 0.1F);
 	
 	// Bottom left of player
 	b2Body* body = getBodyAtPoint(&v1);

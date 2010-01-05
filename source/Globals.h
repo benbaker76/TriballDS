@@ -226,7 +226,7 @@ enum QuadFlags
 	// Defines for the Trails on the Players balls
 	
 #define		TRAILINTERVAL			1		// Size of the interval between trail parts
-#define		TRAILAMOUNT				50		// Number of balls in the trail
+#define		TRAILAMOUNT				80		// Number of balls in the trail
 
 #endif
 

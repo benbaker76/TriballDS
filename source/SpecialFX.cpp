@@ -25,8 +25,8 @@ void initTrail()					// Set all trail points to player coords
 
 void drawTrail()
 {
-	glBindTexture(0, g_textureIDS[TEXTURE_TRAIL]);
-	glColorTable(GL_RGB32_A3, g_palAddress[PALETTE_TRAIL]); // were using 32 colors with 5 bits for alpha so edges can be alpha blended out
+	glBindTexture(0, g_textureIDS[TEXTURE_PARTICLE]);
+	glColorTable(GL_RGB32_A3, g_palAddress[PALETTE_PARTICLE]); // were using 32 colors with 5 bits for alpha so edges can be alpha blended out
 	
 	// Set color to blue
 	glColor3b(0, 0, 255);
@@ -49,14 +49,14 @@ void drawTrail()
 		drawPos += TRAILINTERVAL;  // - (i / TRAILINTERVAL);	// the (i/ti) is to pull the end sections closer (a kludge)
 		if (drawPos > (TRAILINTERVAL * TRAILAMOUNT) - 1) drawPos = drawPos - (TRAILINTERVAL * TRAILAMOUNT);
 		
-		double a1 = 180-atan2(TrailPoints[drawPos].X - x1,TrailPoints[drawPos].Y - y1) * 180 / PI; 
+	//	double a1 = 180-atan2(TrailPoints[drawPos].X - x1,TrailPoints[drawPos].Y - y1) * 180 / PI; 
 		
-		x1 = TrailPoints[drawPos].X;
-		y1 = TrailPoints[drawPos].Y;
+	//	x1 = TrailPoints[drawPos].X;
+	//	y1 = TrailPoints[drawPos].Y;
 		
 		glPushMatrix();
 		glTranslatef(TrailPoints[drawPos].X, TrailPoints[drawPos].Y, -1 + 0.01F);
-		glRotatef(a1, 0.0f, 0.0f, 1.0f);
+	//	glRotatef(a1, 0.0f, 0.0f, 1.0f);
 		
 		drawQuad(drawScale, drawScale, 32, QUADFLAGS_NONE);
 		
