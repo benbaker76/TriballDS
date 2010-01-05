@@ -57,7 +57,7 @@ int getTextureSlot(int quadId)
 	if(!addr)
 		return -1;
 
-	for(int i=0; i<LEVELTEXTURECOUNT; i++)
+	for(int i=0; i<LEVEL_TEXTURE_COUNT; i++)
 	{
 		uint32* texPtr = (uint32*) glGetTexturePointer(g_textureIDS[g_levelQuadID[i]]);
 		
@@ -115,7 +115,7 @@ void loadTextures()
 					
 					reloadTexture(textureSlot, quadId);
 					
-					if(textureSlot < LEVELTEXTURECOUNT - 1)
+					if(textureSlot < LEVEL_TEXTURE_COUNT - 1)
 						textureSlot++;
 				//}
 			}
@@ -297,7 +297,7 @@ void initVideo3D()
 	g_texelSize.Width = 0.228 / 256.0;
 	g_texelSize.Height = 0.228 / 192.0;
 
-	glGenTextures(TEXTURECOUNT, g_textureIDS);
+	glGenTextures(TEXTURE_COUNT, g_textureIDS);
 	
 	glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)ball_tex_bin );

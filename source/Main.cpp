@@ -93,7 +93,7 @@ int main(void)
 	
 		debugText();
 		
-		for(register int i=0; i<BALLCOUNT; i++)
+		for(register int i=0; i<BALL_COUNT; i++)
 		{
 			moveCharacter(&g_spriteArray[i]);
 			updateCharacter(&g_spriteArray[i]);

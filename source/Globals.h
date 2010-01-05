@@ -17,6 +17,13 @@ struct Input
 	int keysUp;
 };
 
+struct Joint
+{
+	b2DistanceJointDef* DistanceJointDef;
+	b2DistanceJoint* DistanceJoint;
+	b2Joint* Joint;
+};
+
 struct Circle						// define the elements that construct our 'balls'
 {
 	b2PolyDef* PolyDef;
@@ -174,8 +181,8 @@ enum QuadFlags
 #define		AIRSPIN				4.5f			// multiplyer to add spin to a jumping ball
 
 	// Defines for ball properties
-#define		BALLSIZE			32				// Size of balls
-#define		BALLCOUNT			3				// Number of balls
+#define		BALL_SIZE			32				// Size of balls
+#define		BALL_COUNT			3				// Number of balls
 
 	// Defines for player (ball) status
 	
@@ -200,22 +207,22 @@ enum QuadFlags
 #define		SCALE				0.1F
 
 	// Defines for GL level contruction
-#define		LEVELTEXTURECOUNT		(4 * 4)
-#define		LEVELQUADCOUNT			(4 * 4)
-#define		TEXTURECOUNT			(LEVELTEXTURECOUNT + 7)
+#define		LEVEL_TEXTURE_COUNT		(4 * 4)
+#define		LEVEL_QUAD_COUNT		(4 * 4)
+#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 7)
 
 	// Defines for objects
-#define		TEXTURE_BALL01			(LEVELTEXTURECOUNT + 0)
-#define		TEXTURE_BALL02			(LEVELTEXTURECOUNT + 1)
-#define		TEXTURE_BALL03			(LEVELTEXTURECOUNT + 2)
-#define		TEXTURE_BALL04			(LEVELTEXTURECOUNT + 3)
+#define		TEXTURE_BALL01			(LEVEL_TEXTURE_COUNT + 0)
+#define		TEXTURE_BALL02			(LEVEL_TEXTURE_COUNT + 1)
+#define		TEXTURE_BALL03			(LEVEL_TEXTURE_COUNT + 2)
+#define		TEXTURE_BALL04			(LEVEL_TEXTURE_COUNT + 3)
 
-#define		TEXTURE_PARTICLE		(LEVELTEXTURECOUNT + 4)
-#define		TEXTURE_TRAIL			(LEVELTEXTURECOUNT + 5)
+#define		TEXTURE_PARTICLE		(LEVEL_TEXTURE_COUNT + 4)
+#define		TEXTURE_TRAIL			(LEVEL_TEXTURE_COUNT + 5)
 
-#define		TEXTURE_BOX01			(LEVELTEXTURECOUNT + 6)
+#define		TEXTURE_BOX01			(LEVEL_TEXTURE_COUNT + 6)
 
-#define		PLATFORMCOUNT			10
+#define		PLATFORM_COUNT			10
 
 #define		PALETTE_BALL			0
 #define		PALETTE_PARTICLE		1
@@ -225,8 +232,12 @@ enum QuadFlags
 
 	// Defines for the Trails on the Players balls
 	
-#define		TRAILINTERVAL			1		// Size of the interval between trail parts
-#define		TRAILAMOUNT				80		// Number of balls in the trail
+#define		TRAIL_INTERVAL			1		// Size of the interval between trail parts
+#define		TRAIL_AMOUNT			80		// Number of balls in the trail
+
+#define		JOINT_COUNT				1
+
+#define		PALETTE_COUNT			5
 
 #endif
 
@@ -289,4 +300,6 @@ bool IntersectRect(Rect* pRectA, Rect* pRectB);
 bool IntersectRectF(RectF* pRectA, RectF* pRectB);
 
 extern int g_trailPos;
+
+extern Joint g_jointArray[];
 

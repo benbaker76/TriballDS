@@ -154,7 +154,7 @@ void initPlayer()
 
 	g_spriteArray[1].BoxDef = new b2BoxDef();
 	g_spriteArray[1].BodyDef =  new b2BodyDef();
-	g_spriteArray[1].X = 350;
+	g_spriteArray[1].X = 220;
 	g_spriteArray[1].Y = 260;	
 	g_spriteArray[1].Type = BALLTYPE_OBJECT;
 	g_spriteArray[1].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
@@ -185,14 +185,21 @@ void initPlayer()
 	g_spriteArray[2].Body = g_world->CreateBody(g_spriteArray[2].BodyDef);
 	
 	// Create a joint between the two boxes
-	b2DistanceJointDef* djd = new b2DistanceJointDef();
-	djd->body1 = g_spriteArray[1].Body;
-	djd->body2 = g_spriteArray[2].Body;
-	djd->collideConnected = true;
-	b2DistanceJoint* dj = new b2DistanceJoint(djd);
-	b2Joint* distJoint = g_world->CreateJoint(djd);
+	g_jointArray[0].DistanceJointDef = new b2DistanceJointDef();
+	g_jointArray[0].DistanceJointDef->body1 = g_spriteArray[1].Body;
+	g_jointArray[0].DistanceJointDef->body2 = g_spriteArray[2].Body;
+	
+	// If you want to set the point positions manually.. (remember these are in world coordinates)
+	//g_jointArray[0].DistanceJointDef->anchorPoint1.Set(0.0f, 0.0f);
+	//g_jointArray[0].DistanceJointDef->anchorPoint2.Set(0.0f, 0.0f);
+	
+	// Place joins in middle of boxes
+	g_jointArray[0].DistanceJointDef->anchorPoint1 = g_spriteArray[1].Body->GetCenterPosition();
+	g_jointArray[0].DistanceJointDef->anchorPoint2 = g_spriteArray[2].Body->GetCenterPosition();
+	g_jointArray[0].DistanceJointDef->collideConnected = true;
+	g_jointArray[0].DistanceJoint = new b2DistanceJoint(g_jointArray[0].DistanceJointDef);
+	g_jointArray[0].Joint = g_world->CreateJoint(g_jointArray[0].DistanceJointDef);
 }
-
 
 
 

@@ -103,7 +103,7 @@ void drawGLScene()
 	
 	glBegin(GL_QUAD);
 	
-	for(int register i=0; i<BALLCOUNT; i++)
+	for(int register i=0; i<BALL_COUNT; i++)
 	{
 		switch(i)
 		{

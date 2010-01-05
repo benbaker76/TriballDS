@@ -100,7 +100,7 @@ void updateCharacterContacts(Circle *pChar)
 			}
 			else // Which platform did it collide with?
 			{
-				for(int i=0; i<PLATFORMCOUNT; i++)
+				for(int i=0; i<PLATFORM_COUNT; i++)
 				{
 					if(g_platformArray[i]->Body == body)
 					{
@@ -120,7 +120,7 @@ void updateCharacterContacts(Circle *pChar)
 					}
 				}
 				
-				for(int i=1; i<BALLCOUNT; i++)
+				for(int i=1; i<BALL_COUNT; i++)
 				{
 					if(g_spriteArray[i].Body == body)
 					{

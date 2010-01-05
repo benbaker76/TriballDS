@@ -4,9 +4,9 @@
 // Here are the real global values. Place a "g_" before so you know you're referencing a global
 // This is the real definition
 
-Circle g_spriteArray[BALLCOUNT];
+Circle g_spriteArray[BALL_COUNT];
 
-Trail TrailPoints[TRAILAMOUNT * TRAILINTERVAL];				// Sorry, but could not work out how to use PointF within Circle
+Trail TrailPoints[TRAIL_AMOUNT * TRAIL_INTERVAL];				// Sorry, but could not work out how to use PointF within Circle
 
 //
 // X,Y coord of game map
@@ -46,19 +46,19 @@ b2BoxDef* g_groundBoxDef;
 b2BodyDef* g_groundBodyDef;
 b2Body* g_groundBody;
 
-Poly* g_platformArray[PLATFORMCOUNT];
+Poly* g_platformArray[PLATFORM_COUNT];
 
-int g_textureIDS[TEXTURECOUNT];
-int g_palAddress[5];
+int g_textureIDS[TEXTURE_COUNT];
+int g_palAddress[PALETTE_COUNT];
 
 float g_Zoom;
 
 int g_levelNum;
 
-//int m_levelTextureLoaded[LEVELTEXTURECOUNT];
+//int m_levelTextureLoaded[LEVEL_TEXTURE_COUNT];
 
-int g_levelQuadID[LEVELQUADCOUNT];
-//bool g_levelQuadLoaded[LEVELQUADCOUNT];
+int g_levelQuadID[LEVEL_QUAD_COUNT];
+//bool g_levelQuadLoaded[LEVEL_QUAD_COUNT];
 const u8* g_levelTexture;
 const u16* g_levelPalette;
 Size g_levelSize;
@@ -68,6 +68,8 @@ Size g_levelGridSize;
 SizeF g_levelQuadSize;
 
 Input g_input;
+
+Joint g_jointArray[JOINT_COUNT];
 
 bool IntersectRectF(RectF* pRectA, RectF* pRectB)
 {
