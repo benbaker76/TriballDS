@@ -142,7 +142,7 @@ void initPlayer()
 	g_spriteArray[0].BodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
 	g_spriteArray[0].BodyDef->allowSleep = false;
 	g_spriteArray[0].BodyDef->preventRotation = false;
-	g_spriteArray[0].BodyDef->angularDamping = 0.04f;
+	g_spriteArray[0].BodyDef->angularDamping = 0.03f;
 	g_spriteArray[0].BodyDef->linearDamping = 0.00f;
 
 	g_spriteArray[0].BodyDef->AddShape(g_spriteArray[0].CircleDef);

@@ -40,7 +40,7 @@ void moveCharacter(Circle *pChar)
 			}
 			else if (g_jumpTrap == FALSE)											// if we cant jump, then check if a buffered jump is free
 			{
-				g_reJump = 30;														// Set the timer for a reJump (30 seems about right)
+				g_reJump = 45;														// Set the timer for a reJump (30 seems about right)
 				g_jumpTrap = TRUE;													// Trap the jump again
 			}	
 		}
