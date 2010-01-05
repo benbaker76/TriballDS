@@ -105,21 +105,24 @@ void drawGLScene()
 	
 	for(int register i=0; i<BALL_COUNT; i++)
 	{
-		switch(i)
+		switch(g_spriteArray[i].Type)
 		{
-		case 0: // Player's ball
+		case BALLTYPE_PLAYER: // Player's ball
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
 			break;
-		case 1:	// Box's
-		case 2:
-			glColorTable(GL_RGB256, g_palAddress[PALETTE_BOX]);
-			glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
-			break;
-		default: // Other Balls
+		case BALLTYPE_EVILBALL: // Other Balls
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
 			break;
+		case BALLTYPE_OBJECT:	// Box's
+			glColorTable(GL_RGB256, g_palAddress[PALETTE_BOX]);
+			glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
+			break;
+		default:	// Others
+			glColorTable(GL_RGB256, g_palAddress[PALETTE_PARTICLE]);
+			glBindTexture(0, g_textureIDS[TEXTURE_PARTICLE]);
+
 		}
 	
 		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
@@ -129,18 +132,18 @@ void drawGLScene()
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + 0.01F);
 		glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
 	
-		switch(i)
+		switch(g_spriteArray[i].Type)
 		{
-		case 0: // Player's ball
-			drawQuad(g_spriteArray[0].CircleDef->radius * 2 * SCALE, g_spriteArray[0].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
+		case BALLTYPE_PLAYER: // Player's ball
+			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
 			break;
-		case 1:	// Box's
-			drawQuad(g_spriteArray[1].BoxDef->extents.x * 2 * SCALE, g_spriteArray[1].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+		case BALLTYPE_EVILBALL:
+			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);			break;
 			break;
-		case 2:
-			drawQuad(g_spriteArray[2].BoxDef->extents.x * 2 * SCALE, g_spriteArray[2].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+		case BALLTYPE_OBJECT:	// Box's
+			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 			break;
-		default: // Other Balls
+		default: // anything
 			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
 			break;
 		}
