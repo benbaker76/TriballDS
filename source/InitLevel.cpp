@@ -156,14 +156,14 @@ void initPlayer()
 	g_spriteArray[1].BodyDef =  new b2BodyDef();
 	g_spriteArray[1].X = 220;
 	g_spriteArray[1].Y = 260;	
-	g_spriteArray[1].Type = BALLTYPE_OBJECT;
+	g_spriteArray[1].Type = BALLTYPE_CRATE;
 	g_spriteArray[1].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
 	g_spriteArray[1].BoxDef->density = 0.3F; 
 	g_spriteArray[1].BoxDef->friction = 0.05F; 
 	g_spriteArray[1].BoxDef->restitution = 0.95F; 
 
 	g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
-	g_spriteArray[1].BodyDef->allowSleep = false;
+	g_spriteArray[1].BodyDef->allowSleep = true;
 	g_spriteArray[1].BodyDef->preventRotation = false;
 	g_spriteArray[1].BodyDef->AddShape(g_spriteArray[1].BoxDef);
 	g_spriteArray[1].Body = g_world->CreateBody(g_spriteArray[1].BodyDef);
@@ -173,13 +173,13 @@ void initPlayer()
 	g_spriteArray[2].BodyDef =  new b2BodyDef();
 	g_spriteArray[2].X = 320;
 	g_spriteArray[2].Y = 260;	
-	g_spriteArray[2].Type = BALLTYPE_OBJECT;
+	g_spriteArray[2].Type = BALLTYPE_CRATE;
 	g_spriteArray[2].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
 	g_spriteArray[2].BoxDef->density = 0.3F; 
 	g_spriteArray[2].BoxDef->friction = 0.05F; 
 	g_spriteArray[2].BoxDef->restitution = 0.95F; 
 	g_spriteArray[2].BodyDef->position.Set(g_spriteArray[2].X * SCALE, g_spriteArray[2].Y * SCALE);
-	g_spriteArray[2].BodyDef->allowSleep = false;
+	g_spriteArray[2].BodyDef->allowSleep = true;
 	g_spriteArray[2].BodyDef->preventRotation = false;
 	g_spriteArray[2].BodyDef->AddShape(g_spriteArray[2].BoxDef);
 	g_spriteArray[2].Body = g_world->CreateBody(g_spriteArray[2].BodyDef);
@@ -199,7 +199,75 @@ void initPlayer()
 	g_jointArray[0].DistanceJointDef->collideConnected = true;
 	g_jointArray[0].DistanceJoint = new b2DistanceJoint(g_jointArray[0].DistanceJointDef);
 	g_jointArray[0].Joint = g_world->CreateJoint(g_jointArray[0].DistanceJointDef);
+	
+	
+	// ok start a rope from platform 5 (centre top)
+	// create the first one
+
+	g_spriteArray[3].BoxDef = new b2BoxDef();
+	g_spriteArray[3].BodyDef =  new b2BodyDef();
+	g_spriteArray[3].X = -50, g_spriteArray[3].Y = 120;	
+	g_spriteArray[3].Type = BALLTYPE_VINE;
+	g_spriteArray[3].BoxDef->extents.Set(15 / 2 * SCALE, 30 / 2 * SCALE);
+	g_spriteArray[3].BoxDef->density = 0.1F; 
+	g_spriteArray[3].BoxDef->friction = 1.0F; 
+	g_spriteArray[3].BodyDef->position.Set(g_spriteArray[3].X * SCALE, g_spriteArray[3].Y * SCALE);
+	g_spriteArray[3].BodyDef->AddShape(g_spriteArray[3].BoxDef);
+	g_spriteArray[3].Body = g_world->CreateBody(g_spriteArray[3].BodyDef);
+	
+	// join it to something
+	
+	g_jointArray[1].DistanceJointDef = new b2DistanceJointDef();
+	g_jointArray[1].DistanceJointDef->body1 = g_platformArray[6]->Body;
+	g_jointArray[1].DistanceJointDef->body2 = g_spriteArray[3].Body;
+
+	g_jointArray[1].DistanceJointDef->anchorPoint1.Set(-50 * SCALE, 140 * SCALE);
+	g_jointArray[1].DistanceJointDef->anchorPoint2.Set(g_spriteArray[3].Body->GetCenterPosition().x,g_spriteArray[3].Body->GetCenterPosition().y + 1.0f);
+	g_jointArray[1].DistanceJointDef->collideConnected = false;
+	g_jointArray[1].DistanceJoint = new b2DistanceJoint(g_jointArray[1].DistanceJointDef);
+	g_jointArray[1].Joint = g_world->CreateJoint(g_jointArray[1].DistanceJointDef);
+	
+	// we need a len and X,Y coords
+	int vlen = 9;
+	int Vx = -50;
+	int Vy = 105;
+	int Vj = 2;
+	
+	for(int i=4; i<vlen; i++)
+	{
+	
+	g_spriteArray[i].BoxDef = new b2BoxDef();
+	g_spriteArray[i].BodyDef =  new b2BodyDef();
+	g_spriteArray[i].X = Vx, g_spriteArray[i].Y = Vy - ((i-4) * 20);	
+	g_spriteArray[i].Type = BALLTYPE_VINE;
+	g_spriteArray[i].BoxDef->extents.Set(15 / 2 * SCALE, 30 / 2 * SCALE);
+	g_spriteArray[i].BoxDef->density = 0.1F; 
+	g_spriteArray[i].BoxDef->friction = 1.0F; 
+	g_spriteArray[i].BodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
+	g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].BoxDef);
+	g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
+
+	g_jointArray[Vj].DistanceJointDef = new b2DistanceJointDef();
+	g_jointArray[Vj].DistanceJointDef->body1 = g_spriteArray[i-1].Body;
+	g_jointArray[Vj].DistanceJointDef->body2 = g_spriteArray[i].Body;
+
+	g_jointArray[Vj].DistanceJointDef->anchorPoint1.Set(g_spriteArray[i-1].Body->GetCenterPosition().x,g_spriteArray[i-1].Body->GetCenterPosition().y - 0.5f);
+	g_jointArray[Vj].DistanceJointDef->anchorPoint2.Set(g_spriteArray[i].Body->GetCenterPosition().x,g_spriteArray[i].Body->GetCenterPosition().y + 0.5f);
+	g_jointArray[Vj].DistanceJointDef->collideConnected = false;
+	g_jointArray[Vj].DistanceJoint = new b2DistanceJoint(g_jointArray[Vj].DistanceJointDef);
+	g_jointArray[Vj].Joint = g_world->CreateJoint(g_jointArray[Vj].DistanceJointDef);		
+	
+	
+	Vj ++;
+	
+//	Vy -= 20;
+	
+	}
+
+
 }
+
+
 
 
 
@@ -208,3 +276,12 @@ void initBox2D()
 {
 
 }
+
+/*
+	g_jointArray[2].RevoluteJointDef = new b2RevoluteJointDef();
+
+	g_jointArray[2].RevoluteJointDef->anchorPoint.Set(g_spriteArray[3].Body->GetCenterPosition().x,g_spriteArray[3].Body->GetCenterPosition().y - 1.0f);
+	g_jointArray[2].RevoluteJointDef->collideConnected = false;
+	g_jointArray[2].RevoluteJoint = new b2RevoluteJoint(g_jointArray[2].RevoluteJointDef);
+	g_jointArray[2].Joint = g_world->CreateJoint(g_jointArray[2].RevoluteJointDef);	
+*/

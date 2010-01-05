@@ -21,6 +21,9 @@ struct Joint
 {
 	b2DistanceJointDef* DistanceJointDef;
 	b2DistanceJoint* DistanceJoint;
+	b2RevoluteJointDef* RevoluteJointDef;
+	b2RevoluteJoint* RevoluteJoint;
+
 	b2Joint* Joint;
 };
 
@@ -180,10 +183,6 @@ enum QuadFlags
 #define		JUMPSPEED			45.0F			// initial speed of a jump
 #define		AIRSPIN				4.5f			// multiplyer to add spin to a jumping ball
 
-	// Defines for ball properties
-#define		BALL_SIZE			32				// Size of balls
-#define		BALL_COUNT			3				// Number of balls
-
 	// Defines for player (ball) status
 	
 #define		BALLSTATUS_NORMAL				0
@@ -194,7 +193,8 @@ enum QuadFlags
 #define		BALLTYPE_NULL		0				// non moving object
 #define		BALLTYPE_PLAYER		1
 #define		BALLTYPE_EVILBALL	2
-#define		BALLTYPE_OBJECT		3				// General stationary object
+#define		BALLTYPE_CRATE		3				
+#define		BALLTYPE_VINE		4
 
 	// Defines for ball actions
 #define		ACTION_NONE			0
@@ -222,8 +222,6 @@ enum QuadFlags
 
 #define		TEXTURE_BOX01			(LEVEL_TEXTURE_COUNT + 6)
 
-#define		PLATFORM_COUNT			10
-
 #define		PALETTE_BALL			0
 #define		PALETTE_PARTICLE		1
 #define		PALETTE_TRAIL			2
@@ -233,9 +231,13 @@ enum QuadFlags
 	// Defines for the Trails on the Players balls
 	
 #define		TRAIL_INTERVAL			1		// Size of the interval between trail parts
-#define		TRAIL_AMOUNT			80		// Number of balls in the trail
+#define		TRAIL_AMOUNT			60		// Number of balls in the trail
 
-#define		JOINT_COUNT				1
+	// Defines for object/platform amounts
+
+#define		BALL_COUNT				20				// Number of balls
+#define		JOINT_COUNT				30				// number of joints
+#define		PLATFORM_COUNT			30				// number of platforms
 
 #define		PALETTE_COUNT			5
 

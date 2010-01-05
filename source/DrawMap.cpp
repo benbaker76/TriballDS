@@ -107,7 +107,7 @@ void drawGLScene()
 	{
 		switch(g_spriteArray[i].Type)
 		{
-		case BALLTYPE_PLAYER: // Player's ball
+		case BALLTYPE_PLAYER:	 // Player's ball
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
 			break;
@@ -115,11 +115,16 @@ void drawGLScene()
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
 			break;
-		case BALLTYPE_OBJECT:	// Box's
+		case BALLTYPE_CRATE:	// Box's
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BOX]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
 			break;
-		default:	// Others
+		case BALLTYPE_VINE:		// Vine
+		//	glColorTable(GL_RGB256, g_palAddress[PALETTE_BOX]);
+			glBindTexture(0, NULL);
+			break;
+
+		default:				// Others
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_PARTICLE]);
 			glBindTexture(0, g_textureIDS[TEXTURE_PARTICLE]);
 
@@ -134,18 +139,20 @@ void drawGLScene()
 	
 		switch(g_spriteArray[i].Type)
 		{
-		case BALLTYPE_PLAYER: // Player's ball
+		case BALLTYPE_PLAYER: 	// Player's ball
 			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
 			break;
-		case BALLTYPE_EVILBALL:
+		case BALLTYPE_EVILBALL:	// Nasty balls
 			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);			break;
 			break;
-		case BALLTYPE_OBJECT:	// Box's
+		case BALLTYPE_CRATE:	// Crates
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 			break;
-		default: // anything
-			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
+		case BALLTYPE_VINE:		// Vine
+			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 			break;
+		default: 				// anything
+			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 		}
 
 		glPopMatrix(1);
