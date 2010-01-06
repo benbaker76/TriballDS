@@ -44,7 +44,7 @@ b2Vec2* g_gravity;
 
 b2BoxDef* g_groundBoxDef;
 b2BodyDef* g_groundBodyDef;
-b2Body* g_groundBody;
+//b2Body* g_groundBody;
 
 Poly* g_platformArray[PLATFORM_COUNT];
 

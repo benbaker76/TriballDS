@@ -275,7 +275,7 @@ extern b2Vec2* g_gravity;
 
 extern b2BoxDef* g_groundBoxDef;
 extern b2BodyDef* g_groundBodyDef;
-extern b2Body* g_groundBody;
+//extern b2Body* g_groundBody;
 
 extern Poly* g_platformArray[];
 

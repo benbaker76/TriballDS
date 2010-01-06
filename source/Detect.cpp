@@ -85,7 +85,7 @@ void updateCharacterContacts(Circle *pChar)
 			else
 				body = body1;
 			
-			if(g_groundBody == body) // Collide with ground?
+			/* if(g_groundBody == body) // Collide with ground?
 			{
 //				DrawString("Player Collided With Ground", 0, 7, true);
 				
@@ -99,7 +99,7 @@ void updateCharacterContacts(Circle *pChar)
 				
 			}
 			else // Which platform did it collide with?
-			{
+			{ */
 				for(int i=0; i<PLATFORM_COUNT; i++)
 				{
 					if(g_platformArray[i]->Body == body)
@@ -136,7 +136,7 @@ void updateCharacterContacts(Circle *pChar)
 						pChar->OnGround = (position1.y < position2.y);
 					}
 				}
-			}
+			//}
 		}
 	}
 	
