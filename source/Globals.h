@@ -23,6 +23,8 @@ struct Joint
 	b2DistanceJoint* DistanceJoint;
 	b2RevoluteJointDef* RevoluteJointDef;
 	b2RevoluteJoint* RevoluteJoint;
+	b2PrismaticJointDef* PrismaticJointDef;
+	b2PrismaticJoint* PrismaticJoint;
 
 	b2Joint* Joint;
 };

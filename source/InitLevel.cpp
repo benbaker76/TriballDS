@@ -200,71 +200,94 @@ void initPlayer()
 	g_jointArray[0].DistanceJoint = new b2DistanceJoint(g_jointArray[0].DistanceJointDef);
 	g_jointArray[0].Joint = g_world->CreateJoint(g_jointArray[0].DistanceJointDef);
 	
+	// ------------------ VINE ----------------
 	
-	// ok start a rope from platform 5 (centre top)
-	// create the first one
-
-	g_spriteArray[3].BoxDef = new b2BoxDef();
-	g_spriteArray[3].BodyDef =  new b2BodyDef();
-	g_spriteArray[3].X = -50, g_spriteArray[3].Y = 120;	
-	g_spriteArray[3].Type = BALLTYPE_VINE;
-	g_spriteArray[3].BoxDef->extents.Set(15 / 2 * SCALE, 30 / 2 * SCALE);
-	g_spriteArray[3].BoxDef->density = 0.1F; 
-	g_spriteArray[3].BoxDef->friction = 1.0F; 
-	g_spriteArray[3].BodyDef->position.Set(g_spriteArray[3].X * SCALE, g_spriteArray[3].Y * SCALE);
-	g_spriteArray[3].BodyDef->AddShape(g_spriteArray[3].BoxDef);
-	g_spriteArray[3].Body = g_world->CreateBody(g_spriteArray[3].BodyDef);
+	// Create boxes for the vine
 	
-	// join it to something
-	
-	g_jointArray[1].DistanceJointDef = new b2DistanceJointDef();
-	g_jointArray[1].DistanceJointDef->body1 = g_platformArray[6]->Body;
-	g_jointArray[1].DistanceJointDef->body2 = g_spriteArray[3].Body;
-
-	g_jointArray[1].DistanceJointDef->anchorPoint1.Set(-50 * SCALE, 140 * SCALE);
-	g_jointArray[1].DistanceJointDef->anchorPoint2.Set(g_spriteArray[3].Body->GetCenterPosition().x,g_spriteArray[3].Body->GetCenterPosition().y + 1.0f);
-	g_jointArray[1].DistanceJointDef->collideConnected = false;
-	g_jointArray[1].DistanceJoint = new b2DistanceJoint(g_jointArray[1].DistanceJointDef);
-	g_jointArray[1].Joint = g_world->CreateJoint(g_jointArray[1].DistanceJointDef);
-	
-	// we need a len and X,Y coords
-	int vlen = 9;
-	int Vx = -50;
-	int Vy = 105;
-	int Vj = 2;
-	
-	for(int i=4; i<vlen; i++)
+	for(int i=0; i<8; i++)
 	{
-	
-	g_spriteArray[i].BoxDef = new b2BoxDef();
-	g_spriteArray[i].BodyDef =  new b2BodyDef();
-	g_spriteArray[i].X = Vx, g_spriteArray[i].Y = Vy - ((i-4) * 20);	
-	g_spriteArray[i].Type = BALLTYPE_VINE;
-	g_spriteArray[i].BoxDef->extents.Set(15 / 2 * SCALE, 30 / 2 * SCALE);
-	g_spriteArray[i].BoxDef->density = 0.1F; 
-	g_spriteArray[i].BoxDef->friction = 1.0F; 
-	g_spriteArray[i].BodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
-	g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].BoxDef);
-	g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
-
-	g_jointArray[Vj].DistanceJointDef = new b2DistanceJointDef();
-	g_jointArray[Vj].DistanceJointDef->body1 = g_spriteArray[i-1].Body;
-	g_jointArray[Vj].DistanceJointDef->body2 = g_spriteArray[i].Body;
-
-	g_jointArray[Vj].DistanceJointDef->anchorPoint1.Set(g_spriteArray[i-1].Body->GetCenterPosition().x,g_spriteArray[i-1].Body->GetCenterPosition().y - 0.5f);
-	g_jointArray[Vj].DistanceJointDef->anchorPoint2.Set(g_spriteArray[i].Body->GetCenterPosition().x,g_spriteArray[i].Body->GetCenterPosition().y + 0.5f);
-	g_jointArray[Vj].DistanceJointDef->collideConnected = false;
-	g_jointArray[Vj].DistanceJoint = new b2DistanceJoint(g_jointArray[Vj].DistanceJointDef);
-	g_jointArray[Vj].Joint = g_world->CreateJoint(g_jointArray[Vj].DistanceJointDef);		
-	
-	
-	Vj ++;
-	
-//	Vy -= 20;
-	
+		g_spriteArray[i + 3].BoxDef = new b2BoxDef();
+		g_spriteArray[i + 3].BodyDef =  new b2BodyDef();
+		g_spriteArray[i + 3].X = -50;
+		g_spriteArray[i + 3].Y = 110 - (i * 30);	
+		g_spriteArray[i + 3].Type = BALLTYPE_VINE;
+		g_spriteArray[i + 3].BoxDef->extents.Set(8 / 2 * SCALE, 30 / 2 * SCALE);
+		g_spriteArray[i + 3].BoxDef->density = 0.5F; 
+		g_spriteArray[i + 3].BoxDef->friction = 0.5F;
+		g_spriteArray[i + 3].BoxDef->restitution = 0.2F;
+		g_spriteArray[i + 3].BodyDef->position.Set(g_spriteArray[i + 3].X * SCALE, g_spriteArray[i + 3].Y * SCALE);
+		g_spriteArray[i + 3].BodyDef->AddShape(g_spriteArray[i + 3].BoxDef);
+		g_spriteArray[i + 3].Body = g_world->CreateBody(g_spriteArray[i + 3].BodyDef);
+		
+        /* b2MassData* massDatas = new b2MassData();
+        massDatas->mass = g_spriteArray[i + 3].Body->GetMass();
+        massDatas->I = g_spriteArray[i + 3].Body->GetInertia();
+        g_spriteArray[i + 3].BoxDef->ComputeMass(massDatas); */
 	}
+	
+	for(int i=0; i<8-1; i++)
+	{
+		// Revolute joins connect each box
+		g_jointArray[i].RevoluteJointDef = new b2RevoluteJointDef();
+		g_jointArray[i].RevoluteJointDef->body1 = g_spriteArray[i + 3].Body;
+		g_jointArray[i].RevoluteJointDef->body2 = g_spriteArray[i + 3 + 1].Body;
 
+		g_jointArray[i].RevoluteJointDef->anchorPoint.Set(g_spriteArray[i + 3].Body->GetCenterPosition().x, g_spriteArray[i + 3].Body->GetCenterPosition().y - g_spriteArray[i + 3].BoxDef->extents.y);
+		g_jointArray[i].RevoluteJointDef->collideConnected = false;
+		g_jointArray[i].RevoluteJoint = new b2RevoluteJoint(g_jointArray[i].RevoluteJointDef);
+		g_jointArray[i].Joint = g_world->CreateJoint(g_jointArray[i].RevoluteJointDef);
+		
+		
+		// The distance joint connects each box to the platform
+		// If you look at the link below, they do the opposite
+		// (ie. Use Revolutes joins to link to the platform and distance joints to link each box)
+		// I couldn't get it to work this way but it seems fine this way?
+		// http://www.box2d.org/forum/viewtopic.php?p=10691#p10691
+		
+		g_jointArray[i].DistanceJointDef = new b2DistanceJointDef();
+		g_jointArray[i].DistanceJointDef->body1 = g_spriteArray[i + 3].Body;
+		//g_jointArray[i].DistanceJointDef->body2 = g_spriteArray[i + 3 + 1].Body;
+		g_jointArray[i].DistanceJointDef->body2 = g_platformArray[6]->Body;
 
+		g_jointArray[i].DistanceJointDef->anchorPoint1.Set(g_spriteArray[i + 3].Body->GetCenterPosition().x,g_spriteArray[i + 3].Body->GetCenterPosition().y - g_spriteArray[i + 3].BoxDef->extents.y);
+		//g_jointArray[i].DistanceJointDef->anchorPoint2.Set(g_spriteArray[i + 3 + 1].Body->GetCenterPosition().x,g_spriteArray[i + 3 + 1].Body->GetCenterPosition().y + g_spriteArray[i + 3 + 1].BoxDef->extents.y);
+		g_jointArray[i].DistanceJointDef->anchorPoint2.Set(-50 * SCALE, 110 * SCALE);
+		g_jointArray[i].DistanceJointDef->collideConnected = false;
+		g_jointArray[i].DistanceJoint = new b2DistanceJoint(g_jointArray[i].DistanceJointDef);
+		g_jointArray[i].Joint = g_world->CreateJoint(g_jointArray[i].DistanceJointDef);
+	}
+	
+	/* g_jointArray[8].RevoluteJointDef = new b2RevoluteJointDef();
+	g_jointArray[8].RevoluteJointDef->body1 = g_spriteArray[3].Body;
+	g_jointArray[8].RevoluteJointDef->body2 = g_platformArray[6]->Body;
+
+	g_jointArray[8].RevoluteJointDef->anchorPoint.Set(g_spriteArray[3].Body->GetCenterPosition().x, g_spriteArray[3].Body->GetCenterPosition().y + g_spriteArray[3].BoxDef->extents.y);
+	g_jointArray[8].RevoluteJointDef->collideConnected = false;
+	g_jointArray[8].RevoluteJoint = new b2RevoluteJoint(g_jointArray[8].RevoluteJointDef);
+	g_jointArray[8].Joint = g_world->CreateJoint(g_jointArray[8].RevoluteJointDef);
+	
+	g_jointArray[9].DistanceJointDef = new b2DistanceJointDef();
+	g_jointArray[9].DistanceJointDef->body1 = g_spriteArray[3].Body;
+	g_jointArray[9].DistanceJointDef->body2 = g_platformArray[6]->Body;
+
+	g_jointArray[9].DistanceJointDef->anchorPoint1.Set(g_spriteArray[3].Body->GetCenterPosition().x, g_spriteArray[3].Body->GetCenterPosition().y + g_spriteArray[3].BoxDef->extents.y);
+	g_jointArray[9].DistanceJointDef->anchorPoint2.Set(-50 * SCALE, 110 * SCALE);
+	g_jointArray[9].DistanceJointDef->collideConnected = false;
+	g_jointArray[9].DistanceJoint = new b2DistanceJoint(g_jointArray[9].DistanceJointDef);
+	g_jointArray[9].Joint = g_world->CreateJoint(g_jointArray[9].DistanceJointDef); */
+	
+	// This is a nice way to attach the vine to the platform as it makes it nice and bouncy
+	
+	g_jointArray[10].PrismaticJointDef = new b2PrismaticJointDef();
+	g_jointArray[10].PrismaticJointDef->body1 = g_spriteArray[3].Body;
+	g_jointArray[10].PrismaticJointDef->body2 = g_platformArray[6]->Body;
+	g_jointArray[10].PrismaticJointDef->lowerTranslation = 0.0F;
+	g_jointArray[10].PrismaticJointDef->upperTranslation = g_spriteArray[3].Body->GetCenterPosition().y - 110 * SCALE;
+
+	g_jointArray[10].PrismaticJointDef->anchorPoint.Set(g_spriteArray[3].Body->GetCenterPosition().x, g_spriteArray[3].Body->GetCenterPosition().y + g_spriteArray[3].BoxDef->extents.y);
+	g_jointArray[10].PrismaticJointDef->collideConnected = false;
+	g_jointArray[10].PrismaticJoint = new b2PrismaticJoint(g_jointArray[10].PrismaticJointDef);
+	g_jointArray[10].Joint = g_world->CreateJoint(g_jointArray[10].PrismaticJointDef); 
 }
 
 
