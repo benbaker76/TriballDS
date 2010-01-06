@@ -126,8 +126,8 @@ void drawGLScene()
 			glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
 			break;
 		case BALLTYPE_VINE:		// Vine
-		//	glColorTable(GL_RGB256, g_palAddress[PALETTE_BOX]);
-			glBindTexture(0, NULL);
+			glColorTable(GL_RGB256, g_palAddress[PALETTE_VINE]);
+			glBindTexture(0, g_textureIDS[TEXTURE_VINE]);
 			break;
 
 		default:				// Others
@@ -149,13 +149,13 @@ void drawGLScene()
 			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
 			break;
 		case BALLTYPE_EVILBALL:	// Nasty balls
-			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);			break;
+			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);	
 			break;
 		case BALLTYPE_CRATE:	// Crates
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 			break;
 		case BALLTYPE_VINE:		// Vine
-			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+			drawQuad(g_spriteArray[i].BoxDef->extents.x * 8 * SCALE, g_spriteArray[i].BoxDef->extents.y * 4 * SCALE, 32, QUADFLAGS_NONE);
 			break;
 		default: 				// anything
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);

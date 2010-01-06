@@ -109,7 +109,7 @@ void initLevel()
 // INIT PLAYER AND RANDOM BALLS (FOR NOW)
 void initPlayer()
 {
-/*	for(int i=2; i<BALLCOUNT; i++)
+/*	for(int i=12; i<BALL_COUNT; i++)
 	{
 		g_spriteArray[i].Action = ACTION_NONE;	
 		g_spriteArray[i].X = (rand() % 760)-400; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
@@ -128,8 +128,9 @@ void initPlayer()
 		g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].CircleDef);
 		
 		g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
+
 	}
-	*/
+*/	
 	// INIT PLAYER
 	g_spriteArray[0].Action = ACTION_NONE;	
 	g_spriteArray[0].X = 128;
@@ -147,7 +148,7 @@ void initPlayer()
 	g_spriteArray[0].BodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
 	g_spriteArray[0].BodyDef->allowSleep = false;
 	g_spriteArray[0].BodyDef->preventRotation = false;
-	g_spriteArray[0].BodyDef->angularDamping = 0.03f;
+	g_spriteArray[0].BodyDef->angularDamping = 0.05f;
 	g_spriteArray[0].BodyDef->linearDamping = 0.00f;
 
 	g_spriteArray[0].BodyDef->AddShape(g_spriteArray[0].CircleDef);
@@ -164,8 +165,8 @@ void initPlayer()
 	g_spriteArray[1].Type = BALLTYPE_CRATE;
 	g_spriteArray[1].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
 	g_spriteArray[1].BoxDef->density = 0.3F; 
-	g_spriteArray[1].BoxDef->friction = 0.05F; 
-	g_spriteArray[1].BoxDef->restitution = 0.95F; 
+	g_spriteArray[1].BoxDef->friction = 0.2F; 
+	g_spriteArray[1].BoxDef->restitution = 0.8F; 
 
 	g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
 	g_spriteArray[1].BodyDef->allowSleep = true;
@@ -181,14 +182,14 @@ void initPlayer()
 	g_spriteArray[2].Type = BALLTYPE_CRATE;
 	g_spriteArray[2].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
 	g_spriteArray[2].BoxDef->density = 0.3F; 
-	g_spriteArray[2].BoxDef->friction = 0.05F; 
-	g_spriteArray[2].BoxDef->restitution = 0.95F; 
+	g_spriteArray[2].BoxDef->friction = 0.2F; 
+	g_spriteArray[2].BoxDef->restitution = 0.8F; 
 	g_spriteArray[2].BodyDef->position.Set(g_spriteArray[2].X * SCALE, g_spriteArray[2].Y * SCALE);
 	g_spriteArray[2].BodyDef->allowSleep = true;
 	g_spriteArray[2].BodyDef->preventRotation = false;
 	g_spriteArray[2].BodyDef->AddShape(g_spriteArray[2].BoxDef);
 	g_spriteArray[2].Body = g_world->CreateBody(g_spriteArray[2].BodyDef);
-	
+/*	
 	// Create a joint between the two boxes
 	g_jointArray[0].DistanceJointDef = new b2DistanceJointDef();
 	g_jointArray[0].DistanceJointDef->body1 = g_spriteArray[1].Body;
@@ -204,7 +205,7 @@ void initPlayer()
 	g_jointArray[0].DistanceJointDef->collideConnected = true;
 	g_jointArray[0].DistanceJoint = new b2DistanceJoint(g_jointArray[0].DistanceJointDef);
 	g_jointArray[0].Joint = g_world->CreateJoint(g_jointArray[0].DistanceJointDef);
-	
+*/	
 	// ------------------ VINE ----------------
 
 	// Create boxes for the vine
@@ -214,12 +215,12 @@ void initPlayer()
 		g_spriteArray[i + 3].BoxDef = new b2BoxDef();
 		g_spriteArray[i + 3].BodyDef =  new b2BodyDef();
 		g_spriteArray[i + 3].X = -50;
-		g_spriteArray[i + 3].Y = 110 - (i * 30);	
+		g_spriteArray[i + 3].Y = 120 - (i * 28);	
 		g_spriteArray[i + 3].Type = BALLTYPE_VINE;
 		g_spriteArray[i + 3].BoxDef->extents.Set(8 / 2 * SCALE, 30 / 2 * SCALE);
-		g_spriteArray[i + 3].BoxDef->density = 0.5F; 
-		g_spriteArray[i + 3].BoxDef->friction = 0.5F;
-		g_spriteArray[i + 3].BoxDef->restitution = 0.2F;
+		g_spriteArray[i + 3].BoxDef->density = 1.0F; 
+		g_spriteArray[i + 3].BoxDef->friction = 0.0F;
+		g_spriteArray[i + 3].BoxDef->restitution = 0.0F;
 		g_spriteArray[i + 3].BodyDef->position.Set(g_spriteArray[i + 3].X * SCALE, g_spriteArray[i + 3].Y * SCALE);
 		g_spriteArray[i + 3].BodyDef->AddShape(g_spriteArray[i + 3].BoxDef);
 		g_spriteArray[i + 3].Body = g_world->CreateBody(g_spriteArray[i + 3].BodyDef);
@@ -248,7 +249,7 @@ void initPlayer()
 		// (ie. Use Revolutes joins to link to the platform and distance joints to link each box)
 		// I couldn't get it to work this way but it seems fine this way?
 		// http://www.box2d.org/forum/viewtopic.php?p=10691#p10691
-		
+	/*	
 		g_jointArray[i].DistanceJointDef = new b2DistanceJointDef();
 		g_jointArray[i].DistanceJointDef->body1 = g_spriteArray[i + 3].Body;
 		//g_jointArray[i].DistanceJointDef->body2 = g_spriteArray[i + 3 + 1].Body;
@@ -260,6 +261,7 @@ void initPlayer()
 		g_jointArray[i].DistanceJointDef->collideConnected = false;
 		g_jointArray[i].DistanceJoint = new b2DistanceJoint(g_jointArray[i].DistanceJointDef);
 		g_jointArray[i].Joint = g_world->CreateJoint(g_jointArray[i].DistanceJointDef);
+*/
 	}
 	
 	// Looks like you need these two to stop the crashing??
@@ -272,7 +274,7 @@ void initPlayer()
 	g_jointArray[8].RevoluteJointDef->collideConnected = false;
 	g_jointArray[8].RevoluteJoint = new b2RevoluteJoint(g_jointArray[8].RevoluteJointDef);
 	g_jointArray[8].Joint = g_world->CreateJoint(g_jointArray[8].RevoluteJointDef);
-	
+/*	
 	g_jointArray[9].DistanceJointDef = new b2DistanceJointDef();
 	g_jointArray[9].DistanceJointDef->body1 = g_spriteArray[3].Body;
 	g_jointArray[9].DistanceJointDef->body2 = g_platformArray[6]->Body;
@@ -282,7 +284,7 @@ void initPlayer()
 	g_jointArray[9].DistanceJointDef->collideConnected = false;
 	g_jointArray[9].DistanceJoint = new b2DistanceJoint(g_jointArray[9].DistanceJointDef);
 	g_jointArray[9].Joint = g_world->CreateJoint(g_jointArray[9].DistanceJointDef);
-	
+*/	
 	// This is a nice way to attach the vine to the platform as it makes it nice and bouncy
 	
 	/* g_jointArray[10].PrismaticJointDef = new b2PrismaticJointDef();

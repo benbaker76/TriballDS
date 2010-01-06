@@ -17,6 +17,8 @@
 #include "trail_pal_bin.h"
 #include "box_tex_bin.h"
 #include "box_pal_bin.h"
+#include "vine_tex_bin.h"
+#include "vine_pal_bin.h"
 
 #include "font.h"
 #include "titlescreen.h"
@@ -323,7 +325,10 @@ void initVideo3D()
 	glBindTexture(0, g_textureIDS[TEXTURE_TRAIL]);
 	glTexImage2D(0, 0, GL_RGB32_A3, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD, (u8*)trail_tex_bin);
 	g_palAddress[PALETTE_TRAIL] = gluTexLoadPal((u16*)trail_pal_bin, 256, GL_RGB32_A3);
-	
+
+	glBindTexture(0, g_textureIDS[TEXTURE_VINE]);
+	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_32, TEXTURE_SIZE_32, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)vine_tex_bin );
+	g_palAddress[PALETTE_VINE] = gluTexLoadPal((u16*)vine_pal_bin, 256, GL_RGB32_A3);	
 	/* glBindTexture(0, g_textureIDS[TEXTURE_LEVEL01]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_256, TEXTURE_SIZE_256, 0, TEXGEN_TEXCOORD, (u8*)level01_tex_bin);
 	

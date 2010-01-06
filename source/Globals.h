@@ -211,7 +211,7 @@ enum QuadFlags
 	// Defines for GL level contruction
 #define		LEVEL_TEXTURE_COUNT		(4 * 4)
 #define		LEVEL_QUAD_COUNT		(4 * 4)
-#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 7)
+#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 8)
 
 	// Defines for objects
 #define		TEXTURE_BALL01			(LEVEL_TEXTURE_COUNT + 0)
@@ -223,12 +223,14 @@ enum QuadFlags
 #define		TEXTURE_TRAIL			(LEVEL_TEXTURE_COUNT + 5)
 
 #define		TEXTURE_BOX01			(LEVEL_TEXTURE_COUNT + 6)
+#define		TEXTURE_VINE			(LEVEL_TEXTURE_COUNT + 7)
 
 #define		PALETTE_BALL			0
 #define		PALETTE_PARTICLE		1
 #define		PALETTE_TRAIL			2
 #define		PALETTE_BOX				3
-#define		PALETTE_LEVEL			4
+#define		PALETTE_VINE			4
+#define		PALETTE_LEVEL			5
 
 	// Defines for the Trails on the Players balls
 	
@@ -237,11 +239,11 @@ enum QuadFlags
 
 	// Defines for object/platform amounts
 
-#define		BALL_COUNT				20				// Number of balls
-#define		JOINT_COUNT				30				// number of joints
-#define		PLATFORM_COUNT			30				// number of platforms
+#define		BALL_COUNT				11				// Number of balls
+#define		JOINT_COUNT				10				// number of joints
+#define		PLATFORM_COUNT			20				// number of platforms
 
-#define		PALETTE_COUNT			5
+#define		PALETTE_COUNT			6
 
 #endif
 
