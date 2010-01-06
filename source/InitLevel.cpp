@@ -262,7 +262,9 @@ void initPlayer()
 		g_jointArray[i].Joint = g_world->CreateJoint(g_jointArray[i].DistanceJointDef);
 	}
 	
-	/* g_jointArray[8].RevoluteJointDef = new b2RevoluteJointDef();
+	// Looks like you need these two to stop the crashing??
+	
+	g_jointArray[8].RevoluteJointDef = new b2RevoluteJointDef();
 	g_jointArray[8].RevoluteJointDef->body1 = g_spriteArray[3].Body;
 	g_jointArray[8].RevoluteJointDef->body2 = g_platformArray[6]->Body;
 
@@ -279,11 +281,11 @@ void initPlayer()
 	g_jointArray[9].DistanceJointDef->anchorPoint2.Set(-50 * SCALE, 110 * SCALE);
 	g_jointArray[9].DistanceJointDef->collideConnected = false;
 	g_jointArray[9].DistanceJoint = new b2DistanceJoint(g_jointArray[9].DistanceJointDef);
-	g_jointArray[9].Joint = g_world->CreateJoint(g_jointArray[9].DistanceJointDef); */
+	g_jointArray[9].Joint = g_world->CreateJoint(g_jointArray[9].DistanceJointDef);
 	
 	// This is a nice way to attach the vine to the platform as it makes it nice and bouncy
 	
-	g_jointArray[10].PrismaticJointDef = new b2PrismaticJointDef();
+	/* g_jointArray[10].PrismaticJointDef = new b2PrismaticJointDef();
 	g_jointArray[10].PrismaticJointDef->body1 = g_spriteArray[3].Body;
 	g_jointArray[10].PrismaticJointDef->body2 = g_platformArray[6]->Body;
 	g_jointArray[10].PrismaticJointDef->lowerTranslation = 0.0F;
@@ -292,7 +294,7 @@ void initPlayer()
 	g_jointArray[10].PrismaticJointDef->anchorPoint.Set(g_spriteArray[3].Body->GetCenterPosition().x, g_spriteArray[3].Body->GetCenterPosition().y + g_spriteArray[3].BoxDef->extents.y);
 	g_jointArray[10].PrismaticJointDef->collideConnected = false;
 	g_jointArray[10].PrismaticJoint = new b2PrismaticJoint(g_jointArray[10].PrismaticJointDef);
-	g_jointArray[10].Joint = g_world->CreateJoint(g_jointArray[10].PrismaticJointDef); 
+	g_jointArray[10].Joint = g_world->CreateJoint(g_jointArray[10].PrismaticJointDef);  */
 }
 
 
