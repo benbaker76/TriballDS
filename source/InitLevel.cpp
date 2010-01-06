@@ -43,6 +43,11 @@ void initLevel()
 	
 	g_levelNum = 0;
 	
+	// ** WITHOUT THIS IT WILL CRASH ON HARDWARE **
+	// ** CAN'T USE OBJECTS IN ARRAYS THAT HAVE NOT BEING INITIALIZED **
+	for(int i=0; i<BALL_COUNT; i++)
+		g_spriteArray[i].Body = NULL; // Make Body NULL so uninitialized entries can be skipped
+	
 	loadLevel();
 	
 	g_worldAABB = new b2AABB();
@@ -201,7 +206,7 @@ void initPlayer()
 	g_jointArray[0].Joint = g_world->CreateJoint(g_jointArray[0].DistanceJointDef);
 	
 	// ------------------ VINE ----------------
-	
+
 	// Create boxes for the vine
 	
 	for(int i=0; i<8; i++)

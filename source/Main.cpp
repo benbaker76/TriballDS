@@ -95,10 +95,13 @@ int main(void)
 		
 		for(register int i=0; i<BALL_COUNT; i++)
 		{
-			moveCharacter(&g_spriteArray[i]);
-			updateCharacter(&g_spriteArray[i]);
-			updateCharacterContacts(&g_spriteArray[i]);
-			updateGroundCollision();
+			if(g_spriteArray[i].Body != NULL)
+			{
+				moveCharacter(&g_spriteArray[i]);
+				updateCharacter(&g_spriteArray[i]);
+				updateCharacterContacts(&g_spriteArray[i]);
+				updateGroundCollision();
+			}
 		}
 		
 		if (g_reJump > 0) g_reJump -= 1;

@@ -105,6 +105,12 @@ void drawGLScene()
 	
 	for(int register i=0; i<BALL_COUNT; i++)
 	{
+		// ** WITHOUT THIS IT WILL CRASH ON HARDWARE **
+		// ** CAN'T USE OBJECTS IN ARRAYS THAT HAVE NOT BEING INITIALIZED **
+		
+		if(g_spriteArray[i].Body == NULL) // Nothing assigned to it so continue back to the loop
+			continue;
+		
 		switch(g_spriteArray[i].Type)
 		{
 		case BALLTYPE_PLAYER:	 // Player's ball
