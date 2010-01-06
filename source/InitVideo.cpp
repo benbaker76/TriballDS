@@ -257,10 +257,10 @@ void initVideo3D()
 	glInit();
 	
 	//enable textures
-	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D | GL_BLEND | GL_ANTIALIAS);
 	
 	// enable antialiasing
-	glEnable(GL_ANTIALIAS);
+	//glEnable(GL_ANTIALIAS);
 	
 	// setup the rear plane
 	glClearColor(0, 0, 0, 31); // BG must be opaque for AA to work

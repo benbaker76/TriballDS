@@ -42,7 +42,7 @@ void drawTrail()
 
 	for (int register i=0; i<TRAIL_AMOUNT; i++)
 	{
-		glPolyFmt(POLY_ALPHA((alphaValue -= alphaStep)) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3);
+		glPolyFmt(POLY_ID(i + 1) | POLY_ALPHA((alphaValue -= alphaStep)) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | POLY_FORMAT_LIGHT2 | POLY_FORMAT_LIGHT3);
 	
 		glBegin(GL_QUAD);
 		
