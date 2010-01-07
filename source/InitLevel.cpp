@@ -26,7 +26,7 @@ void initLevel()
 	g_scrollPos.Y = 0;
 	
 	// box2d update vars
-	timeStep = 1.0f / 30.0f;
+	timeStep = 1.0f / 60.0f;
 	iterations = 1;
 	
 	g_cameraPos.X = 0;
@@ -58,7 +58,7 @@ void initLevel()
 	bool doSleep = true;
 	
 	g_world = new b2World(*g_worldAABB, *g_gravity, doSleep);
-	
+/*	
 	g_groundBoxDef = new b2BoxDef();
 	g_groundBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 1.0f);
 	g_groundBoxDef->density = 0.0f;
@@ -68,10 +68,10 @@ void initLevel()
 	g_groundBodyDef = new b2BodyDef(); 
 	g_groundBodyDef->position.Set(0.0f, -(g_levelGridSize.Height * 10.0f - 0.5F));
 	g_groundBodyDef->AddShape(g_groundBoxDef);
-
+*/
 // *** NO IDEA WHY THIS CAUSES PROBLEMS FOR BOX2D!
 //	g_groundBody = g_world->CreateBody(g_groundBodyDef);
-	
+/*	
 	b2BoxDef* ceilBoxDef = new b2BoxDef();
 	ceilBoxDef->extents.Set(g_levelGridSize.Width * 10.0f, 0.5f);
 	ceilBoxDef->density = 0.0f;
@@ -83,7 +83,7 @@ void initLevel()
 	ceilBodyDef->AddShape(ceilBoxDef);
 
 	g_world->CreateBody(ceilBodyDef);
-	
+*/	
 	// test defines for now! ( -40 to 40 for some reason??)
 	
 	b2BoxDef* wallBoxDef = new b2BoxDef();
@@ -143,7 +143,7 @@ void initPlayer()
 	g_spriteArray[0].CircleDef->radius = 48 / 2 * SCALE; 
 	g_spriteArray[0].CircleDef->density = 1.0F; 
 	g_spriteArray[0].CircleDef->friction = 1.0F; 
-	g_spriteArray[0].CircleDef->restitution = 0.4F; 
+	g_spriteArray[0].CircleDef->restitution = 0.35F; 
 
 	g_spriteArray[0].BodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
 	g_spriteArray[0].BodyDef->allowSleep = false;
@@ -167,7 +167,6 @@ void initPlayer()
 	g_spriteArray[1].BoxDef->density = 0.3F; 
 	g_spriteArray[1].BoxDef->friction = 0.2F; 
 	g_spriteArray[1].BoxDef->restitution = 0.8F; 
-
 	g_spriteArray[1].BodyDef->position.Set(g_spriteArray[1].X * SCALE, g_spriteArray[1].Y * SCALE);
 	g_spriteArray[1].BodyDef->allowSleep = true;
 	g_spriteArray[1].BodyDef->preventRotation = false;
@@ -210,7 +209,7 @@ void initPlayer()
 
 	// Create boxes for the vine
 	
-	for(int i=0; i<8; i++)
+	for(int i=0; i<6; i++)
 	{
 		g_spriteArray[i + 3].BoxDef = new b2BoxDef();
 		g_spriteArray[i + 3].BodyDef =  new b2BodyDef();
@@ -231,19 +230,46 @@ void initPlayer()
         g_spriteArray[i + 3].BoxDef->ComputeMass(massDatas); */
 	}
 	
-	for(int i=0; i<8-1; i++)
+	for(int i=0; i<6-1; i++)
 	{
 		// Revolute joins connect each box
 		g_jointArray[i].RevoluteJointDef = new b2RevoluteJointDef();
 		g_jointArray[i].RevoluteJointDef->body1 = g_spriteArray[i + 3].Body;
 		g_jointArray[i].RevoluteJointDef->body2 = g_spriteArray[i + 3 + 1].Body;
 
-		g_jointArray[i].RevoluteJointDef->anchorPoint.Set(g_spriteArray[i + 3].Body->GetCenterPosition().x, g_spriteArray[i + 3].Body->GetCenterPosition().y - g_spriteArray[i + 3].BoxDef->extents.y);
+		g_jointArray[i].RevoluteJointDef->anchorPoint.Set(g_spriteArray[i + 3].Body->GetCenterPosition().x, g_spriteArray[i + 3].Body->GetCenterPosition().y - (g_spriteArray[i + 3].BoxDef->extents.y / 2.0f));
 		g_jointArray[i].RevoluteJointDef->collideConnected = false;
+		g_jointArray[i].RevoluteJointDef->motorSpeed = 0.0f;
+		g_jointArray[i].RevoluteJointDef->motorTorque = 50.0f;		// Why the hell does this need to be so high?
+		g_jointArray[i].RevoluteJointDef->enableMotor = true;
 		g_jointArray[i].RevoluteJoint = new b2RevoluteJoint(g_jointArray[i].RevoluteJointDef);
 		g_jointArray[i].Joint = g_world->CreateJoint(g_jointArray[i].RevoluteJointDef);
 		
-		
+	}
+	
+	// attach to platform
+	g_jointArray[6].RevoluteJointDef = new b2RevoluteJointDef();
+	g_jointArray[6].RevoluteJointDef->body1 = g_spriteArray[3].Body;
+	g_jointArray[6].RevoluteJointDef->body2 = g_platformArray[6]->Body;
+
+	g_jointArray[6].RevoluteJointDef->anchorPoint.Set(g_spriteArray[3].Body->GetCenterPosition().x, g_spriteArray[3].Body->GetCenterPosition().y + g_spriteArray[3].BoxDef->extents.y);
+	g_jointArray[6].RevoluteJointDef->collideConnected = false;
+	g_jointArray[6].RevoluteJointDef->motorSpeed = 0.0f;
+	g_jointArray[6].RevoluteJointDef->motorTorque = 50.0f;
+	g_jointArray[6].RevoluteJointDef->enableMotor = true;
+	g_jointArray[6].RevoluteJoint = new b2RevoluteJoint(g_jointArray[6].RevoluteJointDef);
+	g_jointArray[6].Joint = g_world->CreateJoint(g_jointArray[6].RevoluteJointDef);
+
+}
+
+//	INIT BOX2D ENGINE FOR LEVEL
+void initBox2D()
+{
+
+}
+
+		// Example code, used and tested
+	
 		// The distance joint connects each box to the platform
 		// If you look at the link below, they do the opposite
 		// (ie. Use Revolutes joins to link to the platform and distance joints to link each box)
@@ -252,7 +278,6 @@ void initPlayer()
 	/*	
 		g_jointArray[i].DistanceJointDef = new b2DistanceJointDef();
 		g_jointArray[i].DistanceJointDef->body1 = g_spriteArray[i + 3].Body;
-		//g_jointArray[i].DistanceJointDef->body2 = g_spriteArray[i + 3 + 1].Body;
 		g_jointArray[i].DistanceJointDef->body2 = g_platformArray[6]->Body;
 
 		g_jointArray[i].DistanceJointDef->anchorPoint1.Set(g_spriteArray[i + 3].Body->GetCenterPosition().x,g_spriteArray[i + 3].Body->GetCenterPosition().y - g_spriteArray[i + 3].BoxDef->extents.y);
@@ -262,18 +287,6 @@ void initPlayer()
 		g_jointArray[i].DistanceJoint = new b2DistanceJoint(g_jointArray[i].DistanceJointDef);
 		g_jointArray[i].Joint = g_world->CreateJoint(g_jointArray[i].DistanceJointDef);
 */
-	}
-	
-	// Looks like you need these two to stop the crashing??
-	
-	g_jointArray[8].RevoluteJointDef = new b2RevoluteJointDef();
-	g_jointArray[8].RevoluteJointDef->body1 = g_spriteArray[3].Body;
-	g_jointArray[8].RevoluteJointDef->body2 = g_platformArray[6]->Body;
-
-	g_jointArray[8].RevoluteJointDef->anchorPoint.Set(g_spriteArray[3].Body->GetCenterPosition().x, g_spriteArray[3].Body->GetCenterPosition().y + g_spriteArray[3].BoxDef->extents.y);
-	g_jointArray[8].RevoluteJointDef->collideConnected = false;
-	g_jointArray[8].RevoluteJoint = new b2RevoluteJoint(g_jointArray[8].RevoluteJointDef);
-	g_jointArray[8].Joint = g_world->CreateJoint(g_jointArray[8].RevoluteJointDef);
 /*	
 	g_jointArray[9].DistanceJointDef = new b2DistanceJointDef();
 	g_jointArray[9].DistanceJointDef->body1 = g_spriteArray[3].Body;
@@ -297,23 +310,3 @@ void initPlayer()
 	g_jointArray[10].PrismaticJointDef->collideConnected = false;
 	g_jointArray[10].PrismaticJoint = new b2PrismaticJoint(g_jointArray[10].PrismaticJointDef);
 	g_jointArray[10].Joint = g_world->CreateJoint(g_jointArray[10].PrismaticJointDef);  */
-}
-
-
-
-
-
-//	INIT BOX2D ENGINE FOR LEVEL
-void initBox2D()
-{
-
-}
-
-/*
-	g_jointArray[2].RevoluteJointDef = new b2RevoluteJointDef();
-
-	g_jointArray[2].RevoluteJointDef->anchorPoint.Set(g_spriteArray[3].Body->GetCenterPosition().x,g_spriteArray[3].Body->GetCenterPosition().y - 1.0f);
-	g_jointArray[2].RevoluteJointDef->collideConnected = false;
-	g_jointArray[2].RevoluteJoint = new b2RevoluteJoint(g_jointArray[2].RevoluteJointDef);
-	g_jointArray[2].Joint = g_world->CreateJoint(g_jointArray[2].RevoluteJointDef);	
-*/
