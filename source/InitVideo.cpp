@@ -31,8 +31,8 @@
 
 void initVideo2D()
 {
-	videoSetModeSub(MODE_0_2D | DISPLAY_BG0_ACTIVE);
-	
+//	videoSetModeSub(MODE_0_2D | DISPLAY_BG0_ACTIVE);
+	videoSetModeSub(MODE_0_3D);		// does not drop refresh to 30?
 	vramSetBankC(VRAM_C_SUB_BG);
 	
 	bgInitSub(0, BgType_Text4bpp, BgSize_T_256x256, BG0_MAP_BASE_SUB, BG0_TILE_BASE_SUB);
