@@ -129,10 +129,9 @@ void drawGLScene()
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_VINE]);
 			glBindTexture(0, g_textureIDS[TEXTURE_VINE]);
 			break;
-
 		default:				// Others
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_PARTICLE]);
-			glBindTexture(0, g_textureIDS[TEXTURE_PARTICLE]);
+			glBindTexture(0, NULL);
 
 		}
 	

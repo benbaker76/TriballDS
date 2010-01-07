@@ -38,16 +38,25 @@ struct Circle						// define the elements that construct our 'balls'
 	b2BodyDef* BodyDef;
 	b2Body* Body;
 	
-	float X;
-	float Y;
-	int Status;
-	int Type;
-	int Action;
-	bool OnGround;
-	bool OnCeil;
+	float X;				// X Coord
+	float Y;				// Y coord
+	int Status;				// Status of movement
+	int Type;				// Type of object
+	int Action;				// Action of movement
+	bool OnGround;			// are we touching the ground
+	bool OnCeil;			// are we touching the ceiling/underside of platform
+	int JumpCount;			// highest point of a jump (may be removed later)
 	
-	int JumpCount;			// using for debug and testing for now
-
+	// used for enemies (along with data above)
+	float MoveMin;			// min movement coord
+	float MoveMax;			// max movement coord
+	float XSpeed;			// horizontal speed
+	float YSpeed;			// vertical speed
+	int XSpeedMax;			// Max X speed
+	int YSpeedMax;			// Max Y Speed
+	float Accel;			// Acceleration
+	int	Direction;			// movement direction +/- (0 < > 1)
+	int Movement;			// movement (u/d, l/r, and others) ( 0 = LR 1= UD)
 };
 
 struct Poly
@@ -198,6 +207,8 @@ enum QuadFlags
 #define		BALLTYPE_CRATE		3				
 #define		BALLTYPE_VINE		4
 
+#define		ENEMYTYPE_PATROL	5
+
 	// Defines for ball actions
 #define		ACTION_NONE			0
 #define		ACTION_MOVELEFT		1
@@ -242,6 +253,7 @@ enum QuadFlags
 #define		BALL_COUNT				11				// Number of balls
 #define		JOINT_COUNT				10				// number of joints
 #define		PLATFORM_COUNT			20				// number of platforms
+#define		ENEMY_COUNT				1
 
 #define		PALETTE_COUNT			6
 

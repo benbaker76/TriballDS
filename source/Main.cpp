@@ -24,6 +24,7 @@
 #include "InitVideo.h"
 #include "Detect.h"
 #include "SpecialFX.h"
+#include "Enemies.h"
 
 void debugText()
 {
@@ -58,7 +59,7 @@ void debugText()
 		DrawString("NO CIEL", 0, 7, true);
 		
 	sprintf(buffer, "ReJump %d  JumpCount %d    ",g_reJump,g_spriteArray[0].JumpCount);
-	DrawString(buffer, 0, 16, true);	
+	DrawString(buffer, 0, 16, true);			
 }
 
 int main(void)
@@ -110,6 +111,8 @@ int main(void)
 //		g_spriteArray[1].Body->SetCenterPosition(v, g_spriteArray[1].Body->GetRotation());
 		
 		updateCamera();
+		
+		updateEnemies();
 
 
 		//updateWorldContacts();

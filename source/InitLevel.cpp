@@ -134,7 +134,7 @@ void initPlayer()
 	// INIT PLAYER
 	g_spriteArray[0].Action = ACTION_NONE;	
 	g_spriteArray[0].X = 128;
-	g_spriteArray[0].Y = 120;
+	g_spriteArray[0].Y = 120; // 120
 	g_spriteArray[0].Type = BALLTYPE_PLAYER;
 	
 	g_spriteArray[0].CircleDef = new b2CircleDef();
@@ -223,11 +223,6 @@ void initPlayer()
 		g_spriteArray[i + 3].BodyDef->position.Set(g_spriteArray[i + 3].X * SCALE, g_spriteArray[i + 3].Y * SCALE);
 		g_spriteArray[i + 3].BodyDef->AddShape(g_spriteArray[i + 3].BoxDef);
 		g_spriteArray[i + 3].Body = g_world->CreateBody(g_spriteArray[i + 3].BodyDef);
-		
-        /* b2MassData* massDatas = new b2MassData();
-        massDatas->mass = g_spriteArray[i + 3].Body->GetMass();
-        massDatas->I = g_spriteArray[i + 3].Body->GetInertia();
-        g_spriteArray[i + 3].BoxDef->ComputeMass(massDatas); */
 	}
 	
 	for(int i=0; i<6-1; i++)
@@ -260,6 +255,27 @@ void initPlayer()
 	g_jointArray[6].RevoluteJoint = new b2RevoluteJoint(g_jointArray[6].RevoluteJointDef);
 	g_jointArray[6].Joint = g_world->CreateJoint(g_jointArray[6].RevoluteJointDef);
 
+	// generate a baddy (from array 10 +
+	g_spriteArray[10].BoxDef = new b2BoxDef();
+	g_spriteArray[10].BodyDef =  new b2BodyDef();
+	g_spriteArray[10].X = -50;
+	g_spriteArray[10].Y = -360;
+	g_spriteArray[10].Movement = 1;
+	g_spriteArray[10].Direction = 1;
+	g_spriteArray[10].Accel = 0.2;
+	g_spriteArray[10].XSpeedMax = 18.0;
+	g_spriteArray[10].MoveMax = 200;
+	g_spriteArray[10].MoveMin = -200;
+	g_spriteArray[10].Type = ENEMYTYPE_PATROL;
+	g_spriteArray[10].BoxDef->extents.Set(32 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
+	g_spriteArray[10].BodyDef->preventRotation = false;	
+	g_spriteArray[10].BodyDef->allowSleep = true;
+	g_spriteArray[10].BoxDef->density = 1.0F; 
+	g_spriteArray[10].BoxDef->friction = 0.1F;
+	g_spriteArray[10].BoxDef->restitution = 0.3F;
+	g_spriteArray[10].BodyDef->position.Set(g_spriteArray[10].X * SCALE, g_spriteArray[10].Y * SCALE);
+	g_spriteArray[10].BodyDef->AddShape(g_spriteArray[10].BoxDef);
+	g_spriteArray[10].Body = g_world->CreateBody(g_spriteArray[10].BodyDef);
 }
 
 //	INIT BOX2D ENGINE FOR LEVEL
@@ -310,3 +326,8 @@ void initBox2D()
 	g_jointArray[10].PrismaticJointDef->collideConnected = false;
 	g_jointArray[10].PrismaticJoint = new b2PrismaticJoint(g_jointArray[10].PrismaticJointDef);
 	g_jointArray[10].Joint = g_world->CreateJoint(g_jointArray[10].PrismaticJointDef);  */
+	
+	        /* b2MassData* massDatas = new b2MassData();
+        massDatas->mass = g_spriteArray[i + 3].Body->GetMass();
+        massDatas->I = g_spriteArray[i + 3].Body->GetInertia();
+        g_spriteArray[i + 3].BoxDef->ComputeMass(massDatas); */
