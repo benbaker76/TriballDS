@@ -9,7 +9,7 @@ void updateEnemies()
 		
 		float Erot = (g_spriteArray[i].Body->GetRotation()) * 180 / PI;
 		
-		if (Erot >-60 && Erot <60)		// between these two, we can say he has fallen over!
+		if ((Erot >-60 && Erot <60) && g_spriteArray[i].Active == TRUE)		// between these two, we can say he has fallen over!
 		{
 			if (g_spriteArray[i].Movement == 1)		// right
 			{
@@ -37,6 +37,7 @@ void updateEnemies()
 		else
 		{
 		//	g_spriteArray[i].Body->setFriction = 1.0F; // HELP - HOW TO CHANGE CURRENT BODIES FRICTION
+			g_spriteArray[i].Active = FALSE; 
 		}
 	}
 }

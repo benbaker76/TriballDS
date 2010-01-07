@@ -57,6 +57,8 @@ struct Circle						// define the elements that construct our 'balls'
 	float Accel;			// Acceleration
 	int	Direction;			// movement direction +/- (0 < > 1)
 	int Movement;			// movement (u/d, l/r, and others) ( 0 = LR 1= UD)
+	
+	bool Active;			// modify or not!
 };
 
 struct Poly
@@ -222,26 +224,26 @@ enum QuadFlags
 	// Defines for GL level contruction
 #define		LEVEL_TEXTURE_COUNT		(4 * 4)
 #define		LEVEL_QUAD_COUNT		(4 * 4)
-#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 8)
+#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 9)
 
 	// Defines for objects
 #define		TEXTURE_BALL01			(LEVEL_TEXTURE_COUNT + 0)
 #define		TEXTURE_BALL02			(LEVEL_TEXTURE_COUNT + 1)
 #define		TEXTURE_BALL03			(LEVEL_TEXTURE_COUNT + 2)
 #define		TEXTURE_BALL04			(LEVEL_TEXTURE_COUNT + 3)
-
 #define		TEXTURE_PARTICLE		(LEVEL_TEXTURE_COUNT + 4)
 #define		TEXTURE_TRAIL			(LEVEL_TEXTURE_COUNT + 5)
-
 #define		TEXTURE_BOX01			(LEVEL_TEXTURE_COUNT + 6)
 #define		TEXTURE_VINE			(LEVEL_TEXTURE_COUNT + 7)
+#define		TEXTURE_HUNT1			(LEVEL_TEXTURE_COUNT + 8)
 
 #define		PALETTE_BALL			0
 #define		PALETTE_PARTICLE		1
 #define		PALETTE_TRAIL			2
 #define		PALETTE_BOX				3
 #define		PALETTE_VINE			4
-#define		PALETTE_LEVEL			5
+#define		PALETTE_HUNT1			5
+#define		PALETTE_LEVEL			6
 
 	// Defines for the Trails on the Players balls
 	
@@ -250,12 +252,12 @@ enum QuadFlags
 
 	// Defines for object/platform amounts
 
-#define		BALL_COUNT				11				// Number of balls
+#define		BALL_COUNT				12				// Number of balls
 #define		JOINT_COUNT				10				// number of joints
 #define		PLATFORM_COUNT			20				// number of platforms
-#define		ENEMY_COUNT				1
+#define		ENEMY_COUNT				2
 
-#define		PALETTE_COUNT			6
+#define		PALETTE_COUNT			8
 
 #endif
 

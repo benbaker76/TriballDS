@@ -266,8 +266,9 @@ void initPlayer()
 	g_spriteArray[10].XSpeedMax = 18.0;
 	g_spriteArray[10].MoveMax = 200;
 	g_spriteArray[10].MoveMin = -200;
+	g_spriteArray[10].Active = TRUE;
 	g_spriteArray[10].Type = ENEMYTYPE_PATROL;
-	g_spriteArray[10].BoxDef->extents.Set(32 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
+	g_spriteArray[10].BoxDef->extents.Set(48 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
 	g_spriteArray[10].BodyDef->preventRotation = false;	
 	g_spriteArray[10].BodyDef->allowSleep = true;
 	g_spriteArray[10].BoxDef->density = 1.0F; 
@@ -276,6 +277,29 @@ void initPlayer()
 	g_spriteArray[10].BodyDef->position.Set(g_spriteArray[10].X * SCALE, g_spriteArray[10].Y * SCALE);
 	g_spriteArray[10].BodyDef->AddShape(g_spriteArray[10].BoxDef);
 	g_spriteArray[10].Body = g_world->CreateBody(g_spriteArray[10].BodyDef);
+	
+	g_spriteArray[11].BoxDef = new b2BoxDef();
+	g_spriteArray[11].BodyDef =  new b2BodyDef();
+	g_spriteArray[11].X = -300;
+	g_spriteArray[11].Y = 110;
+	g_spriteArray[11].Movement = 1;
+	g_spriteArray[11].Direction = 1;
+	g_spriteArray[11].Accel = 0.5;
+	g_spriteArray[11].XSpeedMax = 20.0;
+	g_spriteArray[11].MoveMax = -290;
+	g_spriteArray[11].MoveMin = -310;
+	g_spriteArray[11].Active = TRUE;	
+	g_spriteArray[11].Type = ENEMYTYPE_PATROL;
+	g_spriteArray[11].BoxDef->extents.Set(48 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
+	g_spriteArray[11].BodyDef->preventRotation = false;	
+	g_spriteArray[11].BodyDef->allowSleep = true;
+	g_spriteArray[11].BoxDef->density = 1.0F; 
+	g_spriteArray[11].BoxDef->friction = 0.1F;
+	g_spriteArray[11].BoxDef->restitution = 0.3F;
+	g_spriteArray[11].BodyDef->position.Set(g_spriteArray[11].X * SCALE, g_spriteArray[11].Y * SCALE);
+	g_spriteArray[11].BodyDef->AddShape(g_spriteArray[11].BoxDef);
+	g_spriteArray[11].Body = g_world->CreateBody(g_spriteArray[11].BodyDef);	
+	
 }
 
 //	INIT BOX2D ENGINE FOR LEVEL

@@ -9,13 +9,9 @@
 #include <unistd.h>
 
 #include "Box2D.h"
-#include "level01_tex_bin.h"
-#include "level01_pal_bin.h"
-#include "ball_tex_bin.h"
-#include "ball_pal_bin.h"
 
 #include "font.h"
-#include "titlescreen.h"
+//#include "titlescreen.h"
 #include "Globals.h"
 #include "Control.h"
 #include "Text.h"
@@ -77,9 +73,9 @@ int main(void)
 	initPlayer();
 	initTrail();
 
-	DrawString("Triball, A thing of ours!", 0, 0, true);
-	DrawString("SMALL detect problem...", 0, 4, true);
-	DrawString("ALPHA 0.00000008 and an poofly", 0, 2, true);
+	DrawString("Triball, A thing of ours +1!", 0, 0, true);
+	DrawString("Great city of slowdown", 0, 4, true);
+	DrawString("ALPHA 0.00000009 and a grubnut", 0, 2, true);
 
 	// --------------------------
 	

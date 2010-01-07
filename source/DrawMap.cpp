@@ -103,7 +103,7 @@ void drawGLScene()
 	
 	glBegin(GL_QUAD);
 	
-	for(int register i=0; i<BALL_COUNT; i++)
+	for(int register i=0; i<BALL_COUNT+10; i++)
 	{
 		// ** WITHOUT THIS IT WILL CRASH ON HARDWARE **
 		// ** CAN'T USE OBJECTS IN ARRAYS THAT HAVE NOT BEING INITIALIZED **
@@ -129,6 +129,10 @@ void drawGLScene()
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_VINE]);
 			glBindTexture(0, g_textureIDS[TEXTURE_VINE]);
 			break;
+		case ENEMYTYPE_PATROL:		// patroller
+			glColorTable(GL_RGB256, g_palAddress[PALETTE_HUNT1]);
+			glBindTexture(0, g_textureIDS[TEXTURE_HUNT1]);
+			break;
 		default:				// Others
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_PARTICLE]);
 			glBindTexture(0, NULL);
@@ -136,11 +140,11 @@ void drawGLScene()
 		}
 	
 		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
-		float rotation = g_spriteArray[i].Body->GetRotation();
+//		float rotation = g_spriteArray[i].Body->GetRotation();
 		
 		glPushMatrix();
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + 0.01F);
-		glRotatef(rotation * (180 / PI), 0.0f, 0.0f, 1.0f);
+		glRotatef(g_spriteArray[i].Body->GetRotation() * (180 / PI), 0.0f, 0.0f, 1.0f);
 	
 		switch(g_spriteArray[i].Type)
 		{
@@ -156,6 +160,9 @@ void drawGLScene()
 		case BALLTYPE_VINE:		// Vine
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 8 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2.5 * SCALE, 32, QUADFLAGS_NONE);
 			break;
+		case ENEMYTYPE_PATROL:		// patroller
+			drawQuad(g_spriteArray[i].BoxDef->extents.x * 3 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+			break;	
 		default: 				// anything
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 		}
