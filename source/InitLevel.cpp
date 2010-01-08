@@ -26,7 +26,7 @@ void initLevel()
 	g_scrollPos.Y = 0;
 	
 	// box2d update vars
-	timeStep = 1.0f / 60.0f;
+	timeStep = 1.0f / 30.0f;
 	iterations = 1;
 	
 	g_cameraPos.X = 0;
