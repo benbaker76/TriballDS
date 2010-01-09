@@ -45,7 +45,7 @@ void initLevel()
 	
 	// ** WITHOUT THIS IT WILL CRASH ON HARDWARE **
 	// ** CAN'T USE OBJECTS IN ARRAYS THAT HAVE NOT BEING INITIALIZED **
-	for(int i=0; i<BALL_COUNT; i++)
+	for(int i=0; i<BALL_COUNT+10; i++)  // Need 10 more
 		g_spriteArray[i].Body = NULL; // Make Body NULL so uninitialized entries can be skipped
 	
 	loadLevel();

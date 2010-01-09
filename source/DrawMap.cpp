@@ -104,6 +104,8 @@ void drawGLScene()
 	
 	glBegin(GL_QUAD);
 	
+	// Can't just add 10 to an array when it doesn't have that many elements.
+	// Very dangerous to do things like this!
 	for(int register i=0; i<BALL_COUNT+10; i++)
 	{
 		// ** WITHOUT THIS IT WILL CRASH ON HARDWARE **
@@ -137,7 +139,7 @@ void drawGLScene()
 		default:				// Others
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_PARTICLE]);
 			glBindTexture(0, NULL);
-
+			break;
 		}
 	
 		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
@@ -166,6 +168,7 @@ void drawGLScene()
 			break;	
 		default: 				// anything
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+			break;
 		}
 
 		glPopMatrix(1);

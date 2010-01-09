@@ -4,7 +4,7 @@
 // Here are the real global values. Place a "g_" before so you know you're referencing a global
 // This is the real definition
 
-Circle g_spriteArray[BALL_COUNT];
+Circle g_spriteArray[BALL_COUNT+10]; // Need 10 more
 
 Trail TrailPoints[TRAIL_AMOUNT * TRAIL_INTERVAL];				// Sorry, but could not work out how to use PointF within Circle
 
