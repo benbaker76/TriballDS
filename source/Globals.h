@@ -68,6 +68,9 @@ struct Circle						// define the elements that construct our 'balls'
 	
 	DirectionType Direction;
 	
+	int FrameCount;
+	int FrameNum;
+	
 	bool Active;			// modify or not!
 };
 
@@ -319,8 +322,7 @@ extern int g_levelQuadID[];
 extern const u8* g_levelTexture;
 extern const u16* g_levelPalette;
 extern Size g_levelSize;
-extern int g_levelTextureSize;
-extern GL_TEXTURE_SIZE_ENUM g_glTextureSize;
+extern GL_TEXTURE_SIZE_ENUM g_levelTextureSize;
 extern Size g_levelGridSize;
 extern SizeF g_levelQuadSize;
 

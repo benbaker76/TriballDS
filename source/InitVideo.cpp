@@ -139,12 +139,13 @@ int loadTexture(int textureSlot, int quadId)
 {
 	g_levelQuadID[quadId] = textureSlot;
 	int textureId = g_textureIDS[g_levelQuadID[quadId]];
+	uint32 textureSize =  1 << (g_levelTextureSize + 3);
 	//m_levelTextureLoaded[textureSlot] = quadId;
 	
-	const uint8* texture = g_levelTexture + g_levelTextureSize * g_levelTextureSize * quadId;
+	const uint8* texture = g_levelTexture + textureSize * textureSize * quadId;
 	
 	glBindTexture(0, textureId);
-	return glTexImage2D(0, 0, GL_RGB256, g_glTextureSize, g_glTextureSize, 0, TEXGEN_TEXCOORD, texture);
+	return glTexImage2D(0, 0, GL_RGB256, g_levelTextureSize, g_levelTextureSize, 0, TEXGEN_TEXCOORD, texture);
 }
 
 int reloadTexture(int textureSlot, int quadId)
@@ -153,10 +154,11 @@ int reloadTexture(int textureSlot, int quadId)
 	int textureId = g_textureIDS[g_levelQuadID[quadId]];
 	//m_levelTextureLoaded[textureSlot] = quadId;
 	
-	uint32 size = 1 << (g_glTextureSize + g_glTextureSize + 6);
+	uint32 size = 1 << (g_levelTextureSize + g_levelTextureSize + 6);
+	uint32 textureSize =  1 << (g_levelTextureSize + 3);
 	uint32* addr = (uint32*) glGetTexturePointer(textureId);
 	uint32 vramTemp;
-	const uint8* texture = g_levelTexture + g_levelTextureSize * g_levelTextureSize * quadId;
+	const uint8* texture = g_levelTexture + textureSize * textureSize * quadId;
    
 	if(!addr)
 		return loadTexture(textureSlot, quadId);
@@ -173,6 +175,31 @@ int reloadTexture(int textureSlot, int quadId)
 	return 1;
 }
 
+int reloadTexture(int textureId, const u8* texture, int frameNum, GL_TEXTURE_SIZE_ENUM textureSize)
+{
+	uint32 size = 1 << (textureSize + textureSize + 6);
+	uint32 texSize =  1 << (textureSize + 3);
+	uint32* addr = (uint32*) glGetTexturePointer(textureId);
+	const u8* textureAddr = texture + texSize * texSize * frameNum;
+	uint32 vramTemp;
+   
+	if(!addr)
+	{
+		glBindTexture(0, textureId);
+		glTexImage2D(0, 0, GL_RGB256, textureSize, textureSize, 0, TEXGEN_TEXCOORD, textureAddr);
+	}
+
+	// unlock texture memory
+	vramTemp = vramSetMainBanks(VRAM_A_LCD, VRAM_B_LCD, VRAM_C_LCD, VRAM_D_LCD);
+	
+	if(texture)
+		dmaCopy((uint32*)textureAddr, addr, size);
+	
+	vramRestoreMainBanks(vramTemp);
+	
+	return 1;
+}
+
 void loadLevel()
 {
 	switch(g_levelNum)
@@ -182,53 +209,24 @@ void loadLevel()
 		g_levelPalette = (u16*) level01_pal_bin;
 		g_levelSize.Width = 512;
 		g_levelSize.Height = 512;
-		g_levelTextureSize = 128;
+		g_levelTextureSize = TEXTURE_SIZE_128;
 		break;
 	case 1:
 		g_levelTexture = (u8*) level02_tex_bin;
 		g_levelPalette = (u16*) level02_pal_bin;
 		g_levelSize.Width = 1024;
 		g_levelSize.Height = 512;
-		g_levelTextureSize = 128;
+		g_levelTextureSize = TEXTURE_SIZE_128;
 		break;
 	}
 	
-	switch(g_levelTextureSize)
-	{
-	case 8:
-		g_glTextureSize = TEXTURE_SIZE_8;
-		break;
-	case 16:
-		g_glTextureSize = TEXTURE_SIZE_16;
-		break;
-	case 32:
-		g_glTextureSize = TEXTURE_SIZE_32;
-		break;
-	case 64:
-		g_glTextureSize = TEXTURE_SIZE_64;
-		break;
-	case 128:
-		g_glTextureSize = TEXTURE_SIZE_128;
-		break;
-	case 256:
-		g_glTextureSize = TEXTURE_SIZE_256;
-		break;
-	case 512:
-		g_glTextureSize = TEXTURE_SIZE_512;
-		break;
-	case 1024:
-		g_glTextureSize = TEXTURE_SIZE_1024;
-		break;
-	default:
-		g_glTextureSize = TEXTURE_SIZE_128;
-		break;
-	}
+	int textureSize = 1 << (g_levelTextureSize + 3);
 	
-	g_levelQuadSize.Width = g_levelTextureSize / 256.0F * 4.0F;
-	g_levelQuadSize.Height = g_levelTextureSize / 256.0F * 4.0F;
+	g_levelQuadSize.Width = textureSize / 256.0F * 4.0F;
+	g_levelQuadSize.Height = textureSize / 256.0F * 4.0F;
 	
-	g_levelGridSize.Width = g_levelSize.Width / g_levelTextureSize;
-	g_levelGridSize.Height = g_levelSize.Height / g_levelTextureSize;
+	g_levelGridSize.Width = g_levelSize.Width / textureSize;
+	g_levelGridSize.Height = g_levelSize.Height / textureSize;
 	
 	for(int y=0; y<g_levelGridSize.Height; y++)
 	{
@@ -333,8 +331,9 @@ void initVideo3D()
 	g_palAddress[PALETTE_VINE] = gluTexLoadPal((u16*)vine_pal_bin, 256, GL_RGB32_A3);	
 
 	glBindTexture(0, g_textureIDS[TEXTURE_HUNT1]);
-	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)hunter1_tex_bin +4096);
+	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)hunter1_tex_bin + 4096);
 	g_palAddress[PALETTE_HUNT1] = gluTexLoadPal((u16*)hunter1_pal_bin, 256, GL_RGB32_A3);
+	
 	/* glBindTexture(0, g_textureIDS[TEXTURE_LEVEL01]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_256, TEXTURE_SIZE_256, 0, TEXGEN_TEXCOORD, (u8*)level01_tex_bin);
 	

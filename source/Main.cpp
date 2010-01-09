@@ -22,6 +22,8 @@
 #include "SpecialFX.h"
 #include "Enemies.h"
 
+#include "hunter1_tex_bin.h"
+
 void debugText()
 {
 	char buffer[20];
@@ -127,6 +129,16 @@ int main(void)
 
 		// Wait for vblank
 		swiWaitForVBlank();
+		
+		if(g_spriteArray[11].FrameCount++ == 8)
+		{
+			g_spriteArray[11].FrameCount = 0;
+			
+			if(g_spriteArray[11].FrameNum++ == 4)
+				g_spriteArray[11].FrameNum = 1;
+			
+			reloadTexture(g_textureIDS[TEXTURE_HUNT1], hunter1_tex_bin, g_spriteArray[11].FrameNum, TEXTURE_SIZE_64);
+		}
 		
 		//loadTextures();
 	}

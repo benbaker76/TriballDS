@@ -67,6 +67,7 @@ void drawMap()
 		for(int x=0; x<g_levelGridSize.Width; x++)
 		{
 			int textureId = x + y * g_levelGridSize.Width;
+			int textureSize = 1 << (g_levelTextureSize + 3);
 			
 			glBindTexture(0, g_textureIDS[textureId]);
 					
@@ -78,8 +79,8 @@ void drawMap()
 			glTranslatef(quadRect.X, quadRect.Y, -1);
 			//glTranslatef(quadRect.Left, quadRect.Top, -1);
 			glRotatef(0, 0.0f, 0.0f, 0.0f);
-			drawQuad(quadRect.Width, quadRect.Height, g_levelTextureSize, QUADFLAGS_NONE);
-			//drawQuad(quadRect.Right - quadRect.Left, g_levelTextureSize, QUADFLAGS_NONE);
+			drawQuad(quadRect.Width, quadRect.Height, textureSize, QUADFLAGS_NONE);
+			//drawQuad(quadRect.Right - quadRect.Left, textureSize, QUADFLAGS_NONE);
 			glPopMatrix(1);
 		}
 	}

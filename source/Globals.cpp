@@ -62,8 +62,7 @@ int g_levelQuadID[LEVEL_QUAD_COUNT];
 const u8* g_levelTexture;
 const u16* g_levelPalette;
 Size g_levelSize;
-int g_levelTextureSize;
-GL_TEXTURE_SIZE_ENUM g_glTextureSize;
+GL_TEXTURE_SIZE_ENUM g_levelTextureSize;
 Size g_levelGridSize;
 SizeF g_levelQuadSize;
 
