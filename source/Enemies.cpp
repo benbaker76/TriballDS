@@ -11,23 +11,23 @@ void updateEnemies()
 		
 		if ((Erot >-60 && Erot <60) && g_spriteArray[i].Active == TRUE)		// between these two, we can say he has fallen over!
 		{
-			if (g_spriteArray[i].Movement == 1)		// right
+			if (g_spriteArray[i].Direction == DIRECTION_RIGHT)		// right
 			{
 				if (g_spriteArray[i].XSpeed < g_spriteArray[i].XSpeedMax)
 				{
 					g_spriteArray[i].XSpeed += g_spriteArray[i].Accel;
 				}
 				if (Epos.x >= g_spriteArray[i].MoveMax * SCALE)
-					g_spriteArray[i].Movement = 0;
+					g_spriteArray[i].Direction = DIRECTION_LEFT;
 			}
-			else if (g_spriteArray[i].Movement == 0)		// left
+			else if (g_spriteArray[i].Direction == DIRECTION_LEFT)		// left
 			{
 				if (g_spriteArray[i].XSpeed > -g_spriteArray[i].XSpeedMax)
 				{
 					g_spriteArray[i].XSpeed -= g_spriteArray[i].Accel;
 				}
 				if (Epos.x  <= g_spriteArray[i].MoveMin * SCALE)
-					g_spriteArray[i].Movement = 1;
+					g_spriteArray[i].Direction = DIRECTION_RIGHT;
 			
 			}
 			// SET VELOCTIES
@@ -39,5 +39,8 @@ void updateEnemies()
 		//	g_spriteArray[i].Body->setFriction = 1.0F; // HELP - HOW TO CHANGE CURRENT BODIES FRICTION
 			g_spriteArray[i].Active = FALSE; 
 		}
+		
+		// Stop enemy from falling over
+		g_spriteArray[i].Body->SetCenterPosition(g_spriteArray[i].Body->GetCenterPosition(), 0);
 	}
 }

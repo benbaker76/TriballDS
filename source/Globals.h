@@ -17,6 +17,14 @@ struct Input
 	int keysUp;
 };
 
+enum DirectionType
+{
+	DIRECTION_UP,
+	DIRECTION_DOWN,
+	DIRECTION_LEFT,
+	DIRECTION_RIGHT
+};
+
 struct Joint
 {
 	b2DistanceJointDef* DistanceJointDef;
@@ -55,8 +63,10 @@ struct Circle						// define the elements that construct our 'balls'
 	int XSpeedMax;			// Max X speed
 	int YSpeedMax;			// Max Y Speed
 	float Accel;			// Acceleration
-	int	Direction;			// movement direction +/- (0 < > 1)
-	int Movement;			// movement (u/d, l/r, and others) ( 0 = LR 1= UD)
+	//int	Direction;			// movement direction +/- (0 < > 1)
+	//int Movement;			// movement (u/d, l/r, and others) ( 0 = LR 1= UD)
+	
+	DirectionType Direction;
 	
 	bool Active;			// modify or not!
 };

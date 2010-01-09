@@ -260,8 +260,9 @@ void initPlayer()
 	g_spriteArray[10].BodyDef =  new b2BodyDef();
 	g_spriteArray[10].X = -50;
 	g_spriteArray[10].Y = -360;
-	g_spriteArray[10].Movement = 1;
-	g_spriteArray[10].Direction = 1;
+	//g_spriteArray[10].Movement = 1;
+	//g_spriteArray[10].Direction = 1;
+	g_spriteArray[10].Direction = DIRECTION_LEFT;
 	g_spriteArray[10].Accel = 0.2;
 	g_spriteArray[10].XSpeedMax = 18.0;
 	g_spriteArray[10].MoveMax = 200;
@@ -282,8 +283,9 @@ void initPlayer()
 	g_spriteArray[11].BodyDef =  new b2BodyDef();
 	g_spriteArray[11].X = -300;
 	g_spriteArray[11].Y = 110;
-	g_spriteArray[11].Movement = 1;
-	g_spriteArray[11].Direction = 1;
+	//g_spriteArray[11].Movement = 1;
+	//g_spriteArray[11].Direction = 1;
+	g_spriteArray[11].Direction = DIRECTION_LEFT;
 	g_spriteArray[11].Accel = 0.5;
 	g_spriteArray[11].XSpeedMax = 20.0;
 	g_spriteArray[11].MoveMax = -290;
