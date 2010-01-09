@@ -11,8 +11,10 @@ void updateEnemies()
 		{
 			case ENEMYTYPE_PATROL:
 				enemyPatrol	(&g_spriteArray[i]);
-			case ENEMYTYPE_BEES:
-				enemyBees	(&g_spriteArray[i]);
+				break;
+			case ENEMYTYPE_BEE:
+				enemyBee(&g_spriteArray[i]);
+				break;
 		}
 		
 	}
@@ -61,6 +63,7 @@ will find his own way.
 	{
 			pChar->Active = FALSE; 	// make him inactive
 	}
+
 		
 	// ok, we need to detect ahead of us for objects (checking left)
 /*	b2Body* detected = getBodyAtPoint(&b2Vec2 (Epos.x - 2.0f, Epos.y));
@@ -83,7 +86,46 @@ will find his own way.
 */
 }
 
-void enemyBees(Circle *pChar)
-{
+void enemyBee(Circle *pChar)
+/*
+I did not want these to detect platforms so that they could move through them? I could just use GL to draw them, but they may need to
+interact?
+Also, they will only attack when you get too close, prior to that they will hover in a set area (attracted to something else?)
 
+These will also need some kind of detection to go round platforms if they cannot just pass through, at the least they will need to
+go round objects and other enemies, including themselves.
+*/
+{
+	b2Vec2 Evel = pChar->Body->GetLinearVelocity();
+	b2Vec2 Epos = pChar->Body->GetOriginPosition();	
+	
+	// ok, first l/r based on player
+	b2Vec2 Apos = g_spriteArray[0].Body->GetOriginPosition();
+	
+	if (Epos.x < Apos.x)				// Left of attractor - move right
+		{
+			if (pChar->XSpeed < pChar->XSpeedMax) pChar->XSpeed += pChar->Accel;
+		}
+	else if (Epos.x > Apos.x)			// Right of attractor - move left
+		{
+			if (pChar->XSpeed > -pChar->XSpeedMax) pChar->XSpeed -= pChar->Accel;
+		}	
+
+	if (Epos.y < Apos.y)				// below attractor - move up
+		{
+			if (pChar->YSpeed < pChar->YSpeedMax) pChar->YSpeed += pChar->Accel;
+		}
+	else if (Epos.y > Apos.y)			// above attractor - move down
+		{
+			if (pChar->YSpeed > -pChar->YSpeedMax) pChar->YSpeed -= pChar->Accel;
+		}
+		
+		
+	if (pChar->XSpeed > 0)
+		pChar->Direction = DIRECTION_RIGHT;
+	else
+		pChar->Direction = DIRECTION_LEFT;
+		
+	pChar->Body->SetLinearVelocity(b2Vec2(pChar->XSpeed, pChar->YSpeed));
+	
 }

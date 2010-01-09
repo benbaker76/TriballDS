@@ -5,10 +5,6 @@
 #include <unistd.h>
 
 #include "Box2D.h"
-#include "level01_tex_bin.h"
-#include "level01_pal_bin.h"
-#include "ball_tex_bin.h"
-#include "ball_pal_bin.h"
 
 #include "font.h"
 #include "titlescreen.h"
@@ -148,6 +144,8 @@ void initPlayer()
 	g_spriteArray[0].BodyDef->position.Set(g_spriteArray[0].X * SCALE, g_spriteArray[0].Y * SCALE);
 	g_spriteArray[0].BodyDef->allowSleep = false;
 	g_spriteArray[0].BodyDef->preventRotation = false;
+//	g_spriteArray[0].BodyDef->isBullet = true; NOT PRESENT IN OUR BOX2D VERSION
+	
 	g_spriteArray[0].BodyDef->angularDamping = 0.05f;
 	g_spriteArray[0].BodyDef->linearDamping = 0.00f;
 
@@ -156,8 +154,8 @@ void initPlayer()
 	g_spriteArray[0].Body = g_world->CreateBody(g_spriteArray[0].BodyDef);
 
 		// me playing with a box
-
-
+/*
+	// ------------------ BOXES ----------------
 	g_spriteArray[1].BoxDef = new b2BoxDef();
 	g_spriteArray[1].BodyDef =  new b2BodyDef();
 	g_spriteArray[1].X = 220;
@@ -206,7 +204,7 @@ void initPlayer()
 	g_jointArray[0].Joint = g_world->CreateJoint(g_jointArray[0].DistanceJointDef);
 */	
 	// ------------------ VINE ----------------
-
+/*
 	// Create boxes for the vine
 	
 	for(int i=0; i<6; i++)
@@ -254,7 +252,9 @@ void initPlayer()
 	g_jointArray[6].RevoluteJointDef->enableMotor = true;
 	g_jointArray[6].RevoluteJoint = new b2RevoluteJoint(g_jointArray[6].RevoluteJointDef);
 	g_jointArray[6].Joint = g_world->CreateJoint(g_jointArray[6].RevoluteJointDef);
-
+	
+		// ------------------ VINE END ----------------
+*/
 	// generate a baddy (from array 10 +
 	g_spriteArray[10].BoxDef = new b2BoxDef();
 	g_spriteArray[10].BodyDef =  new b2BodyDef();
@@ -280,7 +280,7 @@ void initPlayer()
 	g_spriteArray[10].BodyDef->position.Set(g_spriteArray[10].X * SCALE, g_spriteArray[10].Y * SCALE);
 	g_spriteArray[10].BodyDef->AddShape(g_spriteArray[10].BoxDef);
 	g_spriteArray[10].Body = g_world->CreateBody(g_spriteArray[10].BodyDef);
-	
+/*	
 	g_spriteArray[11].BoxDef = new b2BoxDef();
 	g_spriteArray[11].BodyDef =  new b2BodyDef();
 	g_spriteArray[11].X = -300;
@@ -305,7 +305,35 @@ void initPlayer()
 	g_spriteArray[11].BodyDef->position.Set(g_spriteArray[11].X * SCALE, g_spriteArray[11].Y * SCALE);
 	g_spriteArray[11].BodyDef->AddShape(g_spriteArray[11].BoxDef);
 	g_spriteArray[11].Body = g_world->CreateBody(g_spriteArray[11].BodyDef);	
-	
+*/
+
+	// generate a baddy (from array 10 +
+
+	for(int i=11; i<15; i++)
+	{
+	g_spriteArray[i].BoxDef = new b2BoxDef();
+	g_spriteArray[i].BodyDef =  new b2BodyDef();
+	g_spriteArray[i].X = (rand() & 400) - 200;
+	g_spriteArray[i].Y = (rand() & 200) - 300;
+	g_spriteArray[i].Direction = DIRECTION_LEFT;
+	g_spriteArray[i].FrameCount = 0;
+	g_spriteArray[i].FrameNum = 0;
+	g_spriteArray[i].Accel = 0.3f + ((rand() & 8)/10);
+	g_spriteArray[i].XSpeedMax = 20.0f - ((rand() & 5));
+	g_spriteArray[i].YSpeedMax = g_spriteArray[i].XSpeedMax;
+	g_spriteArray[i].Active = TRUE;
+	g_spriteArray[i].Type = ENEMYTYPE_BEE;
+	g_spriteArray[i].BoxDef->extents.Set(16 / 2 * SCALE, 16 / 2 * SCALE); // If Square, how to knock over?
+	g_spriteArray[i].BodyDef->preventRotation = true;	
+	g_spriteArray[i].BodyDef->allowSleep = true;
+	g_spriteArray[i].BoxDef->density = 0.001F; 
+	g_spriteArray[i].BoxDef->friction = 0.0F;
+	g_spriteArray[i].BoxDef->restitution = 0.0F;
+//g_spriteArray[i].BoxDef->	g_spriteArray[i].BodyDef->isSleeping = true;
+	g_spriteArray[i].BodyDef->position.Set(g_spriteArray[i].X * SCALE, g_spriteArray[i].Y * SCALE);
+	g_spriteArray[i].BodyDef->AddShape(g_spriteArray[i].BoxDef);
+	g_spriteArray[i].Body = g_world->CreateBody(g_spriteArray[i].BodyDef);
+	}
 }
 
 //	INIT BOX2D ENGINE FOR LEVEL

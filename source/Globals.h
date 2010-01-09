@@ -223,7 +223,7 @@ enum QuadFlags
 #define		BALLTYPE_VINE		4
 
 #define		ENEMYTYPE_PATROL	5
-#define		ENEMYTYPE_BEES		6
+#define		ENEMYTYPE_BEE		6
 
 	// Defines for ball actions
 #define		ACTION_NONE			0
@@ -238,7 +238,7 @@ enum QuadFlags
 	// Defines for GL level contruction
 #define		LEVEL_TEXTURE_COUNT		(4 * 4)
 #define		LEVEL_QUAD_COUNT		(4 * 4)
-#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 9)
+#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 10)
 
 	// Defines for objects
 #define		TEXTURE_BALL01			(LEVEL_TEXTURE_COUNT + 0)
@@ -268,10 +268,10 @@ enum QuadFlags
 
 	// Defines for object/platform amounts
 
-#define		BALL_COUNT				12				// Number of balls
+#define		BALL_COUNT				15				// Number of balls
 #define		JOINT_COUNT				10				// number of joints
 #define		PLATFORM_COUNT			20				// number of platforms
-#define		ENEMY_COUNT				2
+#define		ENEMY_COUNT				9
 
 #define		PALETTE_COUNT			9
 

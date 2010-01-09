@@ -116,27 +116,31 @@ void drawGLScene()
 		
 		switch(g_spriteArray[i].Type)
 		{
-		case BALLTYPE_PLAYER:	 // Player's ball
+		case BALLTYPE_PLAYER:				 // Player's ball
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL04]);
 			break;
-		case BALLTYPE_EVILBALL: // Other Balls
+		case BALLTYPE_EVILBALL: 			// Other Balls
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BALL01]);
 			break;
-		case BALLTYPE_CRATE:	// Box's
+		case BALLTYPE_CRATE:				// Box's
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BOX]);
 			glBindTexture(0, g_textureIDS[TEXTURE_BOX01]);
 			break;
-		case BALLTYPE_VINE:		// Vine
+		case BALLTYPE_VINE:					// Vine
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_VINE]);
 			glBindTexture(0, g_textureIDS[TEXTURE_VINE]);
 			break;
-		case ENEMYTYPE_PATROL:		// patroller
+		case ENEMYTYPE_PATROL:				// patroller
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_HUNT1]);
 			glBindTexture(0, g_textureIDS[TEXTURE_HUNT1]);
 			break;
-		default:				// Others
+		case ENEMYTYPE_BEE:					// bee
+			glColorTable(GL_RGB256, g_palAddress[PALETTE_BEE]);
+			glBindTexture(0, g_textureIDS[TEXTURE_BEE]);
+			break;
+		default:							// Others
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_PARTICLE]);
 			glBindTexture(0, NULL);
 			break;
@@ -151,22 +155,25 @@ void drawGLScene()
 	
 		switch(g_spriteArray[i].Type)
 		{
-		case BALLTYPE_PLAYER: 	// Player's ball
+		case BALLTYPE_PLAYER: 				// Player's ball
 			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
 			break;
-		case BALLTYPE_EVILBALL:	// Nasty balls
+		case BALLTYPE_EVILBALL:				// Nasty balls
 			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);	
 			break;
-		case BALLTYPE_CRATE:	// Crates
+		case BALLTYPE_CRATE:				// Crates
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 			break;
-		case BALLTYPE_VINE:		// Vine
+		case BALLTYPE_VINE:					// Vine
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 8 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2.5 * SCALE, 32, QUADFLAGS_NONE);
 			break;
-		case ENEMYTYPE_PATROL:		// patroller
+		case ENEMYTYPE_PATROL:			// patroller
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 3 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, (g_spriteArray[i].Direction == DIRECTION_RIGHT ? QUADFLAGS_HFLIP : QUADFLAGS_NONE));
 			break;	
-		default: 				// anything
+		case ENEMYTYPE_BEE:				// bee
+			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 16, (g_spriteArray[i].Direction == DIRECTION_RIGHT ? QUADFLAGS_HFLIP : QUADFLAGS_NONE));
+			break;	
+		default: 						// anything
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 			break;
 		}
