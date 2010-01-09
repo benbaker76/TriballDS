@@ -223,6 +223,7 @@ enum QuadFlags
 #define		BALLTYPE_VINE		4
 
 #define		ENEMYTYPE_PATROL	5
+#define		ENEMYTYPE_BEES		6
 
 	// Defines for ball actions
 #define		ACTION_NONE			0
@@ -249,6 +250,7 @@ enum QuadFlags
 #define		TEXTURE_BOX01			(LEVEL_TEXTURE_COUNT + 6)
 #define		TEXTURE_VINE			(LEVEL_TEXTURE_COUNT + 7)
 #define		TEXTURE_HUNT1			(LEVEL_TEXTURE_COUNT + 8)
+#define		TEXTURE_BEE				(LEVEL_TEXTURE_COUNT + 9)
 
 #define		PALETTE_BALL			0
 #define		PALETTE_PARTICLE		1
@@ -257,6 +259,7 @@ enum QuadFlags
 #define		PALETTE_VINE			4
 #define		PALETTE_HUNT1			5
 #define		PALETTE_LEVEL			6
+#define		PALETTE_BEE				7
 
 	// Defines for the Trails on the Players balls
 	
@@ -270,7 +273,7 @@ enum QuadFlags
 #define		PLATFORM_COUNT			20				// number of platforms
 #define		ENEMY_COUNT				2
 
-#define		PALETTE_COUNT			8
+#define		PALETTE_COUNT			9
 
 #endif
 

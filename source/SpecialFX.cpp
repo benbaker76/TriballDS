@@ -37,8 +37,8 @@ void drawTrail()
 	float alphaStep = 8 / TRAIL_AMOUNT;
 	float alphaValue = 8;
 	b2Vec2 pos = g_spriteArray[0].Body->GetOriginPosition();
-	float x1 = pos.x;
-	float y1 = pos.y;
+//	float x1 = pos.x;
+//	float y1 = pos.y;
 
 	for (int register i=0; i<TRAIL_AMOUNT; i++)
 	{

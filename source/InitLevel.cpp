@@ -26,7 +26,7 @@ void initLevel()
 	g_scrollPos.Y = 0;
 	
 	// box2d update vars
-	timeStep = 1.0f / 30.0f;
+	timeStep = 1.0f / 60.0f;
 	iterations = 1;
 	
 	g_cameraPos.X = 0;
@@ -271,7 +271,7 @@ void initPlayer()
 	g_spriteArray[10].MoveMin = -200;
 	g_spriteArray[10].Active = TRUE;
 	g_spriteArray[10].Type = ENEMYTYPE_PATROL;
-	g_spriteArray[10].BoxDef->extents.Set(48 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
+	g_spriteArray[10].BoxDef->extents.Set(40 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
 	g_spriteArray[10].BodyDef->preventRotation = false;	
 	g_spriteArray[10].BodyDef->allowSleep = true;
 	g_spriteArray[10].BoxDef->density = 1.0F; 
@@ -290,13 +290,13 @@ void initPlayer()
 	g_spriteArray[11].Direction = DIRECTION_LEFT;
 	g_spriteArray[11].FrameCount = 0;
 	g_spriteArray[11].FrameNum = 0;
-	g_spriteArray[11].Accel = 0.5;
+	g_spriteArray[11].Accel = 0.6;
 	g_spriteArray[11].XSpeedMax = 20.0;
-	g_spriteArray[11].MoveMax = -290;
+	g_spriteArray[11].MoveMax = -300;
 	g_spriteArray[11].MoveMin = -310;
 	g_spriteArray[11].Active = TRUE;	
 	g_spriteArray[11].Type = ENEMYTYPE_PATROL;
-	g_spriteArray[11].BoxDef->extents.Set(48 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
+	g_spriteArray[11].BoxDef->extents.Set(40 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
 	g_spriteArray[11].BodyDef->preventRotation = false;	
 	g_spriteArray[11].BodyDef->allowSleep = true;
 	g_spriteArray[11].BoxDef->density = 1.0F; 
