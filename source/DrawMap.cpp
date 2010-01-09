@@ -161,7 +161,7 @@ void drawGLScene()
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 8 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2.5 * SCALE, 32, QUADFLAGS_NONE);
 			break;
 		case ENEMYTYPE_PATROL:		// patroller
-			drawQuad(g_spriteArray[i].BoxDef->extents.x * 3 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, (g_spriteArray[i].Direction == DIRECTION_LEFT ? QUADFLAGS_HFLIP : QUADFLAGS_NONE));
+			drawQuad(g_spriteArray[i].BoxDef->extents.x * 3 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, (g_spriteArray[i].Direction == DIRECTION_RIGHT ? QUADFLAGS_HFLIP : QUADFLAGS_NONE));
 			break;	
 		default: 				// anything
 			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
