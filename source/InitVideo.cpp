@@ -158,7 +158,7 @@ int reloadTexture(int textureSlot, int quadId)
 	uint32 textureSize =  1 << (g_levelTextureSize + 3);
 	uint32* addr = (uint32*) glGetTexturePointer(textureId);
 	uint32 vramTemp;
-	const uint8* texture = g_levelTexture + textureSize * textureSize * quadId;
+	const uint8* textureAddr = g_levelTexture + textureSize * textureSize * quadId;
    
 	if(!addr)
 		return loadTexture(textureSlot, quadId);
@@ -166,9 +166,9 @@ int reloadTexture(int textureSlot, int quadId)
 	// unlock texture memory
 	vramTemp = vramSetMainBanks(VRAM_A_LCD, VRAM_B_LCD, VRAM_C_LCD, VRAM_D_LCD);
 	
-	if(texture)
+	if(textureAddr)
 		//swiCopy((uint32*)texture, addr, size / 4 | COPY_MODE_WORD);
-		dmaCopy((uint32*)texture, addr, size);
+		dmaCopy((uint32*)textureAddr, addr, size);
 	
 	vramRestoreMainBanks(vramTemp);
 	
@@ -192,7 +192,7 @@ int reloadTexture(int textureId, const u8* texture, int frameNum, GL_TEXTURE_SIZ
 	// unlock texture memory
 	vramTemp = vramSetMainBanks(VRAM_A_LCD, VRAM_B_LCD, VRAM_C_LCD, VRAM_D_LCD);
 	
-	if(texture)
+	if(textureAddr)
 		dmaCopy((uint32*)textureAddr, addr, size);
 	
 	vramRestoreMainBanks(vramTemp);
