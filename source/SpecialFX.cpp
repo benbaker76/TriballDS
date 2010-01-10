@@ -3,22 +3,22 @@
 
 void trailUpdate()					// Update the trail (call every vblank)
 {
-	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+	b2Vec2 position = g_objectArray[0].Body->GetOriginPosition();
 	TrailPoints[g_trailPos].X = position.x * SCALE;			// do SCALE here as it is quicker to do once here
 	TrailPoints[g_trailPos].Y = position.y * SCALE;			// than for all in the draw loop
-//	TrailPoints[g_trailPos].Rot = g_spriteArray[0].Body->GetRotation() * (180 / PI);	// same for rotation (if needed)
+//	TrailPoints[g_trailPos].Rot = g_objectArray[0].Body->GetRotation() * (180 / PI);	// same for rotation (if needed)
 	g_trailPos -= 1;
 	if (g_trailPos < 0) g_trailPos = (TRAIL_INTERVAL * TRAIL_AMOUNT) - 1;
 }
 
 void initTrail()					// Set all trail points to player coords
 {
-	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+	b2Vec2 position = g_objectArray[0].Body->GetOriginPosition();
 	for (int register i=0; i<TRAIL_AMOUNT * TRAIL_INTERVAL; i++)
 	{
 		TrailPoints[i].X = position.x * SCALE;			// do SCALE here as it is quicker to do once here
 		TrailPoints[i].Y = position.y * SCALE;			// than for all in the draw loop
-		TrailPoints[i].Rot = g_spriteArray[0].Body->GetRotation() * (180 / PI);	
+		TrailPoints[i].Rot = g_objectArray[0].Body->GetRotation() * (180 / PI);	
 	}
 
 }
@@ -32,11 +32,11 @@ void drawTrail()
 	glColor3b(0, 0, 255);
 
 	int drawPos = g_trailPos;
-	float drawScale = g_spriteArray[0].CircleDef->radius * 2 * SCALE;
+	float drawScale = g_objectArray[0].CircleDef->radius * 2 * SCALE;
 	float scaleStep = drawScale / (TRAIL_AMOUNT - 1);
 	float alphaStep = 8 / TRAIL_AMOUNT;
 	float alphaValue = 8;
-	b2Vec2 pos = g_spriteArray[0].Body->GetOriginPosition();
+	b2Vec2 pos = g_objectArray[0].Body->GetOriginPosition();
 //	float x1 = pos.x;
 //	float y1 = pos.y;
 

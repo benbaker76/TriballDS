@@ -7,20 +7,20 @@ void updateEnemies()
 {
 	for(int i=10; i<ENEMY_COUNT+10; i++)
 	{
-		switch (g_spriteArray[i].Type)
+		switch (g_objectArray[i].Type)
 		{
 			case ENEMYTYPE_PATROL:
-				enemyPatrol	(&g_spriteArray[i]);
+				enemyPatrol	(&g_objectArray[i]);
 				break;
 			case ENEMYTYPE_BEE:
-				enemyBee(&g_spriteArray[i]);
+				enemyBee(&g_objectArray[i]);
 				break;
 		}
 		
 	}
 }
 
-void enemyPatrol(Circle *pChar)
+void enemyPatrol(Object *pObj)
 /*
 Ideas to add to this. If the min and max positions are set to NULL, then the patroller will walk until he finds and
 edge of a platform and turn round, also, if he collides with an object, he will also turn.
@@ -29,39 +29,39 @@ will find his own way.
 */
 
 {
-	b2Vec2 Evel = pChar->Body->GetLinearVelocity();
-	b2Vec2 Epos = pChar->Body->GetOriginPosition();	
-	float Erot = (pChar->Body->GetRotation()) * 180 / PI;
+	b2Vec2 Evel = pObj->Body->GetLinearVelocity();
+	b2Vec2 Epos = pObj->Body->GetOriginPosition();	
+	float Erot = (pObj->Body->GetRotation()) * 180 / PI;
 		
-	if ((Erot >-30 && Erot <30) && pChar->Active == TRUE)		// between these two, we can say he has fallen over!
+	if ((Erot >-30 && Erot <30) && pObj->Active == TRUE)		// between these two, we can say he has fallen over!
 	{
-		if (pChar->Direction == DIRECTION_RIGHT)				// right
+		if (pObj->Direction == DIRECTION_RIGHT)				// right
 		{
-			if (pChar->XSpeed < pChar->XSpeedMax)
+			if (pObj->XSpeed < pObj->XSpeedMax)
 			{
-				pChar->XSpeed += pChar->Accel;
+				pObj->XSpeed += pObj->Accel;
 			}
-			if (Epos.x >= pChar->MoveMax * SCALE)
-				pChar->Direction = DIRECTION_LEFT;
+			if (Epos.x >= pObj->MoveMax * SCALE)
+				pObj->Direction = DIRECTION_LEFT;
 		}
-		else if (pChar->Direction == DIRECTION_LEFT)			// left
+		else if (pObj->Direction == DIRECTION_LEFT)			// left
 		{
-			if (pChar->XSpeed > -pChar->XSpeedMax)
+			if (pObj->XSpeed > -pObj->XSpeedMax)
 			{
-				pChar->XSpeed -= pChar->Accel;
+				pObj->XSpeed -= pObj->Accel;
 			}
-			if (Epos.x  <= pChar->MoveMin * SCALE)
-				pChar->Direction = DIRECTION_RIGHT;	
+			if (Epos.x  <= pObj->MoveMin * SCALE)
+				pObj->Direction = DIRECTION_RIGHT;	
 		}
-			if (pChar->OnGround == FALSE && Evel.y < 0.0f)
+			if (pObj->OnGround == FALSE && Evel.y < 0.0f)
 			// Stop enemy from falling over
-				pChar->Body->SetCenterPosition(pChar->Body->GetCenterPosition(), 0);
+				pObj->Body->SetCenterPosition(pObj->Body->GetCenterPosition(), 0);
 			// SET VELOCTIES
-			pChar->Body->SetLinearVelocity(b2Vec2(pChar->XSpeed, Evel.y));
+			pObj->Body->SetLinearVelocity(b2Vec2(pObj->XSpeed, Evel.y));
 	}
 	else	// PATROLLER has fallen
 	{
-			pChar->Active = FALSE; 	// make him inactive
+			pObj->Active = FALSE; 	// make him inactive
 	}
 
 		
@@ -86,7 +86,7 @@ will find his own way.
 */
 }
 
-void enemyBee(Circle *pChar)
+void enemyBee(Object *pObj)
 /*
 I did not want these to detect platforms so that they could move through them? I could just use GL to draw them, but they may need to
 interact?
@@ -96,36 +96,36 @@ These will also need some kind of detection to go round platforms if they cannot
 go round objects and other enemies, including themselves.
 */
 {
-	b2Vec2 Evel = pChar->Body->GetLinearVelocity();
-	b2Vec2 Epos = pChar->Body->GetOriginPosition();	
+	b2Vec2 Evel = pObj->Body->GetLinearVelocity();
+	b2Vec2 Epos = pObj->Body->GetOriginPosition();	
 	
 	// ok, first l/r based on player
-	b2Vec2 Apos = g_spriteArray[0].Body->GetOriginPosition();
+	b2Vec2 Apos = g_objectArray[0].Body->GetOriginPosition();
 	
 	if (Epos.x < Apos.x)				// Left of attractor - move right
 		{
-			if (pChar->XSpeed < pChar->XSpeedMax) pChar->XSpeed += pChar->Accel;
+			if (pObj->XSpeed < pObj->XSpeedMax) pObj->XSpeed += pObj->Accel;
 		}
 	else if (Epos.x > Apos.x)			// Right of attractor - move left
 		{
-			if (pChar->XSpeed > -pChar->XSpeedMax) pChar->XSpeed -= pChar->Accel;
+			if (pObj->XSpeed > -pObj->XSpeedMax) pObj->XSpeed -= pObj->Accel;
 		}	
 
 	if (Epos.y < Apos.y)				// below attractor - move up
 		{
-			if (pChar->YSpeed < pChar->YSpeedMax) pChar->YSpeed += pChar->Accel;
+			if (pObj->YSpeed < pObj->YSpeedMax) pObj->YSpeed += pObj->Accel;
 		}
 	else if (Epos.y > Apos.y)			// above attractor - move down
 		{
-			if (pChar->YSpeed > -pChar->YSpeedMax) pChar->YSpeed -= pChar->Accel;
+			if (pObj->YSpeed > -pObj->YSpeedMax) pObj->YSpeed -= pObj->Accel;
 		}
 		
 		
-	if (pChar->XSpeed > 0)
-		pChar->Direction = DIRECTION_RIGHT;
+	if (pObj->XSpeed > 0)
+		pObj->Direction = DIRECTION_RIGHT;
 	else
-		pChar->Direction = DIRECTION_LEFT;
+		pObj->Direction = DIRECTION_LEFT;
 		
-	pChar->Body->SetLinearVelocity(b2Vec2(pChar->XSpeed, pChar->YSpeed));
+	pObj->Body->SetLinearVelocity(b2Vec2(pObj->XSpeed, pObj->YSpeed));
 	
 }

@@ -10,7 +10,7 @@
 #include "Detect.h"
 #include "Text.h"
 
-b2Body* getBodyAtPoint(b2Vec2* v)
+Object* getObjectAtPoint(b2Vec2* v)
 {
 	// Create a small box at point
 	b2AABB aabb;
@@ -28,15 +28,16 @@ b2Body* getBodyAtPoint(b2Vec2* v)
 	{
 		b2Shape* shape = shapes[i];
 		b2Body* body = shape->GetBody();
+		Object* obj = (Object*) body->GetUserData();
 		
-		if(g_spriteArray[0].Body == body)
+		if(obj == &g_objectArray[0])
 			continue;
 		
 		//if (!body->IsStatic())  // Don't pick static shapes
 		//{
 			// Ensure it is really at this point
 			if (shape->TestPoint(*v))
-				return body; // Return the first body found
+				return obj; // Return the first body found
 		//}
 	}
 
@@ -62,14 +63,14 @@ void updateWorldContacts()
 	}
 }
 
-void updateCharacterContacts(Circle *pChar)
+void updateCharacterContacts(Object *pObj)
 {
-	pChar->OnGround = false;
-	pChar->OnCeil = false;
+	pObj->OnGround = false;
+	pObj->OnCeil = false;
 	
 //	DrawString("                                ", 0, 7, true);
 
-	for (b2ContactNode* contactNode = pChar->Body->GetContactList(); contactNode; contactNode = contactNode->next)
+	for (b2ContactNode* contactNode = pObj->Body->GetContactList(); contactNode; contactNode = contactNode->next)
 	{
 		b2Contact* contact = contactNode->contact;
 		
@@ -80,7 +81,7 @@ void updateCharacterContacts(Circle *pChar)
 			b2Body* body = NULL;
 			
 			// Which body is the player?
-			if(pChar->Body == body1)
+			if(pObj->Body == body1)
 				body = body2;
 			else
 				body = body1;
@@ -92,10 +93,10 @@ void updateCharacterContacts(Circle *pChar)
 				b2Manifold* manifold = contact->GetManifolds();
 				b2ContactPoint* cp = manifold->points;
 				b2Vec2 position1 = cp->position;
-				b2Vec2 position2 = pChar->Body->GetOriginPosition();
+				b2Vec2 position2 = pObj->Body->GetOriginPosition();
 				
-				pChar->OnGround = (position1.y < position2.y);
-				pChar->OnCeil = (position1.y > position2.y);
+				pObj->OnGround = (position1.y < position2.y);
+				pObj->OnCeil = (position1.y > position2.y);
 				
 			}
 			else // Which platform did it collide with?
@@ -111,10 +112,10 @@ void updateCharacterContacts(Circle *pChar)
 						b2Manifold* manifold = contact->GetManifolds();
 						b2ContactPoint* cp = manifold->points;
 						b2Vec2 position1 = cp->position;
-						b2Vec2 position2 = pChar->Body->GetOriginPosition();
+						b2Vec2 position2 = pObj->Body->GetOriginPosition();
 						
-						pChar->OnGround = (position1.y < position2.y);
-						pChar->OnCeil = (position1.y > position2.y);
+						pObj->OnGround = (position1.y < position2.y);
+						pObj->OnCeil = (position1.y > position2.y);
 						
 						return;
 					}
@@ -122,7 +123,7 @@ void updateCharacterContacts(Circle *pChar)
 				
 				for(int i=1; i<BALL_COUNT; i++)
 				{
-					if(g_spriteArray[i].Body == body)
+					if(g_objectArray[i].Body == body)
 					{
 						//static char buf[256];
 						//sprintf(buf, "Player Collided With Platform %d   ", i);
@@ -131,16 +132,16 @@ void updateCharacterContacts(Circle *pChar)
 						b2Manifold* manifold = contact->GetManifolds();
 						b2ContactPoint* cp = manifold->points;
 						b2Vec2 position1 = cp->position;
-						b2Vec2 position2 = pChar->Body->GetOriginPosition();
+						b2Vec2 position2 = pObj->Body->GetOriginPosition();
 						
-						pChar->OnGround = (position1.y < position2.y);
+						pObj->OnGround = (position1.y < position2.y);
 					}
 				}
 			//}
 		}
 	}
 	
-/*	if(pChar->OnGround)
+/*	if(pObj->OnGround)
 		DrawString("Player     On Ground", 0, 8, true);
 	else
 		DrawString("Player Not On Ground", 0, 8, true);
@@ -149,26 +150,29 @@ void updateCharacterContacts(Circle *pChar)
 void updateGroundCollision()
 {
 	// Get position of player
-	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-	b2Vec2 v1(position.x - g_spriteArray[0].CircleDef->radius + 0.1f, position.y - g_spriteArray[0].CircleDef->radius - 0.1F);
-	b2Vec2 v2(position.x, position.y - g_spriteArray[0].CircleDef->radius - 0.1F);
-	b2Vec2 v3(position.x + g_spriteArray[0].CircleDef->radius - 0.1f , position.y - g_spriteArray[0].CircleDef->radius - 0.1F);
+	b2Vec2 position = g_objectArray[0].Body->GetOriginPosition();
+	b2Vec2 v1(position.x - g_objectArray[0].CircleDef->radius + 0.1f, position.y - g_objectArray[0].CircleDef->radius - 0.1F);
+	b2Vec2 v2(position.x, position.y - g_objectArray[0].CircleDef->radius - 0.1F);
+	b2Vec2 v3(position.x + g_objectArray[0].CircleDef->radius - 0.1f , position.y - g_objectArray[0].CircleDef->radius - 0.1F);
 	
 	// Bottom left of player
-	b2Body* body = getBodyAtPoint(&v1);
+	Object* obj = getObjectAtPoint(&v1);
+	b2Body* body = obj->Body;
 	
 	if(body != NULL)
-		g_spriteArray[0].OnGround = true;
+		g_objectArray[0].OnGround = true;
 	
 	// Bottom centre of player
-	body = getBodyAtPoint(&v2);
+	obj = getObjectAtPoint(&v2);
+	body = obj->Body;
 	
 	if(body != NULL)
-		g_spriteArray[0].OnGround = true;
+		g_objectArray[0].OnGround = true;
 
 	// Bottom right of player
-	body = getBodyAtPoint(&v3);
+	obj = getObjectAtPoint(&v3);
+	body = obj->Body;
 	
 	if(body != NULL)
-		g_spriteArray[0].OnGround = true;
+		g_objectArray[0].OnGround = true;
 }

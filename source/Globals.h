@@ -17,14 +17,6 @@ struct Input
 	int keysUp;
 };
 
-enum DirectionType
-{
-	DIRECTION_UP,
-	DIRECTION_DOWN,
-	DIRECTION_LEFT,
-	DIRECTION_RIGHT
-};
-
 struct Joint
 {
 	b2DistanceJointDef* DistanceJointDef;
@@ -37,7 +29,86 @@ struct Joint
 	b2Joint* Joint;
 };
 
-struct Circle						// define the elements that construct our 'balls'
+enum DirectionType
+{
+	DIRECTION_UP,
+	DIRECTION_DOWN,
+	DIRECTION_LEFT,
+	DIRECTION_RIGHT
+};
+
+/* enum B2Type
+{
+	B2TYPE_NONE,
+    B2TYPE_CIRCLE,
+    B2TYPE_BOX,
+    B2TYPE_POLY
+};
+
+enum ObjType
+{
+	OBJTYPE_PLAYER,
+    OBJTYPE_EVILBALL,
+    OBJTYPE_CRATE,
+	OBJTYPE_VINE,
+	OBJTYPE_PATROL,
+	OBJTYPE_BEE,
+	OBJTYPE_HIVE
+};
+
+// Super class
+class Object
+{
+public:
+    Object(int objectId, ObjType objectType, B2Type box2dType)
+    {
+        ObjectId = objectId;
+        ObjectType = objectType;
+		Box2dType = box2dType;
+    }
+
+    int ObjectId;
+	B2Type Box2dType;
+    ObjType ObjectType;
+	
+	b2BodyDef* BodyDef;
+	b2Body* Body;
+};
+
+// Subclass
+class Circle : Object
+{
+public:
+	Circle(int objectId, ObjType objectType) : Object(objectId, objectType, B2TYPE_CIRCLE)
+	{
+	}
+   
+	b2CircleDef* CircleDef;
+};
+
+// Subclass
+class Box : Object
+{
+public:
+	Box(int objectId, ObjType objectType) : Object(objectId, objectType, B2TYPE_BOX)
+	{
+	}
+	
+	b2BoxDef* BoxDef;
+};
+
+// Subclass
+class Poly : Object
+{
+public:
+	Poly(int objectId, ObjType objectType) : Object(objectId, objectType, B2TYPE_POLY)
+	{
+	}
+	
+	b2PolyDef* PolyDef;
+}; */
+
+struct Object						// define the elements that construct our 'balls'
 {
 	b2PolyDef* PolyDef;
 	b2CircleDef* CircleDef;
@@ -72,13 +143,6 @@ struct Circle						// define the elements that construct our 'balls'
 	int FrameNum;
 	
 	bool Active;			// modify or not!
-};
-
-struct Poly
-{
-	b2PolyDef* PolyDef;
-	b2BodyDef* BodyDef;
-	b2Body* Body;
 };
 
 struct Trail
@@ -214,7 +278,7 @@ enum QuadFlags
 #define		BALLSTATUS_NORMAL				0
 #define		BALLSTATUS_JUMPING				1
 
-	//	Defines for the balls type
+//	Defines for the balls type
 	
 #define		BALLTYPE_NULL		0				// non moving object
 #define		BALLTYPE_PLAYER		1
@@ -279,7 +343,7 @@ enum QuadFlags
 
 // This means that g_playerBall; is defined externally (in Globals.cpp)
 
-extern Circle g_spriteArray[];
+extern Object g_objectArray[];
 
 extern Trail TrailPoints[];
 
@@ -311,7 +375,7 @@ extern b2BoxDef* g_groundBoxDef;
 extern b2BodyDef* g_groundBodyDef;
 //extern b2Body* g_groundBody;
 
-extern Poly* g_platformArray[];
+extern Object* g_platformArray[];
 
 extern int g_textureIDS[];
 extern int g_palAddress[];

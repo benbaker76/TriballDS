@@ -4,7 +4,7 @@
 void Level1()
 
 {
-	g_platformArray[0] = new Poly();
+	g_platformArray[0] = new Object();
 	g_platformArray[0]->PolyDef = new b2PolyDef();	// left
 	g_platformArray[0]->PolyDef->vertexCount = 7;
 	g_platformArray[0]->PolyDef->vertices[0].Set(-10.0f, 2.0f);
@@ -22,9 +22,10 @@ void Level1()
 	g_platformArray[0]->BodyDef->position.Set(15.0f, -2.4f);
 	g_platformArray[0]->BodyDef->AddShape(g_platformArray[0]->PolyDef);
 	g_platformArray[0]->Body = g_world->CreateBody(g_platformArray[0]->BodyDef);
+	g_platformArray[0]->Body->m_userData = (void*) &g_platformArray[0]; // Link user data back to Object
 	
 	
-	g_platformArray[1] = new Poly();
+	g_platformArray[1] = new Object();
 	g_platformArray[1]->PolyDef = new b2PolyDef();	// little plat
 	g_platformArray[1]->PolyDef->vertexCount = 8;
 	g_platformArray[1]->PolyDef->vertices[0].Set( -9.0f, 0.0f);
@@ -43,8 +44,9 @@ void Level1()
 	g_platformArray[1]->BodyDef->position.Set(11.0f, -21.0f);
 	g_platformArray[1]->BodyDef->AddShape(g_platformArray[1]->PolyDef);
 	g_platformArray[1]->Body = g_world->CreateBody(g_platformArray[1]->BodyDef);
+	g_platformArray[1]->Body->m_userData = (void*) &g_platformArray[1]; // Link user data back to Object
 
-	g_platformArray[2] = new Poly();
+	g_platformArray[2] = new Object();
 	g_platformArray[2]->PolyDef = new b2PolyDef();	// bongo base
 	g_platformArray[2]->PolyDef->vertexCount = 4;
 	g_platformArray[2]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
@@ -59,8 +61,9 @@ void Level1()
 	g_platformArray[2]->BodyDef->position.Set(30.0f, -15.0f);
 	g_platformArray[2]->BodyDef->AddShape(g_platformArray[2]->PolyDef);
 	g_platformArray[2]->Body = g_world->CreateBody(g_platformArray[2]->BodyDef);
+	g_platformArray[2]->Body->m_userData = (void*) &g_platformArray[2]; // Link user data back to Object
 	
-	g_platformArray[3] = new Poly();
+	g_platformArray[3] = new Object();
 	g_platformArray[3]->PolyDef = new b2PolyDef();	// bongo top
 	g_platformArray[3]->PolyDef->vertexCount = 3;
 	g_platformArray[3]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
@@ -74,8 +77,9 @@ void Level1()
 	g_platformArray[3]->BodyDef->position.Set(30.0f, -15.0f);
 	g_platformArray[3]->BodyDef->AddShape(g_platformArray[3]->PolyDef);
 	g_platformArray[3]->Body = g_world->CreateBody(g_platformArray[3]->BodyDef);
+	g_platformArray[3]->Body->m_userData = (void*) &g_platformArray[3]; // Link user data back to Object
 	
-	g_platformArray[4] = new Poly();
+	g_platformArray[4] = new Object();
 	g_platformArray[4]->PolyDef = new b2PolyDef();	// plat under bongo
 	g_platformArray[4]->PolyDef->vertexCount = 4;
 	g_platformArray[4]->PolyDef->vertices[0].Set( 0.0f, -0.5f);
@@ -90,8 +94,9 @@ void Level1()
 	g_platformArray[4]->BodyDef->position.Set(27.0f, -20.5f);
 	g_platformArray[4]->BodyDef->AddShape(g_platformArray[4]->PolyDef);
 	g_platformArray[4]->Body = g_world->CreateBody(g_platformArray[4]->BodyDef);
+	g_platformArray[4]->Body->m_userData = (void*) &g_platformArray[4]; // Link user data back to Object
 	
-	g_platformArray[5] = new Poly();
+	g_platformArray[5] = new Object();
 	g_platformArray[5]->PolyDef = new b2PolyDef();	// mid left
 	g_platformArray[5]->PolyDef->vertexCount = 4;
 	g_platformArray[5]->PolyDef->vertices[0].Set( 0.0f, -0.0f);
@@ -106,8 +111,9 @@ void Level1()
 	g_platformArray[5]->BodyDef->position.Set(-27.0f, -12.1f);
 	g_platformArray[5]->BodyDef->AddShape(g_platformArray[5]->PolyDef);
 	g_platformArray[5]->Body = g_world->CreateBody(g_platformArray[5]->BodyDef);
+	g_platformArray[5]->Body->m_userData = (void*) &g_platformArray[5]; // Link user data back to Object
 
-	g_platformArray[6] = new Poly();
+	g_platformArray[6] = new Object();
 	g_platformArray[6]->PolyDef = new b2PolyDef();	// top mid
 	g_platformArray[6]->PolyDef->vertexCount = 4;
 	g_platformArray[6]->PolyDef->vertices[0].Set( 0.0f, -1.0f);
@@ -122,8 +128,9 @@ void Level1()
 	g_platformArray[6]->BodyDef->position.Set(-10.5f, 17.0f);
 	g_platformArray[6]->BodyDef->AddShape(g_platformArray[6]->PolyDef);
 	g_platformArray[6]->Body = g_world->CreateBody(g_platformArray[6]->BodyDef);
+	g_platformArray[6]->Body->m_userData = (void*) &g_platformArray[6]; // Link user data back to Object
 
-	g_platformArray[7] = new Poly();
+	g_platformArray[7] = new Object();
 	g_platformArray[7]->PolyDef = new b2PolyDef();	// top left
 	g_platformArray[7]->PolyDef->vertexCount = 4;
 	g_platformArray[7]->PolyDef->vertices[0].Set( 0.0f, -0.0f);
@@ -137,9 +144,10 @@ void Level1()
 	g_platformArray[7]->BodyDef = new b2BodyDef();
 	g_platformArray[7]->BodyDef->position.Set(-40.0f, 9.0f);
 	g_platformArray[7]->BodyDef->AddShape(g_platformArray[7]->PolyDef);
-	g_platformArray[7]->Body = g_world->CreateBody(g_platformArray[7]->BodyDef);	
+	g_platformArray[7]->Body = g_world->CreateBody(g_platformArray[7]->BodyDef);
+	g_platformArray[7]->Body->m_userData = (void*) &g_platformArray[7]; // Link user data back to Object
 	
-	g_platformArray[8] = new Poly();
+	g_platformArray[8] = new Object();
 	g_platformArray[8]->PolyDef = new b2PolyDef();	// top right
 	g_platformArray[8]->PolyDef->vertexCount = 4;
 	g_platformArray[8]->PolyDef->vertices[0].Set( 0.0f, -0.0f);
@@ -153,9 +161,10 @@ void Level1()
 	g_platformArray[8]->BodyDef = new b2BodyDef();
 	g_platformArray[8]->BodyDef->position.Set(10.0f, 20.0f);
 	g_platformArray[8]->BodyDef->AddShape(g_platformArray[8]->PolyDef);
-	g_platformArray[8]->Body = g_world->CreateBody(g_platformArray[8]->BodyDef);	
+	g_platformArray[8]->Body = g_world->CreateBody(g_platformArray[8]->BodyDef);
+	g_platformArray[8]->Body->m_userData = (void*) &g_platformArray[8]; // Link user data back to Object
 	
-	g_platformArray[9] = new Poly();
+	g_platformArray[9] = new Object();
 	g_platformArray[9]->PolyDef = new b2PolyDef();	// FLOOR
 	g_platformArray[9]->PolyDef->vertexCount = 4;
 	g_platformArray[9]->PolyDef->vertices[0].Set( 0.0f, 0.0f);
@@ -169,5 +178,6 @@ void Level1()
 	g_platformArray[9]->BodyDef = new b2BodyDef();
 	g_platformArray[9]->BodyDef->position.Set(-40.0f, -39.0f);
 	g_platformArray[9]->BodyDef->AddShape(g_platformArray[9]->PolyDef);
-	g_platformArray[9]->Body = g_world->CreateBody(g_platformArray[9]->BodyDef);		
+	g_platformArray[9]->Body = g_world->CreateBody(g_platformArray[9]->BodyDef);
+	g_platformArray[9]->Body->m_userData = (void*) &g_platformArray[9]; // Link user data back to Object
 }

@@ -32,26 +32,26 @@ void drawQuad(float width, float height, int textureSize, int quadFlags)
 	glVertex3v16(floattov16(-width), floattov16(height), 0);
 }
 
-void drawB2Poly(Poly* poly)
+void drawB2Poly(Object* pObj)
 {
 	glBegin(GL_TRIANGLE_STRIP);
 	
 	glPushMatrix();
 	
 	// The Box2d poly's are drawn from origin so lets translate it to draw in position
-	glTranslatef(poly->BodyDef->position.x * SCALE, poly->BodyDef->position.y * SCALE, -1 + g_texelSize.Width);
+	glTranslatef(pObj->BodyDef->position.x * SCALE, pObj->BodyDef->position.y * SCALE, -1 + g_texelSize.Width);
 	
-	for(int i=0; i<poly->PolyDef->vertexCount; i++)
+	for(int i=0; i<pObj->PolyDef->vertexCount; i++)
 	{
-		glVertex3v16(floattov16((float)(poly->PolyDef->vertices[i].x * SCALE)), floattov16((float)(poly->PolyDef->vertices[i].y * SCALE)), 0);
+		glVertex3v16(floattov16((float)(pObj->PolyDef->vertices[i].x * SCALE)), floattov16((float)(pObj->PolyDef->vertices[i].y * SCALE)), 0);
 		
 		// Every 3rd verticie we need to draw back 3 to complete a triangle
 		if(i % 2 == 0)
-			glVertex3v16(floattov16((float)(poly->PolyDef->vertices[i-2].x * SCALE)), floattov16((float)(poly->PolyDef->vertices[i-2].y * SCALE)), 0);
+			glVertex3v16(floattov16((float)(pObj->PolyDef->vertices[i-2].x * SCALE)), floattov16((float)(pObj->PolyDef->vertices[i-2].y * SCALE)), 0);
 	}
 	
 	// complete last triangle
-	glVertex3v16(floattov16((float)(poly->PolyDef->vertices[0].x * SCALE)), floattov16((float)(poly->PolyDef->vertices[0].y * SCALE)), 0);
+	glVertex3v16(floattov16((float)(pObj->PolyDef->vertices[0].x * SCALE)), floattov16((float)(pObj->PolyDef->vertices[0].y * SCALE)), 0);
 	
 	glPopMatrix(1);	
 	
@@ -111,10 +111,10 @@ void drawGLScene()
 		// ** WITHOUT THIS IT WILL CRASH ON HARDWARE **
 		// ** CAN'T USE OBJECTS IN ARRAYS THAT HAVE NOT BEING INITIALIZED **
 		
-		if(g_spriteArray[i].Body == NULL) // Nothing assigned to it so continue back to the loop
+		if(g_objectArray[i].Body == NULL) // Nothing assigned to it so continue back to the loop
 			continue;
 		
-		switch(g_spriteArray[i].Type)
+		switch(g_objectArray[i].Type)
 		{
 		case BALLTYPE_PLAYER:				 // Player's ball
 			glColorTable(GL_RGB256, g_palAddress[PALETTE_BALL]);
@@ -146,35 +146,35 @@ void drawGLScene()
 			break;
 		}
 	
-		b2Vec2 position = g_spriteArray[i].Body->GetOriginPosition();
-//		float rotation = g_spriteArray[i].Body->GetRotation();
+		b2Vec2 position = g_objectArray[i].Body->GetOriginPosition();
+//		float rotation = g_objectArray[i].Body->GetRotation();
 		
 		glPushMatrix();
 		glTranslatef(position.x * SCALE, position.y * SCALE, -1 + 0.01F);
-		glRotatef(g_spriteArray[i].Body->GetRotation() * (180 / PI), 0.0f, 0.0f, 1.0f);
+		glRotatef(g_objectArray[i].Body->GetRotation() * (180 / PI), 0.0f, 0.0f, 1.0f);
 	
-		switch(g_spriteArray[i].Type)
+		switch(g_objectArray[i].Type)
 		{
 		case BALLTYPE_PLAYER: 				// Player's ball
-			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
+			drawQuad(g_objectArray[i].CircleDef->radius * 2 * SCALE, g_objectArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);
 			break;
 		case BALLTYPE_EVILBALL:				// Nasty balls
-			drawQuad(g_spriteArray[i].CircleDef->radius * 2 * SCALE, g_spriteArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);	
+			drawQuad(g_objectArray[i].CircleDef->radius * 2 * SCALE, g_objectArray[i].CircleDef->radius * 2 * SCALE, 32, QUADFLAGS_NONE);	
 			break;
 		case BALLTYPE_CRATE:				// Crates
-			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+			drawQuad(g_objectArray[i].BoxDef->extents.x * 2 * SCALE, g_objectArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 			break;
 		case BALLTYPE_VINE:					// Vine
-			drawQuad(g_spriteArray[i].BoxDef->extents.x * 8 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2.5 * SCALE, 32, QUADFLAGS_NONE);
+			drawQuad(g_objectArray[i].BoxDef->extents.x * 8 * SCALE, g_objectArray[i].BoxDef->extents.y * 2.5 * SCALE, 32, QUADFLAGS_NONE);
 			break;
 		case ENEMYTYPE_PATROL:			// patroller
-			drawQuad(g_spriteArray[i].BoxDef->extents.x * 3 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, (g_spriteArray[i].Direction == DIRECTION_RIGHT ? QUADFLAGS_HFLIP : QUADFLAGS_NONE));
+			drawQuad(g_objectArray[i].BoxDef->extents.x * 3 * SCALE, g_objectArray[i].BoxDef->extents.y * 2 * SCALE, 64, (g_objectArray[i].Direction == DIRECTION_RIGHT ? QUADFLAGS_HFLIP : QUADFLAGS_NONE));
 			break;	
 		case ENEMYTYPE_BEE:				// bee
-			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 16, (g_spriteArray[i].Direction == DIRECTION_RIGHT ? QUADFLAGS_HFLIP : QUADFLAGS_NONE));
+			drawQuad(g_objectArray[i].BoxDef->extents.x * 2 * SCALE, g_objectArray[i].BoxDef->extents.y * 2 * SCALE, 16, (g_objectArray[i].Direction == DIRECTION_RIGHT ? QUADFLAGS_HFLIP : QUADFLAGS_NONE));
 			break;	
 		default: 						// anything
-			drawQuad(g_spriteArray[i].BoxDef->extents.x * 2 * SCALE, g_spriteArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
+			drawQuad(g_objectArray[i].BoxDef->extents.x * 2 * SCALE, g_objectArray[i].BoxDef->extents.y * 2 * SCALE, 64, QUADFLAGS_NONE);
 			break;
 		}
 
@@ -211,7 +211,7 @@ void updateCamera()
 {
 	char buffer[20];
 	
-	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
+	b2Vec2 position = g_objectArray[0].Body->GetOriginPosition();
 	
 	if(g_frameCount++ == 10)
 	{

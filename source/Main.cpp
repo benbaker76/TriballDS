@@ -27,36 +27,36 @@
 void debugText()
 {
 	char buffer[20];
-	b2Vec2 position = g_spriteArray[0].Body->GetOriginPosition();
-	float rotationP = g_spriteArray[0].Body->GetRotation();
+	b2Vec2 position = g_objectArray[0].Body->GetOriginPosition();
+	float rotationP = g_objectArray[0].Body->GetRotation();
 	sprintf(buffer, "X: %d,Y: %d   ",(int)(position.x * 10),192 - (int)(position.y * 10));
 	DrawString(buffer, 0, 21, true);
 	sprintf(buffer, "Rotation Value: %d        ",(int)(rotationP *10));
 	DrawString(buffer, 0, 22, true);
 	
 	
-	b2Vec2 vel = g_spriteArray[0].Body->GetLinearVelocity();
-	float aVelocity = g_spriteArray[0].Body->GetAngularVelocity();
+	b2Vec2 vel = g_objectArray[0].Body->GetLinearVelocity();
+	float aVelocity = g_objectArray[0].Body->GetAngularVelocity();
 	
 	sprintf(buffer, "X VEL %d / Y VEL %d    ",(int)(vel.x * 10), (int)(vel.y * 10));
 	DrawString(buffer, 0, 19, true);
 	sprintf(buffer, "A VEL %d  ",(int)aVelocity);
 	DrawString(buffer, 0, 20, true);	
 
-	sprintf(buffer, "Status %d  ",g_spriteArray[0].Status);
+	sprintf(buffer, "Status %d  ",g_objectArray[0].Status);
 	DrawString(buffer, 0, 18, true);	
 	
-	if (g_spriteArray[0].OnGround != FALSE)
+	if (g_objectArray[0].OnGround != FALSE)
 		DrawString("ON GROUND", 0, 6, true);
 	else
 		DrawString("NO GROUND", 0, 6, true);
 		
-	if (g_spriteArray[0].OnCeil != FALSE)
+	if (g_objectArray[0].OnCeil != FALSE)
 		DrawString("ON CEIL", 0, 7, true);
 	else
 		DrawString("NO CIEL", 0, 7, true);
 		
-	sprintf(buffer, "ReJump %d  JumpCount %d    ",g_reJump,g_spriteArray[0].JumpCount);
+	sprintf(buffer, "ReJump %d  JumpCount %d    ",g_reJump,g_objectArray[0].JumpCount);
 	DrawString(buffer, 0, 16, true);			
 }
 
@@ -94,11 +94,11 @@ int main(void)
 		
 		for(register int i=0; i<BALL_COUNT; i++)
 		{
-			if(g_spriteArray[i].Body != NULL)
+			if(g_objectArray[i].Body != NULL)
 			{
-				moveCharacter(&g_spriteArray[i]);
-				updateCharacter(&g_spriteArray[i]);
-				updateCharacterContacts(&g_spriteArray[i]);
+				moveCharacter(&g_objectArray[i]);
+				updateCharacter(&g_objectArray[i]);
+				updateCharacterContacts(&g_objectArray[i]);
 				updateGroundCollision();
 			}
 		}
@@ -106,7 +106,7 @@ int main(void)
 		if (g_reJump > 0) g_reJump -= 1;
 		
 //		b2Vec2 v(g_input.touch.px * SCALE, -g_input.touch.py * SCALE);
-//		g_spriteArray[1].Body->SetCenterPosition(v, g_spriteArray[1].Body->GetRotation());
+//		g_objectArray[1].Body->SetCenterPosition(v, g_objectArray[1].Body->GetRotation());
 		
 		updateCamera();
 		
@@ -130,14 +130,14 @@ int main(void)
 		// Wait for vblank
 		swiWaitForVBlank();
 		
-		if(g_spriteArray[11].FrameCount++ == 8)
+		if(g_objectArray[11].FrameCount++ == 8)
 		{
-			g_spriteArray[11].FrameCount = 0;
+			g_objectArray[11].FrameCount = 0;
 			
-			if(g_spriteArray[11].FrameNum++ == 4)
-				g_spriteArray[11].FrameNum = 1;
+			if(g_objectArray[11].FrameNum++ == 4)
+				g_objectArray[11].FrameNum = 1;
 			
-			reloadTexture(g_textureIDS[TEXTURE_HUNT1], hunter1_tex_bin, g_spriteArray[11].FrameNum, TEXTURE_SIZE_64);
+			reloadTexture(g_textureIDS[TEXTURE_HUNT1], hunter1_tex_bin, g_objectArray[11].FrameNum, TEXTURE_SIZE_64);
 		}
 		
 		//loadTextures();

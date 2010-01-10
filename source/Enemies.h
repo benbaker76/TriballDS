@@ -1,5 +1,5 @@
 void updateEnemies();
 
-void enemyPatrol(Circle *pChar);
-void enemyBee(Circle *pChar);
-void enemyBoulder(Circle *pChar);
+void enemyPatrol(Object *pObj);
+void enemyBee(Object *pObj);
+void enemyBoulder(Object *pObj);

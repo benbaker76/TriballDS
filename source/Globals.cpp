@@ -4,7 +4,7 @@
 // Here are the real global values. Place a "g_" before so you know you're referencing a global
 // This is the real definition
 
-Circle g_spriteArray[BALL_COUNT+10]; // Need 10 more
+Object g_objectArray[BALL_COUNT+10]; // Need 10 more
 
 Trail TrailPoints[TRAIL_AMOUNT * TRAIL_INTERVAL];				// Sorry, but could not work out how to use PointF within Circle
 
@@ -46,7 +46,7 @@ b2BoxDef* g_groundBoxDef;
 b2BodyDef* g_groundBodyDef;
 //b2Body* g_groundBody;
 
-Poly* g_platformArray[PLATFORM_COUNT];
+Object* g_platformArray[PLATFORM_COUNT];
 
 int g_textureIDS[TEXTURE_COUNT];
 int g_palAddress[PALETTE_COUNT];
