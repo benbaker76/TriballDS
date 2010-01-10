@@ -5,15 +5,17 @@
 
 void updateEnemies()
 {
-	for(int i=10; i<ENEMY_COUNT+10; i++)
+	for(int i=9; i<ENEMY_COUNT+10; i++)
 	{
 		switch (g_objectArray[i].Type)
 		{
-			case ENEMYTYPE_PATROL:
+			case OBJTYPE_PATROL:
 				enemyPatrol	(&g_objectArray[i]);
 				break;
-			case ENEMYTYPE_BEE:
-				enemyBee(&g_objectArray[i]);
+			case OBJTYPE_BEE:
+				enemyBee (&g_objectArray[i]);
+				break;
+			default:
 				break;
 		}
 		
@@ -94,38 +96,61 @@ Also, they will only attack when you get too close, prior to that they will hove
 
 These will also need some kind of detection to go round platforms if they cannot just pass through, at the least they will need to
 go round objects and other enemies, including themselves.
+
+ALSO, they can get stuck under platforms, no idea why they then will not attract to you again? But, need to think of a way to make them go round...
 */
 {
 	b2Vec2 Evel = pObj->Body->GetLinearVelocity();
-	b2Vec2 Epos = pObj->Body->GetOriginPosition();	
-	
-	// ok, first l/r based on player
+	b2Vec2 Epos = pObj->Body->GetOriginPosition();
 	b2Vec2 Apos = g_objectArray[0].Body->GetOriginPosition();
+	int Attract = pObj->Attract;
+	const float TRange= 100 * SCALE;;			// Size of bounding box (i take it that using CONST means that at compile the value is calculated rather than in execution?)
+	float Ax;
+	float Ay;
 	
-	if (Epos.x < Apos.x)				// Left of attractor - move right
+	// Check if attacking player or area
+	if (g_objectArray[Attract].Type != OBJTYPE_PLAYER)
+	{				//----------------------------- swarm area
+		Ax = g_objectArray[Attract].X * SCALE;
+		Ay = g_objectArray[Attract].Y * SCALE;
+		// Check if PLAYER is in range (you have to be closer than you need to be to ESCAPE)
+		if ((Epos.x - TRange < Apos.x && Epos.x + TRange > Apos.x) && (Epos.y + TRange > Apos.y && Epos.y - TRange < Apos.y))
+			{
+			pObj->TempStore = pObj->Attract; 	// Store original value for later
+			pObj->Attract = 0;					// set to first element (player)
+			}
+	}
+	else
+	{				//----------------------------- player area
+		Ax = Apos.x;
+		Ay = Apos.y;
+		// Check if PLAYER is not in range
+		if ((Epos.x - TRange * 1.5 > Apos.x || Epos.x + TRange * 1.5 < Apos.x) && (Epos.y + TRange * 1.5 < Apos.y || Epos.y - TRange * 1.5 > Apos.y))
+			pObj->Attract = pObj->TempStore;	// set to original attractor
+	}
+	
+	if (Epos.x < Ax)				// Left of attractor - move right
 		{
-			if (pObj->XSpeed < pObj->XSpeedMax) pObj->XSpeed += pObj->Accel;
+		if (pObj->XSpeed < pObj->XSpeedMax) pObj->XSpeed += pObj->Accel;
 		}
-	else if (Epos.x > Apos.x)			// Right of attractor - move left
+	else if (Epos.x > Ax)			// Right of attractor - move left
 		{
-			if (pObj->XSpeed > -pObj->XSpeedMax) pObj->XSpeed -= pObj->Accel;
+		if (pObj->XSpeed > -pObj->XSpeedMax) pObj->XSpeed -= pObj->Accel;
 		}	
+	if (Epos.y < Ay)				// below attractor - move up
+		{
+		if (pObj->YSpeed < pObj->YSpeedMax) pObj->YSpeed += pObj->Accel;
+		}
+	else if (Epos.y > Ay)			// above attractor - move down
+		{
+		if (pObj->YSpeed > -pObj->YSpeedMax) pObj->YSpeed -= pObj->Accel;
+		}
 
-	if (Epos.y < Apos.y)				// below attractor - move up
-		{
-			if (pObj->YSpeed < pObj->YSpeedMax) pObj->YSpeed += pObj->Accel;
-		}
-	else if (Epos.y > Apos.y)			// above attractor - move down
-		{
-			if (pObj->YSpeed > -pObj->YSpeedMax) pObj->YSpeed -= pObj->Accel;
-		}
-		
-		
+	// update movement and direction
+	
 	if (pObj->XSpeed > 0)
 		pObj->Direction = DIRECTION_RIGHT;
 	else
 		pObj->Direction = DIRECTION_LEFT;
-		
-	pObj->Body->SetLinearVelocity(b2Vec2(pObj->XSpeed, pObj->YSpeed));
-	
+	pObj->Body->SetLinearVelocity(b2Vec2(pObj->XSpeed, pObj->YSpeed));	
 }

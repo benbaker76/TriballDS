@@ -23,6 +23,8 @@
 #include "hunter1_pal_bin.h"
 #include "bee_tex_bin.h"
 #include "bee_pal_bin.h"
+#include "hive_tex_bin.h"
+#include "hive_pal_bin.h"
 
 #include "font.h"
 #include "titlescreen.h"
@@ -335,10 +337,17 @@ void initVideo3D()
 	glBindTexture(0, g_textureIDS[TEXTURE_HUNT1]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)hunter1_tex_bin + 4096);
 	g_palAddress[PALETTE_HUNT1] = gluTexLoadPal((u16*)hunter1_pal_bin, 256, GL_RGB256);
+
+	glBindTexture(0, g_textureIDS[TEXTURE_HUNTDEAD]);
+	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)hunter1_tex_bin + (4096 * 6));
 	
 	glBindTexture(0, g_textureIDS[TEXTURE_BEE]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_16, TEXTURE_SIZE_16, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)bee_tex_bin );	
 	g_palAddress[PALETTE_BEE] = gluTexLoadPal((u16*)bee_pal_bin, 256, GL_RGB256);	
+
+	glBindTexture(0, g_textureIDS[TEXTURE_HIVE]);
+	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD | GL_TEXTURE_COLOR0_TRANSPARENT, (u8*)hive_tex_bin );	
+	g_palAddress[PALETTE_HIVE] = gluTexLoadPal((u16*)hive_pal_bin, 256, GL_RGB256);	
 	
 	/* glBindTexture(0, g_textureIDS[TEXTURE_LEVEL01]);
 	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_256, TEXTURE_SIZE_256, 0, TEXGEN_TEXCOORD, (u8*)level01_tex_bin);

@@ -15,7 +15,7 @@
 void moveCharacter(Object *pObj)
 {	
 	b2Vec2 vel = pObj->Body->GetLinearVelocity();
-	if (pObj->Type == BALLTYPE_PLAYER)				// PLAYER MOVEMENT
+	if (pObj->Type == OBJTYPE_PLAYER)				// PLAYER MOVEMENT
 	{
 		if (g_input.keysHeld & KEY_LEFT)							// Move left
 			pObj->Action = ACTION_MOVELEFT;
@@ -49,7 +49,7 @@ void moveCharacter(Object *pObj)
 			g_jumpTrap = FALSE;														// not pressing jump, so clear flag
 		}
 	}
-	else if (pObj->Type == BALLTYPE_EVILBALL)			// ENEMY BALL MOVEMENT
+	else if (pObj->Type == OBJTYPE_EVILBALL)			// ENEMY BALL MOVEMENT
 	{
 		if(rand() % 32 == 0) // Only move enemy occasionally
 		{
@@ -142,7 +142,7 @@ void updateCharacter(Object *pObj)
 	pObj->Body->SetAngularVelocity(charAVelocity);	
 	pObj->Body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 	// Reset movement if this is a Player
-	if (pObj->Type == BALLTYPE_PLAYER) pObj->Action = 0;
+	if (pObj->Type == OBJTYPE_PLAYER) pObj->Action = 0;
 
 	// this is to compensate for a slightly lower gravity
 	pObj->Body->ApplyImpulse(b2Vec2(0.0, -3.0f), pObj->Body->GetCenterPosition());

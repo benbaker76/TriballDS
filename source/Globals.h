@@ -37,6 +37,7 @@ enum DirectionType
 	DIRECTION_RIGHT
 };
 
+
 /* enum B2Type
 {
 	B2TYPE_NONE,
@@ -44,9 +45,10 @@ enum DirectionType
     B2TYPE_BOX,
     B2TYPE_POLY
 };
-
+*/
 enum ObjType
 {
+	OBJTYPE_NULL,				// would this not need a null still, for objects we don't care about?
 	OBJTYPE_PLAYER,
     OBJTYPE_EVILBALL,
     OBJTYPE_CRATE,
@@ -55,7 +57,7 @@ enum ObjType
 	OBJTYPE_BEE,
 	OBJTYPE_HIVE
 };
-
+/*
 // Super class
 class Object
 {
@@ -120,7 +122,7 @@ struct Object						// define the elements that construct our 'balls'
 	float X;				// X Coord
 	float Y;				// Y coord
 	int Status;				// Status of movement
-	int Type;				// Type of object
+	ObjType Type;			// Type of object
 	int Action;				// Action of movement
 	bool OnGround;			// are we touching the ground
 	bool OnCeil;			// are we touching the ceiling/underside of platform
@@ -134,13 +136,15 @@ struct Object						// define the elements that construct our 'balls'
 	int XSpeedMax;			// Max X speed
 	int YSpeedMax;			// Max Y Speed
 	float Accel;			// Acceleration
-	//int	Direction;			// movement direction +/- (0 < > 1)
-	//int Movement;			// movement (u/d, l/r, and others) ( 0 = LR 1= UD)
+	int Hits;				// How many hits an object can take (ie. Beehive) // this may be handy for breakable walls as well
+	int Attract;			// Attraction Array index for creatures (Bees for now)
 	
-	DirectionType Direction;
+	DirectionType Direction;// Current direction of movement
 	
-	int FrameCount;
-	int FrameNum;
+	int FrameCount;			// animation timer
+	int FrameNum;			// animation frame
+	
+	float TempStore;		// used to back up a value for later restore
 	
 	bool Active;			// modify or not!
 };
@@ -278,16 +282,6 @@ enum QuadFlags
 #define		BALLSTATUS_NORMAL				0
 #define		BALLSTATUS_JUMPING				1
 
-//	Defines for the balls type
-	
-#define		BALLTYPE_NULL		0				// non moving object
-#define		BALLTYPE_PLAYER		1
-#define		BALLTYPE_EVILBALL	2
-#define		BALLTYPE_CRATE		3				
-#define		BALLTYPE_VINE		4
-
-#define		ENEMYTYPE_PATROL	5
-#define		ENEMYTYPE_BEE		6
 
 	// Defines for ball actions
 #define		ACTION_NONE			0
@@ -302,7 +296,7 @@ enum QuadFlags
 	// Defines for GL level contruction
 #define		LEVEL_TEXTURE_COUNT		(4 * 4)
 #define		LEVEL_QUAD_COUNT		(4 * 4)
-#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 10)
+#define		TEXTURE_COUNT			(LEVEL_TEXTURE_COUNT + 12)
 
 	// Defines for objects
 #define		TEXTURE_BALL01			(LEVEL_TEXTURE_COUNT + 0)
@@ -314,7 +308,9 @@ enum QuadFlags
 #define		TEXTURE_BOX01			(LEVEL_TEXTURE_COUNT + 6)
 #define		TEXTURE_VINE			(LEVEL_TEXTURE_COUNT + 7)
 #define		TEXTURE_HUNT1			(LEVEL_TEXTURE_COUNT + 8)
-#define		TEXTURE_BEE				(LEVEL_TEXTURE_COUNT + 9)
+#define		TEXTURE_HUNTDEAD		(LEVEL_TEXTURE_COUNT + 9)
+#define		TEXTURE_BEE				(LEVEL_TEXTURE_COUNT + 10)
+#define		TEXTURE_HIVE			(LEVEL_TEXTURE_COUNT + 11)
 
 #define		PALETTE_BALL			0
 #define		PALETTE_PARTICLE		1
@@ -324,6 +320,7 @@ enum QuadFlags
 #define		PALETTE_HUNT1			5
 #define		PALETTE_LEVEL			6
 #define		PALETTE_BEE				7
+#define		PALETTE_HIVE			8
 
 	// Defines for the Trails on the Players balls
 	
@@ -337,7 +334,7 @@ enum QuadFlags
 #define		PLATFORM_COUNT			20				// number of platforms
 #define		ENEMY_COUNT				9
 
-#define		PALETTE_COUNT			9
+#define		PALETTE_COUNT			10
 
 #endif
 

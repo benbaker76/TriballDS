@@ -110,7 +110,7 @@ void initPlayer()
 		g_objectArray[i].Action = ACTION_NONE;	
 		g_objectArray[i].X = (rand() % 760)-400; //(rand() % (LEVEL_WIDTH-(BALLSIZE * 2))) + BALLSIZE * 2;
 		g_objectArray[i].Y =  192 - ((rand() % 100)); //(rand() % (LEVEL_HEIGHT-(BALLSIZE * 2))) + BALLSIZE;
-		g_objectArray[i].Type = BALLTYPE_EVILBALL;
+		g_objectArray[i].Type = OBJTYPE_EVILBALL;
 		
 		g_objectArray[i].CircleDef = new b2CircleDef();
 		g_objectArray[i].BodyDef =  new b2BodyDef();
@@ -132,7 +132,7 @@ void initPlayer()
 	g_objectArray[0].Action = ACTION_NONE;	
 	g_objectArray[0].X = 128;
 	g_objectArray[0].Y = 120; // 120
-	g_objectArray[0].Type = BALLTYPE_PLAYER;
+	g_objectArray[0].Type = OBJTYPE_PLAYER;
 	
 	g_objectArray[0].CircleDef = new b2CircleDef();
 	g_objectArray[0].BodyDef =  new b2BodyDef();
@@ -162,7 +162,7 @@ void initPlayer()
 	g_objectArray[1].BodyDef =  new b2BodyDef();
 	g_objectArray[1].X = 220;
 	g_objectArray[1].Y = 260;	
-	g_objectArray[1].Type = BALLTYPE_CRATE;
+	g_objectArray[1].Type = OBJTYPE_CRATE;
 	g_objectArray[1].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
 	g_objectArray[1].BoxDef->density = 0.3F; 
 	g_objectArray[1].BoxDef->friction = 0.2F; 
@@ -179,7 +179,7 @@ void initPlayer()
 	g_objectArray[2].BodyDef =  new b2BodyDef();
 	g_objectArray[2].X = 320;
 	g_objectArray[2].Y = 260;	
-	g_objectArray[2].Type = BALLTYPE_CRATE;
+	g_objectArray[2].Type = OBJTYPE_CRATE;
 	g_objectArray[2].BoxDef->extents.Set(64 / 2 * SCALE, 64 / 2 * SCALE);
 	g_objectArray[2].BoxDef->density = 0.3F; 
 	g_objectArray[2].BoxDef->friction = 0.2F; 
@@ -217,7 +217,7 @@ void initPlayer()
 		g_objectArray[i + 3].BodyDef =  new b2BodyDef();
 		g_objectArray[i + 3].X = -50;
 		g_objectArray[i + 3].Y = 120 - (i * 28);	
-		g_objectArray[i + 3].Type = BALLTYPE_VINE;
+		g_objectArray[i + 3].Type = OBJTYPE_VINE;
 		g_objectArray[i + 3].BoxDef->extents.Set(8 / 2 * SCALE, 30 / 2 * SCALE);
 		g_objectArray[i + 3].BoxDef->density = 1.0F; 
 		g_objectArray[i + 3].BoxDef->friction = 0.0F;
@@ -275,7 +275,7 @@ void initPlayer()
 	g_objectArray[10].MoveMax = 200;
 	g_objectArray[10].MoveMin = -200;
 	g_objectArray[10].Active = TRUE;
-	g_objectArray[10].Type = ENEMYTYPE_PATROL;
+	g_objectArray[10].Type = OBJTYPE_PATROL;
 	g_objectArray[10].BoxDef->extents.Set(40 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
 	g_objectArray[10].BodyDef->preventRotation = false;	
 	g_objectArray[10].BodyDef->allowSleep = true;
@@ -286,62 +286,78 @@ void initPlayer()
 	g_objectArray[10].BodyDef->AddShape(g_objectArray[10].BoxDef);
 	g_objectArray[10].Body = g_world->CreateBody(g_objectArray[10].BodyDef);
 	g_objectArray[10].Body->m_userData = (void*) &g_objectArray[10]; // Link user data back to Object
-/*	
-	g_objectArray[11].BoxDef = new b2BoxDef();
-	g_objectArray[11].BodyDef =  new b2BodyDef();
-	g_objectArray[11].X = -300;
-	g_objectArray[11].Y = 110;
+	
+	g_objectArray[9].BoxDef = new b2BoxDef();
+	g_objectArray[9].BodyDef =  new b2BodyDef();
+	g_objectArray[9].X = -300;
+	g_objectArray[9].Y = 110;
 	//g_objectArray[11].Movement = 1;
 	//g_objectArray[11].Direction = 1;
-	g_objectArray[11].Direction = DIRECTION_LEFT;
-	g_objectArray[11].FrameCount = 0;
-	g_objectArray[11].FrameNum = 0;
-	g_objectArray[11].Accel = 0.6;
-	g_objectArray[11].XSpeedMax = 20.0;
-	g_objectArray[11].MoveMax = -300;
-	g_objectArray[11].MoveMin = -310;
-	g_objectArray[11].Active = TRUE;	
-	g_objectArray[11].Type = ENEMYTYPE_PATROL;
-	g_objectArray[11].BoxDef->extents.Set(40 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
-	g_objectArray[11].BodyDef->preventRotation = false;	
-	g_objectArray[11].BodyDef->allowSleep = true;
-	g_objectArray[11].BoxDef->density = 1.0F; 
-	g_objectArray[11].BoxDef->friction = 0.1F;
-	g_objectArray[11].BoxDef->restitution = 0.3F;
-	g_objectArray[11].BodyDef->position.Set(g_objectArray[11].X * SCALE, g_objectArray[11].Y * SCALE);
-	g_objectArray[11].BodyDef->AddShape(g_objectArray[11].BoxDef);
-	g_objectArray[11].Body = g_world->CreateBody(g_objectArray[11].BodyDef);
-	g_objectArray[11].Body->m_userData = (void*) &g_objectArray[11]; // Link user data back to Object
-*/
+	g_objectArray[9].Direction = DIRECTION_LEFT;
+	g_objectArray[9].FrameCount = 0;
+	g_objectArray[9].FrameNum = 0;
+	g_objectArray[9].Accel = 0.6;
+	g_objectArray[9].XSpeedMax = 20.0;
+	g_objectArray[9].MoveMax = -300;
+	g_objectArray[9].MoveMin = -310;
+	g_objectArray[9].Active = TRUE;	
+	g_objectArray[9].Type = OBJTYPE_PATROL;
+	g_objectArray[9].BoxDef->extents.Set(40 / 2 * SCALE, 64 / 2 * SCALE); // If Square, how to knock over?
+	g_objectArray[9].BodyDef->preventRotation = false;	
+	g_objectArray[9].BodyDef->allowSleep = true;
+	g_objectArray[9].BoxDef->density = 1.0F; 
+	g_objectArray[9].BoxDef->friction = 0.1F;
+	g_objectArray[9].BoxDef->restitution = 0.3F;
+	g_objectArray[9].BodyDef->position.Set(g_objectArray[9].X * SCALE, g_objectArray[9].Y * SCALE);
+	g_objectArray[9].BodyDef->AddShape(g_objectArray[9].BoxDef);
+	g_objectArray[9].Body = g_world->CreateBody(g_objectArray[9].BodyDef);
+	g_objectArray[9].Body->m_userData = (void*) &g_objectArray[9]; // Link user data back to Object
 
-	// generate a baddy (from array 10 +
 
-	for(int i=11; i<15; i++)
+		// ------------------ BEES ----------------
+
+	for(int i=11; i<16; i++)
 	{
 	g_objectArray[i].BoxDef = new b2BoxDef();
 	g_objectArray[i].BodyDef =  new b2BodyDef();
-	g_objectArray[i].X = (rand() & 400) - 200;
-	g_objectArray[i].Y = (rand() & 200) - 300;
+	g_objectArray[i].X = -200 - (rand() & 200);
+	g_objectArray[i].Y = 250 + (rand() & 200);
 	g_objectArray[i].Direction = DIRECTION_LEFT;
-	g_objectArray[i].FrameCount = 0;
-	g_objectArray[i].FrameNum = 0;
 	g_objectArray[i].Accel = 0.3f + ((rand() & 8)/10);
 	g_objectArray[i].XSpeedMax = 20.0f - ((rand() & 5));
 	g_objectArray[i].YSpeedMax = g_objectArray[i].XSpeedMax;
-	g_objectArray[i].Active = TRUE;
-	g_objectArray[i].Type = ENEMYTYPE_BEE;
+	g_objectArray[i].Active = FALSE;
+	g_objectArray[i].Type = OBJTYPE_BEE;
+	g_objectArray[i].Attract = 16;
 	g_objectArray[i].BoxDef->extents.Set(16 / 2 * SCALE, 16 / 2 * SCALE); // If Square, how to knock over?
 	g_objectArray[i].BodyDef->preventRotation = true;	
 	g_objectArray[i].BodyDef->allowSleep = true;
-	g_objectArray[i].BoxDef->density = 0.001F; 
+	g_objectArray[i].BoxDef->density = 0.01F; 
 	g_objectArray[i].BoxDef->friction = 0.0F;
 	g_objectArray[i].BoxDef->restitution = 0.0F;
-//g_objectArray[i].BoxDef->	g_objectArray[i].BodyDef->isSleeping = true;
 	g_objectArray[i].BodyDef->position.Set(g_objectArray[i].X * SCALE, g_objectArray[i].Y * SCALE);
 	g_objectArray[i].BodyDef->AddShape(g_objectArray[i].BoxDef);
 	g_objectArray[i].Body = g_world->CreateBody(g_objectArray[i].BodyDef);
 	g_objectArray[i].Body->m_userData = (void*) &g_objectArray[i]; // Link user data back to Object
 	}
+		// create attraction point
+
+	g_objectArray[16].X = -200;			// attract is stored as coords
+	g_objectArray[16].Y = 250;
+	g_objectArray[16].Type = OBJTYPE_HIVE;
+	g_objectArray[16].BoxDef = new b2BoxDef();
+	g_objectArray[16].BodyDef =  new b2BodyDef();
+//	g_objectArray[16].BoxDef->extents.Set(3 / 2 * SCALE, 3 / 2 * SCALE);
+	g_objectArray[16].BodyDef->preventRotation = true;	
+	g_objectArray[16].BodyDef->allowSleep = true;
+	g_objectArray[16].BoxDef->density = 0.0F; 
+	g_objectArray[16].BoxDef->friction = 0.0F;
+	g_objectArray[16].BoxDef->restitution = 0.0F;
+	g_objectArray[16].BodyDef->position.Set(g_objectArray[16].X * SCALE, g_objectArray[16].Y * SCALE);
+//	g_objectArray[16].BodyDef->AddShape(g_objectArray[16].BoxDef);				// had to remove this as did not want collision!! (I know it is WRONG)
+																				// need to make bees NOT collide with hive (player must), works for now
+	g_objectArray[16].Body = g_world->CreateBody(g_objectArray[16].BodyDef);
+	g_objectArray[16].Body->m_userData = (void*) &g_objectArray[16]; // Link user data back to Object	
 }
 
 //	INIT BOX2D ENGINE FOR LEVEL
